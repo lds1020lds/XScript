@@ -25,7 +25,7 @@
 	case ROT_UpVal_Index: \
 	{	\
 			int stackIndex = mCurInstr->mOpList[index].iStackIndex;	\
-			T = mCurXScriptState->mCurFunction->luaFunc.mUpVals[stackIndex]->pValue;	\
+			T = mCurXScriptState->mCurFunction->funcUnion.luaFunc.mUpVals[stackIndex]->pValue;	\
 	}	\
 	break;	\
 	case ROT_Reg:	\

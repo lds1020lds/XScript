@@ -163,7 +163,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::vector<HostFunction> funcVec2;
 	funcVec2.push_back(HostFunction("GetInstance", 0, TestClass2_GetInstance));
 	gScriptVM.RegisterUserClass("TestClass2", "TestClass", funcVec2);
-	gScriptVM.doFile("test6.xs");
+	gScriptVM.doFile("debug.xs");
 
 	return 0;
 }

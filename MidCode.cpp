@@ -21,9 +21,6 @@ int   CMidCode::GetNextJumpIndex()
 
 void   CMidCode::AddJumpTarget(int iJumpIndex)
 {
-// 	ICode code;
-// 	code.iCodeType = INSTR_TYPE_JUMPTARGET;
-// 	code.JumpIndex = iJumpIndex;
 	if (mIsIngoreInstr)
 		return;
 
@@ -50,7 +47,6 @@ void  CMidCode::AddIntOperand(int instrIndex, int opr)
 	if (mIsIngoreInstr)
 		return;
 
-	_ASSERT(instrIndex >= 0 && instrIndex < mCodeList[mCurFuncIndex].size());
 	Operand operand;
 	operand.operandType = PST_Int;
 	operand.iIntValue = opr;
@@ -61,7 +57,6 @@ void  CMidCode::AddFloatOperand(int instrIndex, float opr)
 	if (mIsIngoreInstr)
 		return;
 
-	_ASSERT(instrIndex >= 0 && instrIndex < mCodeList[mCurFuncIndex].size());
 	Operand operand;
 	operand.operandType = PST_Float;
 	operand.fFloatValue = opr;
@@ -72,7 +67,6 @@ void  CMidCode::AddStringIndexOperand(int instrIndex, int opr)
 	if (mIsIngoreInstr)
 		return;
 
-	_ASSERT(instrIndex >= 0 && instrIndex < mCodeList[mCurFuncIndex].size());
 	Operand operand;
 	operand.operandType = PST_String_Index;
 	operand.iStringIndex = opr;
@@ -83,7 +77,6 @@ void  CMidCode::AddJumpIndexOperand(int instrIndex, int opr)
 	if (mIsIngoreInstr)
 		return;
 
-	_ASSERT(instrIndex >= 0 && instrIndex < mCodeList[mCurFuncIndex].size());
 	Operand operand;
 	operand.operandType = PST_JumpTarget_Index;
 	operand.iJumppIndex = opr;
@@ -94,7 +87,6 @@ void  CMidCode::AddFuncOperand(int instrIndex, int funcNameIndex, int paramNum)
 	if (mIsIngoreInstr)
 		return;
 
-	_ASSERT(instrIndex >= 0 && instrIndex < mCodeList[mCurFuncIndex].size());
 	Operand operand;
 	operand.operandType = PST_FuncIndex;
 	int funData = (funcNameIndex << 16) + paramNum;
@@ -102,24 +94,12 @@ void  CMidCode::AddFuncOperand(int instrIndex, int funcNameIndex, int paramNum)
 	mCodeList[mCurFuncIndex][instrIndex].code.oprList.push_back(operand);
 }
 
-void  CMidCode::AddHostFuncIndexOperand(int instrIndex, int opr)
-{
-	if (mIsIngoreInstr)
-		return;
-// 
-// 	_ASSERT(instrIndex >= 0 && instrIndex < mCodeList[mCurFuncIndex].size());
-// 	Operand operand;
-// 	operand.operandType = OP_TYPE_HOST_API_CALL_INDEX;
-// 	operand.iHostFunctionIndex = opr;
-// 	mCodeList[mCurFuncIndex][instrIndex].code.oprList.push_back(operand);
-}
 
 void  CMidCode::AddVarOperand(int instrIndex, int opr)
 {
 	if (mIsIngoreInstr)
 		return;
 
-	_ASSERT(instrIndex >= 0 && instrIndex < mCodeList[mCurFuncIndex].size());
 	Operand operand;
 	operand.operandType = PST_Var_Index;
 	operand.iSymbolIndex = opr;
@@ -131,7 +111,6 @@ void  CMidCode::AddTableIndexOperand(int instrIndex, int iVarSymbolIndex,  int i
 	if (mIsIngoreInstr)
 		return;
 
-	_ASSERT(instrIndex >= 0 && instrIndex < mCodeList[mCurFuncIndex].size());
 	Operand operand;
 	operand.operandType = PST_Table;
 	operand.iSymbolIndex = iVarSymbolIndex;
@@ -194,7 +173,6 @@ void  CMidCode::AddRegOperand(int instrIndex, int iRegIndex)
 	if (mIsIngoreInstr)
 		return;
 
-	_ASSERT(instrIndex >= 0 && instrIndex < mCodeList[mCurFuncIndex].size());
 	Operand operand;
 	operand.operandType = PST_Reg;
 	operand.iRegIndex = iRegIndex;
@@ -206,7 +184,6 @@ void  CMidCode::AddEmptyTableOperand(int instrIndex)
 	if (mIsIngoreInstr)
 		return;
 
-	_ASSERT(instrIndex >= 0 && instrIndex < mCodeList[mCurFuncIndex].size());
 	Operand operand;
 	operand.operandType = PST_Table;
 	operand.iSymbolIndex = -1;

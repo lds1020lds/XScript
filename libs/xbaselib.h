@@ -3,7 +3,7 @@
 #include <string>
 class XScriptVM;
 class Value;
-std::string  getValueDescString(XScriptVM* vm, Value* value);
+std::string  getValueDescString(XScriptVM* vm, const Value& value);
 
 void init_base_lib();
 void host_sleep(XScriptVM* vm);
@@ -31,5 +31,8 @@ void host_coCreate(XScriptVM* vm);
 void host_coResume(XScriptVM* vm);
 void host_coYield(XScriptVM* vm);
 void host_coStatus(XScriptVM* vm);
+void host_coWrapCreate(XScriptVM* vm);
+
+void host_coWrapResume(XScriptVM* vm);
 
 #endif

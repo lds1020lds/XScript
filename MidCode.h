@@ -25,7 +25,6 @@ public:
 	void  AddStringIndexOperand(int instrIndex, int opr);
 	void  AddJumpIndexOperand(int instrIndex, int opr);
 	void  AddFuncOperand(int instrIndex, int funcNameIndex, int paramNum);
-	void  AddHostFuncIndexOperand(int instrIndex, int opr);
 	void  AddVarOperand(int instrIndex, int opr);
 	void  AddTableIndexOperand(int instrIndex, int iVarSymbolIndex, int index);
 

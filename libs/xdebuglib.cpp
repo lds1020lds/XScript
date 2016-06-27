@@ -13,7 +13,7 @@ void init_debug_lib()
 	debugFuncVec.push_back(HostFunction("setlocalvarbyname", 3, host_setLocalvarByName));
 
 	debugFuncVec.push_back(HostFunction("debug", 0, host_debug));
-	debugFuncVec.push_back(HostFunction("sethook", 1, host_hook));
+	debugFuncVec.push_back(HostFunction("sethook", 2, host_hook));
 	debugFuncVec.push_back(HostFunction("getlocalvars", 1, host_getLocalvars));
 	debugFuncVec.push_back(HostFunction("getdebuginfo", 1, host_getDebugInfo));
 	debugFuncVec.push_back(HostFunction("getglobalvar", 1, host_getGlobalVar));
@@ -98,45 +98,19 @@ void host_getLocalvars(XScriptVM* vm)
 
 void host_getDebugInfo(XScriptVM* vm)
 {
-	Value* pValue = vm->getParamValue(0);
-	if (pValue != NULL)
-	{
-		if (pValue->type == OP_TYPE_INT)
-		{
-			int callIndex = vm->GetStackDepth() - pValue->iIntValue;
-			if (callIndex >= 0 && callIndex <= vm->GetStackDepth())
-			{
-				FuncState* funcState = vm->GetCallInfo(callIndex)->mCurFunctionState;
-				TABLE table = vm->newTable();
-				vm->setTableValue(table, (char*)"source", (char*)funcState->sourceFileName.c_str());
-				vm->setTableValue(table, (char*)"what", (char*)"lua");
-				vm->setTableValue(table, (char*)"name", (char*)funcState->funcName.c_str());
-				vm->setTableValue(table, (char*)"nups", (int)funcState->m_upValueVec.size());
-				vm->setReturnAsInt(1, 0);
-				vm->setReturnAsValue(vm->ConstructValue(table), 1);
-			}
-			else
-			{
-				vm->setReturnAsInt(0, 0);
-			}
-		}
-		else if (pValue->type == OP_TYPE_FUNC)
-		{
-			TABLE table = vm->newTable();
-			if (pValue->func->isCFunc)
-			{
-				vm->setTableValue(table, (char*)"what", (char*)"C");
-				vm->setTableValue(table, (char*)"name", (char*)vm->GetHostFunction(pValue->func->hostFuncIndex).funcName.c_str());
-			}
-			else
-			{
-				FuncState* funcState = pValue->func->luaFunc.proto;
-				vm->setTableValue(table, (char*)"source", (char*)funcState->sourceFileName.c_str());
-				vm->setTableValue(table, (char*)"what", (char*)"lua");
-				vm->setTableValue(table, (char*)"name", (char*)funcState->funcName.c_str());
-				vm->setTableValue(table, (char*)"nups", (int)funcState->m_upValueVec.size());
-			}
+	Value pValue = vm->getParamValue(0);
 
+	if (pValue.type == OP_TYPE_INT)
+	{
+		int callIndex = vm->GetStackDepth() - pValue.iIntValue;
+		if (callIndex >= 0 && callIndex <= vm->GetStackDepth())
+		{
+			FuncState* funcState = vm->GetCallInfo(callIndex)->mCurFunctionState;
+			TABLE table = vm->newTable();
+			vm->setTableValue(table, (char*)"source", (char*)funcState->sourceFileName.c_str());
+			vm->setTableValue(table, (char*)"what", (char*)"lua");
+			vm->setTableValue(table, (char*)"name", (char*)funcState->funcName.c_str());
+			vm->setTableValue(table, (char*)"nups", (int)funcState->m_upValueVec.size());
 			vm->setReturnAsInt(1, 0);
 			vm->setReturnAsValue(vm->ConstructValue(table), 1);
 		}
@@ -145,16 +119,60 @@ void host_getDebugInfo(XScriptVM* vm)
 			vm->setReturnAsInt(0, 0);
 		}
 	}
+	else if (pValue.type == OP_TYPE_FUNC)
+	{
+		TABLE table = vm->newTable();
+		if (pValue.func->isCFunc)
+		{
+			vm->setTableValue(table, (char*)"what", (char*)"C");
+			vm->setTableValue(table, (char*)"nups", pValue.func->funcUnion.cFunc.mNumUpVal);
+		}
+		else
+		{
+			FuncState* funcState = pValue.func->funcUnion.luaFunc.proto;
+			vm->setTableValue(table, (char*)"source", (char*)funcState->sourceFileName.c_str());
+			vm->setTableValue(table, (char*)"what", (char*)"lua");
+			vm->setTableValue(table, (char*)"name", (char*)funcState->funcName.c_str());
+			vm->setTableValue(table, (char*)"nups", (int)funcState->m_upValueVec.size());
+		}
+
+		vm->setReturnAsInt(1, 0);
+		vm->setReturnAsValue(vm->ConstructValue(table), 1);
+	}
+	else
+	{
+		vm->setReturnAsInt(0, 0);
+	}
+	
 }
 
 void host_hook(XScriptVM* vm)
 {
 	int hookIndex = vm->RegisterGlobalValue("_hook");
+	Value pValue0 = vm->getParamValue(0);
 
-	Value* pValue = vm->getParamValue(0);
-	if (pValue != NULL && pValue->type == OP_TYPE_FUNC)
+	if (IsValueString(&pValue0))
 	{
-		vm->setGloablStackValue(hookIndex, *pValue);
+		const char* szMask = stringRawValue(&pValue0);
+		int mask = 0;
+		if (strstr(szMask, "r") != NULL)
+			mask |=  MASK_HOOKRET;
+		if (strstr(szMask, "l") != NULL)
+			mask |=  MASK_HOOKLINE;
+		if (strstr(szMask, "c") != NULL)
+			mask |=  MASK_HOOKCALL;
+
+		vm->SetHookMask(mask);
+	}
+	else if (IsValueNil(&pValue0))
+	{
+		vm->SetHookMask(0);
+	}
+
+	Value pValue = vm->getParamValue(1);
+	if (IsValueFunction(&pValue) || IsValueNil(&pValue))
+	{
+		vm->setGloablStackValue(hookIndex, pValue);
 	}
 }
 
@@ -244,12 +262,12 @@ void host_setLocalvarByName(XScriptVM* vm)
 	char* varName = 0;
 	if (vm->getParamAsInt(0, stackIndex) && vm->getParamAsString(1, varName))
 	{
-		Value* setValue = vm->getParamValue(2);
+		Value setValue = vm->getParamValue(2);
 		Value* pValue = vm->GetStackValueByName(stackIndex, varName);
-		if (setValue != NULL && pValue != NULL)
+		if (pValue != NULL)
 		{
 			vm->setReturnAsInt(1, 0);
-			CopyValue(pValue, *setValue);
+			*pValue = setValue;
 		}
 		else
 		{
@@ -268,13 +286,13 @@ void host_setLocalvar(XScriptVM* vm)
 	int varIndex = 0;
 	vm->getParamAsInt(0, stackIndex);
 	vm->getParamAsInt(1, varIndex);
-	Value* setValue = vm->getParamValue(2);
+	Value setValue = vm->getParamValue(2);
 
 	std::string name;
 	Value* value = vm->GetStackValueByIndex(stackIndex, varIndex, name);
 	if (value != NULL)
 	{
-		CopyValue(value, *setValue);
+		*value = setValue; ;
 		vm->setReturnAsInt(1, 0);
 		vm->setReturnAsStr(name.c_str(), 1);
 	}

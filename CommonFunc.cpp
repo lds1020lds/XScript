@@ -180,13 +180,12 @@ int IsCharOpChar (char curChar, int preIndex, int iLevel)
 void ExitOnError(const char* info, int iLine, int iChar)
 {
 	extern jmp_buf setjmp_buffer;
-	printf("error:%s in line(%d),char(%d)", info, iLine, iChar);
+	printf("XScript Lex Error:%s at line(%d),char(%d)", info, iLine, iChar);
 	longjmp(setjmp_buffer, 1);
 }
 
 bool IsRelativeOpr(int opr)
 {
-
 	if (OP_TYPE_EQUAL == opr 
 		|| OP_TYPE_NOT_EQUAL == opr
 		|| OP_TYPE_LESS == opr

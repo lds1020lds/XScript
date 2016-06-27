@@ -169,7 +169,8 @@ enum TokenType
 #define OP_TYPE_POINTER					40      // :
 #define OP_TYPE_DOUBLECOLON				41      // ::
 
-
+// 
+#define		MAX_FUNC_REG			8
 
 enum RuntimeOperatorType
 {
@@ -229,11 +230,13 @@ enum ValueType
 #define		MAX_FUNC_NAME_SIZE	64
 
 #define		IsUserType(type)		((type >> 16) == OP_USERTYPE)
-#define		USERDATA_TYPE(type)		(type & 0xffff)
+#define		UserDataType(type)		(type & 0xffff)
 #define		MAKE_USERTYPE(index)	((OP_USERTYPE << 16) + index)
 
 #define		ARGS					("args")
 #define		UPVALMASK				0x1000000
+#define		MAX_PARAM_NUM			128
+
 
 enum
 {

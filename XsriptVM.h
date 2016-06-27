@@ -7,11 +7,8 @@
 
 #define		MAX_GLOBAL_DATASIZE				1024
 #define		MAX_STACK_SIZE					0xffff
+#define		MIN_STACK_SIZE					256
 #define		MAX_LUA_CALL_STACK_DEPTH		1024
-
-
-#define		MAX_FUNC_REG			8
-
 
 enum 
 {
@@ -57,6 +54,8 @@ enum HookEvent
 #define	 IsValueFloat(o)					((o)->type == OP_TYPE_FLOAT)
 #define	 IsValueTable(o)					((o)->type == OP_TYPE_TABLE)
 
+#define	 IsValueUserData(o)					(((o)->type >> 16) == OP_USERTYPE)
+
 #define	 MakeGloablIndex(stackIndex, nameIndex)	((stackIndex << 16) + nameIndex )
 #define	 GloablVarStackIndex(o)						(o >> 16)
 #define	 GloablVarNameIndex(o)						(o & 0xffff)
@@ -67,12 +66,6 @@ enum HookEvent
 #define  ExecArgsCheck(cond,op, expect)	\
 		if (!(cond))	\
 			ExecError("Bad argument #%d to \"%s\"(%s)", op, GetOperatorName(op).c_str(), (expect));
-
-#define  PopFrame(v)				mCurXScriptState->mTopIndex -= v;
-
-#define FAST_PUSH(v)	\
-	CopyValue(&mCurXScriptState->mStackElements[mCurXScriptState->mTopIndex], v);	\
-	mCurXScriptState->mTopIndex++;
 
 #define  ResoveStackIndexWithEnv(index)		( index < 0 ? &mCurXScriptState->mStackElements[(mCurXScriptState->mFrameIndex + index)] : (( mEnvTable != NULL ) ? GetEnvValue(index) :  &mGlobalStackElements[GloablVarStackIndex(index)]))
 
@@ -230,20 +223,28 @@ public:
 	}
 };
 
+class CFunction
+{
+public:
+	Value*				mUpVal;
+	int					mNumUpVal;
+	HOST_FUNC			pfnAddr;
+
+};
+
 class LuaFunction
 {
 public:
 	FuncState*					proto;
 	UpValue**					mUpVals;
 	int							mNumUpVals;
-	LuaFunction()
-		: proto(NULL)
-		, mUpVals(NULL)
-		, mNumUpVals(0)
-	{
-
-	}
 };
+
+typedef union FuncUnion
+{
+	CFunction		cFunc;
+	LuaFunction		luaFunc;
+}FuncUnion;
 
 
 class Function
@@ -252,12 +253,10 @@ public:
 	GCCommonHeader;
 
 	bool				isCFunc;
-	LuaFunction			luaFunc;
-	int					hostFuncIndex;
+	FuncUnion			funcUnion;
 	Function()
 	{
 		isCFunc = false;
-		hostFuncIndex = -1;
 	}
 };
 
@@ -363,14 +362,6 @@ public:
 	std::vector<HostFunction>	mHostFunctions;
 };
 
-class MoudleData
-{
-public:
-	std::string								mModuleName;
-	std::vector<FuncState>					mFunctions;
-	std::map<std::string, int>				mMoudleVarMap;
-};
-
 class CallInfo
 {
 public:
@@ -386,23 +377,24 @@ class XScriptState
 public:
 	UpValue*								mNextRefUpVals;
 	CallInfo*								mCallInfoBase;
-	int										mCurBaseCallIndex;
 	int										mCurCallIndex;
+
 	FuncState*								mCurFunctionState;
 	Function*								mCurFunction;
+
 	Value*									mStackElements;
-	int										mMaxSize;
+	int										mStackSize;
 	int										mTopIndex;
 	int										mFrameIndex;
+
 	int										mInstrIndex;
 	int										mCCallIndex;
 	int										mStatus;
-
+	Function*								mCurrentCFunction;
 	Function*								mStartFunction;
 };
 
 typedef TableValue*			TABLE;
-
 
 class	XScriptVM
 {
@@ -410,7 +402,7 @@ public:
 	XScriptVM();
 
 	bool			init();
-	void			loadBuildinLibs();
+	void			loadHostLibs();
 	bool			doFile(const std::string& fileName);
 
 	void			ConvertMidCodeToInstr(CSymbolTable &symbolTable, CMidCode &midCode, const std::string& fileName, std::map<int, FuncState*>& funcMap);
@@ -435,7 +427,6 @@ public:
 	Value			ConstructValue(float value);
 	Value			ConstructValue(const char* value);
 	Value			ConstructValue(XScriptState* state);
-
 	Value			ConstructValue(XString* str);
 	Value			ConstructValue(TABLE value);
 	Value			ConstructValue(FuncState* mainFunc);
@@ -468,8 +459,8 @@ public:
 	int				getNumParam();
 	int				getParamType(int paramIndex);
 
-	Value*			getParamValue(int paramIndex);
-	int				getStackIndex(Value* value);
+	Value			getParamValue(int paramIndex);
+	int				getParamStackIndex(int paramIndex);
 
 	Value*			getReturnRegValue(int index);
 
@@ -491,6 +482,7 @@ public:
 
 	void			setReturnAsUserData(const std::string& className, void* pThis, int regIndex = 0);
 
+	void			SetHookMask(int mask) { mHookMask = mask; }
 
 	void			beginCall();
 	void			endCall();
@@ -533,12 +525,15 @@ public:
 	Value			pop();
 	bool			EvalConditionString(const char* condstr);
 
-
-	void			CreateCoroutie();
-	void			ResumeCoroutie();
+	XScriptState*	CreateCoroutie(Function* func);
+	void			ResumeCoroutie(XScriptState* threadState, int offset);
 	void			YieldCoroutie();
 	CoroutineStatus	GetCoroutieStatus(XScriptState* xsState);
 	const char*		GetCoroutieStatusName(XScriptState* xsState);
+
+	void			GrowStack(XScriptState* xsState, int growSize);
+	Function*		CreateCFunction(int numUpvals);
+	Function*		GetCurCFunction() { return mCurXScriptState->mCurrentCFunction; }
 private:
 	std::string		GetOperatorName(RuntimeOperator* op, Value* value);
 
@@ -658,7 +653,7 @@ private:
 	void			CallFunctionInLua(Function* firstValue, int numParam);
 	void			CallFunction(Function* funcValue, int numParam);
 
-	void			CallHostFunc(HostFunction* func, int numParam);
+	void			CallHostFunc(Function* func, HOST_FUNC pfnAddr, int numParam);
 
 	const Value&	resolveOpValue(int index);
 	Value*			resolveOpPointer(int index);
@@ -677,6 +672,8 @@ private:
 
 	TableValue*		CreateTable();
 	Function*		CreateFunction();
+	
+
 	FuncState*		CreateFunctionState();
 	UpValue*		CreateUpVal();
 
@@ -693,7 +690,6 @@ private:
 	XString*		NewXString(const char* str);
 
 	void			ResizeHashTable();
-
 private:
 	struct XScript_LongJmp
 	{
@@ -784,7 +780,7 @@ inline Value*   XScriptVM::resolveOpPointer(int index)
 	case ROT_UpVal_Index:
 		{
 			int stackIndex = mCurInstr->mOpList[index].iStackIndex;
-			return mCurXScriptState->mCurFunction->luaFunc.mUpVals[stackIndex]->pValue;
+			return mCurXScriptState->mCurFunction->funcUnion.luaFunc.mUpVals[stackIndex]->pValue;
 		}
 	default:
 		return (Value*)(&mCurInstr->mOpList[index]);
@@ -986,7 +982,7 @@ inline Value*   XScriptVM::resolveTableValue(RuntimeOperator* value, bool create
 	Value* table = NULL;
 	if (value->type == ROT_UpValue_Table)
 	{
-		table = mCurXScriptState->mCurFunction->luaFunc.mUpVals[value->iStackIndex]->pValue;
+		table = mCurXScriptState->mCurFunction->funcUnion.luaFunc.mUpVals[value->iStackIndex]->pValue;
 	}
 	else
 	{
@@ -1015,7 +1011,7 @@ inline Value*   XScriptVM::resolveTableValue(RuntimeOperator* value, bool create
 		keyValue = mRegValue[value->iIntTableValue];
 		break;
 	case ROT_UpVal_Index:
-		keyValue = *mCurXScriptState->mCurFunction->luaFunc.mUpVals[value->iIntTableValue]->pValue;
+		keyValue = *mCurXScriptState->mCurFunction->funcUnion.luaFunc.mUpVals[value->iIntTableValue]->pValue;
 	default:
 		break;
 	}
@@ -1028,14 +1024,9 @@ inline Value*   XScriptVM::resolveTableValue(RuntimeOperator* value, bool create
 	return GetTableValue(table->tableData, keyValue, create);
 }
 
-inline int		XScriptVM::getStackIndex(Value* value)
+inline int		XScriptVM::getParamStackIndex(int paramIndex)
 {
-	int index = value - mCurXScriptState->mStackElements;
-	if (index < 0 || index >= mCurXScriptState->mMaxSize)
-	{
-		return -1;
-	}
-	return index;
+	return mCurXScriptState->mTopIndex - (mNumHostFuncParam - paramIndex);
 }
 
 
@@ -1189,7 +1180,7 @@ inline Value XScriptVM::ConstructValue(FuncState* mainFunc)
 {
 	Function* func = CreateFunction();
 	func->isCFunc = false;
-	func->luaFunc.proto = mainFunc;
+	func->funcUnion.luaFunc.proto = mainFunc;
 	Value fValue;
 	fValue.type = OP_TYPE_FUNC;
 	fValue.func = func;

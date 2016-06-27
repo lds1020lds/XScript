@@ -345,6 +345,17 @@ void CParser::ParserIdent()
 	{
 		ParserAssignRight(firstRet, secondRet, true);
 	}
+	else if (mLexer->LookNextToken() == TOKEN_TYPE_DELIM_SEMICOLON)
+	{
+		mLexer->GetNextToken();
+	}
+	else 
+	{
+		if (firstRet.type != FACTOR_FUNC)
+		{
+			Error("invalid ident use, operator expected");
+		}
+	}
 }
 
 void CParser::MultiAssignment(std::vector<Factor> &retVec, std::vector<VarData> &varVec)
@@ -363,7 +374,7 @@ void CParser::MultiAssignment(std::vector<Factor> &retVec, std::vector<VarData> 
 			for (int i = 0; i < retVec.size() - 1; i++)
 				AddAssignCode(varVec[i], retVec[i]);
 
-			for (int i = retVec.size() - 1; i < varVec.size(); i++)
+			for (int i = retVec.size() - 1; i < varVec.size() && i < MAX_REG_NUM + retVec.size() - 1; i++)
 			{
 				int iInstrIndex = mMidCode->AddInstr(INSTR_MOV);
 				if (varVec[i].second.type != FACTOR_INVALID)
@@ -1608,6 +1619,11 @@ bool  CParser::ParseReturn()
 			mLexer->GetNextToken();
 		}
 		
+		if (retVec.size() >= MAX_FUNC_REG)
+		{
+			Error("too much return values, the maximum of return value is %d, but now %d", MAX_FUNC_REG, (int)retVec.size());
+		}
+
 		mLexer->TestToken(TOKEN_TYPE_DELIM_SEMICOLON);
 		
 		for (int i = 0; i < retVec.size(); i++)
@@ -1699,6 +1715,11 @@ bool  CParser::ParseForeach()
 		if (mLexer->LookNextToken() != TOKEN_TYPE_DELIM_COMMA)
 			break;
 		mLexer->GetNextToken();
+	}
+
+	if (localValVec.size() > MAX_FUNC_REG)
+	{
+		Error("too many foreach vars, the maximum is %d, but now %d", MAX_FUNC_REG, (int)localValVec.size());
 	}
 
 	mLexer->ExpectToken(TOKEN_TYPE_RSRVD_IN);
@@ -1928,31 +1949,6 @@ void CParser::OutPutCode(CMidCode *midCode, CSymbolTable* symbolTable, char* out
 {
 	FILE *fp = fopen(outputName, "w");
     char  codeText[100];
-	for (int iVarIndex = 0; iVarIndex < symbolTable->mVarTable.size(); iVarIndex++)
-	{
-		if (symbolTable->mVarTable[iVarIndex].iScope < 0 && symbolTable->mVarTable[iVarIndex].iType == IDENT_TYPE_VAR)
-		{
-
-			if (symbolTable->mVarTable[iVarIndex].iScope == -1)
-			{
-				if (symbolTable->mVarTable[iVarIndex].isTable)
-					sprintf(codeText, "GLOBAL TABLE	%s\r\n", symbolTable->mVarTable[iVarIndex].varName);
-				else
-					sprintf(codeText, "GLOABL	%s\r\n", symbolTable->mVarTable[iVarIndex].varName);
-			}
-			else
-			{
-				if (symbolTable->mVarTable[iVarIndex].isTable)
-					sprintf(codeText, "VAR TABLE	%s\r\n", symbolTable->mVarTable[iVarIndex].varName);
-				else
-					sprintf(codeText, "VAR	%s\r\n", symbolTable->mVarTable[iVarIndex].varName);
-			}
-
-			fwrite(codeText, 1, strlen(codeText), fp);
-			
-		}
-	}
-
 	for (int iFuncIndex = 0; iFuncIndex < mSymbolTable->mFuncTable.size(); iFuncIndex++)
 	{
 		int curFuncIndex = mSymbolTable->mFuncTable[iFuncIndex].iIndex;
@@ -1961,34 +1957,45 @@ void CParser::OutPutCode(CMidCode *midCode, CSymbolTable* symbolTable, char* out
 		fwrite(codeText, 1, strlen(codeText), fp);
 		if (iFuncIndex > 0)
 		{
+			std::string code;
+			bool isFirst = true;
 			for (int iVarIndex = 0; iVarIndex < symbolTable->mVarTable.size(); iVarIndex++)
 			{
 				if (symbolTable->mVarTable[iVarIndex].iScope == mSymbolTable->mFuncTable[iFuncIndex].iIndex)
 				{
 					if (symbolTable->mVarTable[iVarIndex].iType == IDENT_TYPE_PARAM)
 					{
-						sprintf(codeText, "	PARAM	%s\r\n", symbolTable->mVarTable[iVarIndex].varName);
-					}
-					else
-					{
-						if (symbolTable->mVarTable[iVarIndex].iSize == 0)
-						{
-							if (symbolTable->mVarTable[iVarIndex].isTable)
-								sprintf(codeText, "TABLE	%s\r\n", symbolTable->mVarTable[iVarIndex].varName);
-							else
-								sprintf(codeText, "	VAR	%s\r\n", symbolTable->mVarTable[iVarIndex].varName);
-						}
+						if (isFirst)
+							code += "PARAM	";
 						else
-						{
-							if (symbolTable->mVarTable[iVarIndex].isTable)
-								sprintf(codeText, "TABLE	%s\r\n", symbolTable->mVarTable[iVarIndex].varName);
-							else
-								sprintf(codeText, "	VAR	%s[%d]\r\n", symbolTable->mVarTable[iVarIndex].varName, symbolTable->mVarTable[iVarIndex].iSize);
-						}
+							code += ",	";
+						isFirst = false;
+						code += symbolTable->mVarTable[iVarIndex].varName;
 					}
-					fwrite(codeText, 1, strlen(codeText), fp);
+					
 				}
 			}
+			code += "\r\n";
+			fwrite(code.c_str(), 1, code.size(), fp);
+			code = "";
+			isFirst = true;
+			for (int iVarIndex = 0; iVarIndex < symbolTable->mVarTable.size(); iVarIndex++)
+			{
+				if (symbolTable->mVarTable[iVarIndex].iScope == mSymbolTable->mFuncTable[iFuncIndex].iIndex)
+				{
+					if (symbolTable->mVarTable[iVarIndex].iType == IDENT_TYPE_VAR)
+					{
+						if (isFirst)
+							code += "VAR	";
+						else
+							code += ",	";
+						isFirst = false;
+						code += symbolTable->mVarTable[iVarIndex].varName;
+					}
+				}
+			}
+			code += "\r\n";
+			fwrite(code.c_str(), 1, code.size(), fp);
 		}
 		
 
@@ -2025,6 +2032,10 @@ char*  CParser::GetCodeText(const ICode  &code, int funcIndex)
 	char oprText[32] = {0};
 	switch(code.code.iCodeOpr)
 	{
+	case INSTR_CONCAT_TO:
+	case INSTR_CONCAT:
+		strcpy(oprText, "CONCAT");
+		break;
 	case INSTR_FUNC:
 		strcpy(oprText, "FUNC");
 		break;

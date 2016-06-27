@@ -16,11 +16,7 @@ void init_math_lib()
 	funcVec.push_back(HostFunction("sin", 1, host_sin));
 	funcVec.push_back(HostFunction("sqrt", 1, host_sqrt));
 	funcVec.push_back(HostFunction("tan", 1, host_tan));
-
 	gScriptVM.RegisterHostLib("math", funcVec);
-
-
-	
 }
 
 void  host_random(XScriptVM* vm)

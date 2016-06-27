@@ -78,20 +78,12 @@ bool XScriptVM::ExecInstr_CallClassFunc()
 	const Value& thisValue = getStackValue(index);
 	if (IsUserType(thisValue.type))
 	{
-		std::string className = GetString(USERDATA_TYPE(thisValue.type));
+		std::string className = GetString(UserDataType(thisValue.type));
 		HostFunction* hostFunc = getClassFuncByName(className, funcName);
 
 		if (hostFunc != NULL)
 		{
-			if (hostFunc->numParams >= 0 && hostFunc->numParams != numParam)
-			{
-				ExecError("call class function %s with error params, expect %d params, but %d params", funcName.c_str(), hostFunc->numParams, numParam);
-			}
-			else
-			{
-				CallHostFunc(hostFunc, numParam);
-			}
-
+			CallHostFunc(NULL, hostFunc->pfnAddr, numParam);
 		}
 		else
 		{
@@ -142,15 +134,7 @@ void XScriptVM::ExecInstr_CallStaticClassFunc()
 	HostFunction* hostFunc = getClassFuncByName( stringRawValue(&secondValue), funcName);
 	if (hostFunc != NULL)
 	{
-		if (hostFunc->numParams >= 0 && hostFunc->numParams != numParam)
-		{
-			ExecError("call function %s with error params, expect %d params, but %d params", funcName.c_str(), hostFunc->numParams, numParam);
-		}
-		else
-		{
-			CallHostFunc(hostFunc, numParam);
-		}
-
+		CallHostFunc(NULL, hostFunc->pfnAddr, numParam);
 	}
 	else
 	{
@@ -165,7 +149,7 @@ void XScriptVM::ExecInstr_RET()
 		CallHookFunction(HE_HookRet, -1);
 	}
 
-	PopFrame(mCurXScriptState->mCurFunctionState->stackFrameSize);
+	mCurXScriptState->mTopIndex -= (mCurXScriptState->mCurFunctionState->stackFrameSize);
 	RemoveStackUpVals(mCurXScriptState->mTopIndex);
 
 	int lastInstrIndex = mCurXScriptState->mCallInfoBase[mCurXScriptState->mCurCallIndex].mInstrIndex;

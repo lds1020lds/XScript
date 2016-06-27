@@ -56,7 +56,7 @@ int		XScriptVM::GetGloabVarIndex(VariantST* var)
 }
 
 
-void  XScriptVM::loadBuildinLibs()
+void  XScriptVM::loadHostLibs()
 {
 	init_math_lib();
 	init_base_lib();
@@ -204,13 +204,16 @@ std::string XScriptVM::stackBackTrace()
 	int callIndex = mCurXScriptState->mCurCallIndex;
 	while (callIndex >= 0)
 	{
-		stackTraceBack += "\t" + mCurXScriptState->mCallInfoBase[callIndex].mCurFunctionState->sourceFileName + ":line(";
-		if (callIndex == mCurXScriptState->mCurCallIndex)
-			stackTraceBack += ConvertToString(mCurInstr->lineIndex);
-		else
-			stackTraceBack += ConvertToString(mCurXScriptState->mCallInfoBase[callIndex + 1].mCurLine);
+		if (mCurXScriptState->mCallInfoBase[callIndex].mCurFunctionState != NULL)
+		{
+			stackTraceBack += "\t" + mCurXScriptState->mCallInfoBase[callIndex].mCurFunctionState->sourceFileName + ":line(";
+			if (callIndex == mCurXScriptState->mCurCallIndex)
+				stackTraceBack += ConvertToString(mCurInstr->lineIndex);
+			else
+				stackTraceBack += ConvertToString(mCurXScriptState->mCallInfoBase[callIndex + 1].mCurLine);
 
-		stackTraceBack += "): in function \"" + mCurXScriptState->mCallInfoBase[callIndex].mCurFunctionState->funcName + "\"\n";
+			stackTraceBack += "): in function \"" + mCurXScriptState->mCallInfoBase[callIndex].mCurFunctionState->funcName + "\"\n";
+		}
 		callIndex--;
 	}
 	stackTraceBack += "\t[C]:?\n";
@@ -462,7 +465,7 @@ bool  XScriptVM::init()
 	mStringHashUsedSize = 0;
 	mEnvTable = NULL;
 	mAllowHook = true;
-	mHookMask = MASK_HOOKLINE;
+	mHookMask = 0;
 	mLongJmp = NULL;
 	mNumHostFuncParam = 0;
 	mIsInCallScriptFunc = false;
@@ -481,25 +484,21 @@ bool  XScriptVM::init()
 	for (int i = 0; i < MAX_GLOBAL_DATASIZE; i++)
 		mGlobalStackElements[i].type = OP_TYPE_NIL;
 
-	 
 	mCurInstr = NULL;
-
 	mRootCG = NULL;
-
-
-
 	RegisterGlobalValue("nil");
 	mNilValue = GetGlobalValue("nil");
 	mNilValue->type = OP_TYPE_NIL;
 
 	mModuleTable = CreateTable();
-	loadBuildinLibs();
+	loadHostLibs();
 	return true;
 }
 
 
 void  XScriptVM::resetScriptState(XScriptState* state)
 {
+	state->mCurrentCFunction = NULL;
 	state->mStartFunction = NULL;
 	state->mNextRefUpVals = NULL;
 	state->mCurFunction = NULL;
@@ -509,14 +508,14 @@ void  XScriptVM::resetScriptState(XScriptState* state)
 	state->mStatus = CS_Normal;
 	state->mTopIndex = 0;
 	state->mFrameIndex = 0;
-	state->mMaxSize = MAX_STACK_SIZE;
+	state->mStackSize = MIN_STACK_SIZE;
 	state->mTopIndex = 0;
 	state->mFrameIndex = 0;
 	state->mCCallIndex = 0;
 	state->mInstrIndex = 0;
-	state->mStackElements = new Value[mCurXScriptState->mMaxSize];
-	memset(&state->mStackElements[0], 0, sizeof(Value) * state->mMaxSize);
-	for (int i = 0; i < mCurXScriptState->mMaxSize; i++)
+	state->mStackElements = new Value[mCurXScriptState->mStackSize];
+	memset(&state->mStackElements[0], 0, sizeof(Value) * state->mStackSize);
+	for (int i = 0; i < mCurXScriptState->mStackSize; i++)
 		state->mStackElements[i].type = OP_TYPE_NIL;
 
 }
@@ -530,10 +529,10 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 		int lastInstrIndex = mCurXScriptState->mInstrIndex;
 		mCurInstr = &mCurXScriptState->mCurFunctionState->mInstrStream.instrs[lastInstrIndex];
 		int lastCallIndex = mCurXScriptState->mCurCallIndex;
-		if (lineIndex == -1 && mAllowHook && (mHookMask & MASK_HOOKCALL))
-		{
-			CallHookFunction(HE_HookCall, lineIndex);
-		}
+// 		if (lineIndex == -1 && mAllowHook && (mHookMask & MASK_HOOKCALL))
+// 		{
+// 			CallHookFunction(HE_HookCall, lineIndex);
+// 		}
 
 		if (mCurInstr->lineIndex != lineIndex && mCurInstr->lineIndex >= 0)
 		{
@@ -543,11 +542,6 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 			{
 				CallHookFunction(HE_HookLine, lineIndex);
 			}
-		}
-
-		if (mCurXScriptState->mStatus == CS_Suspend)
-		{
-			break;
 		}
 
 		switch (mCurInstr->opType)
@@ -772,8 +766,10 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 		}
 		case INSTR_PUSH:
 		{
-			ResolveOpPointer(0, firstValue);
-			FAST_PUSH(*firstValue);
+			//ResolveOpPointer(0, firstValue);
+			Value* firstValue = resolveOpPointer(0);
+			mCurXScriptState->mStackElements[mCurXScriptState->mTopIndex] = *firstValue;
+			mCurXScriptState->mTopIndex++;
 			break;
 		}
 		case INSTR_CONCAT_TO:
@@ -809,6 +805,13 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 			{
 				numLuaCallCount++;
 			}
+
+			if (mCurXScriptState->mStatus == CS_Suspend)
+			{
+				mCurXScriptState->mInstrIndex++;
+				return;
+			}
+
 			//ExecInstr_CALL();
 		}
 		break;
@@ -954,17 +957,17 @@ void XScriptVM::ExecInstr_Func()
 		FuncState* proto = mCurXScriptState->mCurFunctionState->m_subFuncVec[firstValue->iIntValue];
 		Function* func = CreateFunction();
 		func->isCFunc = false;
-		func->luaFunc.proto = proto;
-		func->luaFunc.mNumUpVals = proto->m_upValueVec.size();
-		if (func->luaFunc.mNumUpVals > 0)
+		func->funcUnion.luaFunc.proto = proto;
+		func->funcUnion.luaFunc.mNumUpVals = proto->m_upValueVec.size();
+		if (func->funcUnion.luaFunc.mNumUpVals > 0)
 		{
-			func->luaFunc.mUpVals = new UpValue*[func->luaFunc.mNumUpVals];
+			func->funcUnion.luaFunc.mUpVals = new UpValue*[func->funcUnion.luaFunc.mNumUpVals];
 
 			for (int i = 0; i < proto->m_upValueVec.size(); i++)
 			{
 				if (proto->m_upValueVec[i].type == VUPVALUE)
 				{
-					func->luaFunc.mUpVals[i] = mCurXScriptState->mCurFunction->luaFunc.mUpVals[proto->m_upValueVec[i].index];
+					func->funcUnion.luaFunc.mUpVals[i] = mCurXScriptState->mCurFunction->funcUnion.luaFunc.mUpVals[proto->m_upValueVec[i].index];
 				}
 				else
 				{
@@ -975,7 +978,7 @@ void XScriptVM::ExecInstr_Func()
 					{
 						if (nextUpValue->pValue == pReferValue)
 						{
-							func->luaFunc.mUpVals[i] = nextUpValue;
+							func->funcUnion.luaFunc.mUpVals[i] = nextUpValue;
 							hasFound = true;
 							break;
 						}
@@ -989,7 +992,7 @@ void XScriptVM::ExecInstr_Func()
 						newUpVal->pValue = pReferValue;
 						newUpVal->nextValue = mCurXScriptState->mNextRefUpVals;
 						mCurXScriptState->mNextRefUpVals = newUpVal;
-						func->luaFunc.mUpVals[i] = newUpVal;
+						func->funcUnion.luaFunc.mUpVals[i] = newUpVal;
 					}
 				}
 			}
@@ -1068,7 +1071,7 @@ void XScriptVM::CallFunction(Function* funcValue, int numParam)
 {
 	if (!funcValue->isCFunc)
 	{
-		FuncState* func = funcValue->luaFunc.proto;
+		FuncState* func = funcValue->funcUnion.luaFunc.proto;
 		if (func->hasVarArgs)
 		{
 			int numVarArgs = numParam + 1 - func->localParamNum;
@@ -1105,15 +1108,15 @@ void XScriptVM::CallFunction(Function* funcValue, int numParam)
 	}
 	else
 	{
-		HostFunction* hostFunc = &mHostFunctions[funcValue->hostFuncIndex];
+//		HostFunction* hostFunc = &mHostFunctions[funcValue->funcUnion.cFunc.hostFuncIndex];
 
-		if (hostFunc->numParams >= 0 && hostFunc->numParams != numParam)
+// 		if (hostFunc->numParams >= 0 && hostFunc->numParams != numParam)
+// 		{
+// 			ExecError("call function %s with error params, expect %d params, but %d params", hostFunc->funcName.c_str(), hostFunc->numParams, numParam);
+// 		}
+// 		else
 		{
-			ExecError("call function %s with error params, expect %d params, but %d params", hostFunc->funcName.c_str(), hostFunc->numParams, numParam);
-		}
-		else
-		{
-			CallHostFunc(hostFunc, numParam);
+			CallHostFunc(funcValue, funcValue->funcUnion.cFunc.pfnAddr, numParam);
 		}
 	}
 }
@@ -1245,7 +1248,7 @@ void XScriptVM::CallFunctionInLua(Function* funcValue, int numParam)
 {
 	if (!funcValue->isCFunc)
 	{
-		FuncState* func = funcValue->luaFunc.proto;
+		FuncState* func = funcValue->funcUnion.luaFunc.proto;
 		if (func->hasVarArgs)
 		{
 			int numVarArgs = numParam + 1 - func->localParamNum;
@@ -1282,16 +1285,16 @@ void XScriptVM::CallFunctionInLua(Function* funcValue, int numParam)
 	}
 	else
 	{
-		HostFunction* hostFunc = &mHostFunctions[funcValue->hostFuncIndex];
-	
-		if (hostFunc->numParams >= 0 && hostFunc->numParams != numParam)
-		{
-			ExecError("call function %s with error params, expect %d params, but %d params", hostFunc->funcName.c_str(), hostFunc->numParams, numParam);
-		}
-		else
-		{
-			CallHostFunc(hostFunc, numParam);
-		}
+// 		HostFunction* hostFunc = &mHostFunctions[funcValue->funcUnion.cFunc.hostFuncIndex];
+// 	
+// 		if (hostFunc->numParams >= 0 && hostFunc->numParams != numParam)
+// 		{
+// 			ExecError("call function %s with error params, expect %d params, but %d params", hostFunc->funcName.c_str(), hostFunc->numParams, numParam);
+// 		}
+// 		else
+// 		{
+			CallHostFunc(funcValue, funcValue->funcUnion.cFunc.pfnAddr, numParam);
+//		}
 	}
 }
 
@@ -1345,7 +1348,13 @@ void	XScriptVM::CallLuaFunction(Function* func)
 		lastInstrIndex = mCurXScriptState->mInstrIndex;
 
 	mCurXScriptState->mCurFunction = func;
-	mCurXScriptState->mCurFunctionState = func->luaFunc.proto;
+	mCurXScriptState->mCurFunctionState = func->funcUnion.luaFunc.proto;
+
+	if (mCurXScriptState->mTopIndex + MAX_PARAM_NUM + mCurXScriptState->mCurFunctionState->localDataSize > mCurXScriptState->mStackSize)
+	{
+		int growSize = mCurXScriptState->mTopIndex + MAX_PARAM_NUM + mCurXScriptState->mCurFunctionState->localDataSize - mCurXScriptState->mStackSize;
+		GrowStack(mCurXScriptState, growSize);
+	}
 
 	for (int i = 0; i < mCurXScriptState->mCurFunctionState->localDataSize; i++)
 	{
@@ -1369,16 +1378,23 @@ void	XScriptVM::CallLuaFunction(Function* func)
 	mCurXScriptState->mCallInfoBase[mCurXScriptState->mCurCallIndex].mFrameIndex = mCurXScriptState->mFrameIndex;
 }
 
-void  XScriptVM::CallHostFunc(HostFunction* func, int numParam)
+void  XScriptVM::CallHostFunc(Function* func, HOST_FUNC pfnAddr, int numParam)
 {
 	resetReturnValue();
 	int lastParamNum = mNumHostFuncParam;
 	mNumHostFuncParam = numParam;
 	mCurXScriptState->mCCallIndex++;
-	if (func->pfnAddr != NULL)
+
+	Function* lastCFunction = mCurXScriptState->mCurrentCFunction;
+	mCurXScriptState->mCurrentCFunction = func;
+
+	if (pfnAddr != NULL)
 	{
-		(*func->pfnAddr)(this);
+		(*pfnAddr)(this);
 	}
+
+	mCurXScriptState->mCurrentCFunction = lastCFunction;
+
 	mCurXScriptState->mCCallIndex--;
 	mNumHostFuncParam = lastParamNum;
 	popFrame(numParam);
@@ -1386,43 +1402,34 @@ void  XScriptVM::CallHostFunc(HostFunction* func, int numParam)
 
 int   XScriptVM::getParamType(int paramIndex)
 {
-	Value* value = getParamValue(paramIndex);
-	int type = OP_TYPE_NIL;
-	if (value != NULL)
-	{
-		type = value->type;
-		if (IsUserType(value->type))
-			type = OP_USERTYPE;
-	}
-	
+	Value value = getParamValue(paramIndex);
+
+	int type = value.type;
+	if (IsValueUserData(&value))
+		type = OP_USERTYPE;
 	return type;
 }
 
 
-Value* XScriptVM::getParamValue(int paramIndex)
+Value XScriptVM::getParamValue(int paramIndex)
 {
 	if (paramIndex < mNumHostFuncParam)
 	{
 		int index = mCurXScriptState->mTopIndex - (mNumHostFuncParam - paramIndex);
-		return &mCurXScriptState->mStackElements[index];
+		return mCurXScriptState->mStackElements[index];
 	}
 	else
 	{
-		return NULL;
+		return Value();
 	}
 }
 
 bool  XScriptVM::getParamAsInt(int paramIndex, int& value)
 {
-	Value* stackValue = getParamValue(paramIndex);
-	if (stackValue != NULL && stackValue->type == OP_TYPE_INT)
+	Value stackValue = getParamValue(paramIndex);
+	if (IsValueNumber(&stackValue))
 	{
-		value = stackValue->iIntValue;
-		return true;
-	}
-	else if (stackValue != NULL && stackValue->type == OP_TYPE_FLOAT)
-	{
-		value = stackValue->fFloatValue;
+		value = PNumberValue(&stackValue);
 		return true;
 	}
 	return false;
@@ -1430,15 +1437,10 @@ bool  XScriptVM::getParamAsInt(int paramIndex, int& value)
 
 bool  XScriptVM::getParamAsFloat(int paramIndex, float& value)
 {
-	Value* stackValue = getParamValue(paramIndex);
-	if (stackValue != NULL && stackValue->type == OP_TYPE_FLOAT)
+	Value stackValue = getParamValue(paramIndex);
+	if (IsValueNumber(&stackValue))
 	{
-		value = stackValue->fFloatValue;
-		return true;
-	}
-	else if (stackValue != NULL && stackValue->type == OP_TYPE_INT)
-	{
-		value = stackValue->iIntValue;
+		value = PNumberValue(&stackValue);
 		return true;
 	}
 	return false;
@@ -1446,10 +1448,10 @@ bool  XScriptVM::getParamAsFloat(int paramIndex, float& value)
 
 bool  XScriptVM::getParamAsString(int paramIndex, char* &value)
 {
-	Value* stackValue = getParamValue(paramIndex);
-	if (stackValue != NULL && stackValue->type == OP_TYPE_STRING)
+	Value stackValue = getParamValue(paramIndex);
+	if (IsValueString(&stackValue))
 	{
-		value = (char*)stringRawValue(stackValue);
+		value = (char*)stringRawValue(&stackValue);
 		return true;
 	}
 
@@ -1459,20 +1461,20 @@ bool  XScriptVM::getParamAsString(int paramIndex, char* &value)
 
 void*  XScriptVM::getParamAsObj(int paramIndex, char* userType)
 {
-	Value* stackValue = getParamValue(paramIndex);
-	if (stackValue != NULL && IsUserType(stackValue->type))
+	Value stackValue = getParamValue(paramIndex);
+	if (IsUserType(stackValue.type))
 	{
-		std::string localType = GetString(USERDATA_TYPE(stackValue->type));
+		std::string localType = GetString(UserDataType(stackValue.type));
 		if (userType != NULL)
 		{
 			if (stricmp(localType.c_str(), userType) == 0)
 			{
-				return stackValue->userData;
+				return stackValue.userData;
 			}
 			else
 				return NULL;
 		}
-		return stackValue->userData;;
+		return stackValue.userData;;
 	}
 
 	return NULL;
@@ -1575,15 +1577,15 @@ bool  XScriptVM::call(const char* funcName)
 
 void  XScriptVM::registerHostApi(const char* apiName, int numParams, HOST_FUNC pfnAddr)
 {
-	HostFunction hostFunc(apiName, numParams, pfnAddr);
-	mHostFunctions.push_back(hostFunc);
+	//HostFunction hostFunc(apiName, numParams, pfnAddr);
+	//mHostFunctions.push_back(hostFunc);
 
 	int index = RegisterGlobalValue(apiName);
 	mGlobalStackElements[index].type = OP_TYPE_FUNC;
 
-	Function* f = new Function();
+	Function* f = CreateFunction();
 	f->isCFunc = true;
-	f->hostFuncIndex = mHostFunctions.size() - 1;
+	f->funcUnion.cFunc.pfnAddr = pfnAddr;
 	mGlobalStackElements[index].func = f;
 }
 
@@ -1720,9 +1722,25 @@ TableValue*		XScriptVM::CreateTable()
 	return table;
 }
 
+Function*		XScriptVM::CreateCFunction(int numUpvals)
+{
+	Function* table = new Function();
+	memset(&table->funcUnion, 0, sizeof(FuncUnion));
+	GC(table)->next = mRootCG;
+	mRootCG = GC(table);
+	GC(table)->type = OP_TYPE_FUNC;
+	GC(table)->marked = MS_White;
+
+	table->isCFunc = true;
+	table->funcUnion.cFunc.mNumUpVal = numUpvals;
+	table->funcUnion.cFunc.mUpVal = new Value[numUpvals];
+	return table;
+}
+
 Function*		XScriptVM::CreateFunction()
 {
 	Function* table = new Function();
+	memset(&table->funcUnion, 0, sizeof(FuncUnion));
 	GC(table)->next = mRootCG;
 	mRootCG = GC(table);
 	GC(table)->type = OP_TYPE_FUNC;
@@ -1757,12 +1775,9 @@ void	XScriptVM::RegisterHostLib(const char* libName, std::vector<HostFunction>& 
 	for (int i = 0; i < hostFuncVec.size(); i++)
 	{
 		HostFunction hostFunc = hostFuncVec[i];
-		mHostFunctions.push_back(hostFunc);
-
-		Function* f = new Function();
+		Function* f = CreateFunction();
 		f->isCFunc = true;
-		f->hostFuncIndex = mHostFunctions.size() - 1;
-
+		f->funcUnion.cFunc.pfnAddr = hostFuncVec[i].pfnAddr;
 		Value fValue;
 		fValue.type = OP_TYPE_FUNC;
 		fValue.func = f;
@@ -1797,16 +1812,34 @@ void	XScriptVM::MarkValue(Value* value)
 			GC_SetBlack(value->func);
 			if (!value->func->isCFunc)
 			{
-				MarkProto(value->func->luaFunc.proto);
+				MarkProto(value->func->funcUnion.luaFunc.proto);
 
-				for (int i = 0; i < value->func->luaFunc.mNumUpVals; i++)
+				for (int i = 0; i < value->func->funcUnion.luaFunc.mNumUpVals; i++)
 				{
-					GC_SetBlack(value->func->luaFunc.mUpVals[i]);
+					GC_SetBlack(value->func->funcUnion.luaFunc.mUpVals[i]);
+				}
+			}
+			else
+			{
+				for (int i = 0; i < value->func->funcUnion.cFunc.mNumUpVal; i++)
+				{
+					MarkValue(&value->func->funcUnion.cFunc.mUpVal[i]);
 				}
 			}
 			
 			break;
 		}
+	case OP_TYPE_THREAD:
+		{
+			GC_SetBlack(value->threadData);
+			for (int i = MAX_GLOBAL_DATASIZE; i < value->threadData->mTopIndex; i++)
+			{
+				MarkValue(&value->threadData->mStackElements[i]);
+			}
+
+			GC_SetBlack(value->threadData->mStartFunction);
+		}
+		break;
 	}
 }
 
@@ -1824,6 +1857,11 @@ void XScriptVM::MarkTable(TABLE table)
 		{
 			MarkValue(&table->mNodeData[i].value);
 		}
+
+		if (!IsValueNil(&table->mNodeData[i].key.keyVal))
+		{
+			MarkValue(&table->mNodeData[i].key.keyVal);
+		}
 	}
 }
 
@@ -1832,14 +1870,15 @@ void	XScriptVM::MarkObjects()
 	std::map<std::string, int>::iterator it = mGloablVarMap.begin();
 	for (; it != mGloablVarMap.end(); it++)
 	{
-		MarkValue(&mCurXScriptState->mStackElements[it->second]);
+		MarkValue(&mGlobalStackElements[it->second]);
 	}
 
-	for (int i = MAX_GLOBAL_DATASIZE; i < mCurXScriptState->mTopIndex; i++)
+	for (int i = MAX_GLOBAL_DATASIZE; i < mMainXScriptState.mTopIndex; i++)
 	{
-		MarkValue(&mCurXScriptState->mStackElements[i]);
+		MarkValue(&mMainXScriptState.mStackElements[i]);
 	}
 
+	MarkTable(mEnvTable);
 	MarkTable(mModuleTable);
 }
 
@@ -1851,18 +1890,10 @@ void	XScriptVM::FreeObject(CGObject* obj)
 	{
 		TableValue* table = (TableValue*)obj;;
 		if (table->mArrayData != NULL)
-		{
 			delete[] table->mArrayData;
-		}
+		
 		if (table->mNodeData != NULL)
 			delete[]table->mNodeData;
-// 		ValuePair* nextPair = table->nextPair;
-// 		while (nextPair != NULL)
-// 		{
-// 			ValuePair* p = nextPair;
-// 			nextPair = nextPair->nextPair;
-// 			delete p;
-// 		}
 	}
 	break;
 	case OP_TYPE_UPVAL:
@@ -1881,8 +1912,25 @@ void	XScriptVM::FreeObject(CGObject* obj)
 	case OP_TYPE_FUNC:
 	{
 		Function* func = (Function*)obj;
+		if (func->isCFunc)
+		{
+			delete[]func->funcUnion.cFunc.mUpVal;
+		}
+		else
+		{
+			delete[]func->funcUnion.luaFunc.mUpVals;
+		}
 		delete func;
 		func = NULL;
+	}
+	break;
+	case OP_TYPE_THREAD:
+	{
+		XScriptState* xscriptState = (XScriptState*)obj;
+
+		delete []xscriptState->mStackElements;
+		delete []xscriptState->mCallInfoBase;
+
 	}
 	break;
 	default:
@@ -1968,26 +2016,33 @@ Value*	XScriptVM::GetStackValueByName(int stackIndex, const std::string& name)
 	{
 		bool hasFound = false;
 		FuncState* funcState = mCurXScriptState->mCallInfoBase[callIndex].mCurFunctionState;
-	
-		int varIndex = -1;
-		for (int i = 0; i < funcState->m_localVarVec.size(); i++)
+		if (funcState != NULL)
 		{
-			if (funcState->m_localVarVec[i] == name)
+			int varIndex = -1;
+			for (int i = 0; i < funcState->m_localVarVec.size(); i++)
 			{
-				varIndex = i;
-				break;
+				if (funcState->m_localVarVec[i] == name)
+				{
+					varIndex = i;
+					break;
+				}
 			}
-		}
 
-		if (varIndex>= 0 && varIndex < funcState->stackFrameSize)
-		{
-			int stackPos = mCurXScriptState->mCallInfoBase[callIndex].mFrameIndex + varIndex - funcState->stackFrameSize;
-			return getStackValueRef(stackPos);
+			if (varIndex >= 0 && varIndex < funcState->stackFrameSize)
+			{
+				int stackPos = mCurXScriptState->mCallInfoBase[callIndex].mFrameIndex + varIndex - funcState->stackFrameSize;
+				return getStackValueRef(stackPos);
+			}
+			else
+			{
+				return NULL;
+			}
 		}
 		else
 		{
 			return NULL;
 		}
+	
 	}
 	else
 	{
@@ -2237,7 +2292,6 @@ XString*	XScriptVM::NewXString(const char* str)
 	}
 
 	return newStr;
-
 }
 
 void XScriptVM::ResizeHashTable()
@@ -2266,135 +2320,118 @@ void XScriptVM::ResizeHashTable()
 	mStringHashSize = newHashSize;
 }
 
-void	XScriptVM::CreateCoroutie()
+
+XScriptState*	XScriptVM::CreateCoroutie(Function* func)
 {
-	Value* value = getParamValue(0);
-	if (IsValueLuaFunction(value))
+	XScriptState* state = new XScriptState();
+	resetScriptState(state);
+	state->mStartFunction = func;
+	return state;
+}
+
+
+void	XScriptVM::ResumeCoroutie(XScriptState* threadState, int offset)
+{
+	if (GetCoroutieStatus(threadState) != CS_Suspend)
 	{
-		XScriptState* state = new XScriptState();
-		resetScriptState(state);
-		state->mStartFunction = value->func;
-		setReturnAsValue(ConstructValue(state));
+		setReturnAsInt(0, 0);
+		char errorDesc[128] = { 0 };
+		snprintf(errorDesc, 128, "cannot resume %s coroutine", GetCoroutieStatusName(threadState));
+		setReturnAsStr(errorDesc, 1);
 	}
 	else
 	{
-		setReturnAsNil(0);
-	}
-}
-
-void	XScriptVM::ResumeCoroutie()
-{
-	Value* value = getParamValue(0);
-
-	ExecArgsCheck(IsValueThread(value), 0, "coroutine expected");
-
-	if (IsValueThread(value))
-	{
-		XScriptState* threadState = value->threadData;
-		if (GetCoroutieStatus(threadState) != CS_Suspend)
+		if (threadState->mStatus == CS_Normal)
 		{
-			setReturnAsInt(0, 0);
-			char errorDesc[128] = {0};
-			snprintf(errorDesc, 128, "cannot resume %s coroutine", GetCoroutieStatusName(threadState));
-			setReturnAsStr(errorDesc, 1);
-		}
-		else
-		{
-			if (threadState->mStatus == CS_Normal)
+			for (int i = offset; i < mNumHostFuncParam; i++)
 			{
-				for (int i = 1; i < mNumHostFuncParam; i++)
+				threadState->mStackElements[threadState->mTopIndex] = getParamValue(i);
+				threadState->mTopIndex++;
+			}
+
+			XScriptState* lastState = mCurXScriptState;
+
+			mCurXScriptState = threadState;
+
+			std::string errorDesc;
+			int status = ProtectCallFunction(threadState->mStartFunction, mNumHostFuncParam - offset, errorDesc);
+
+			if (status == 0)
+			{
+				if (threadState->mStatus == CS_Normal)
 				{
-					Value newValue;
-					CopyValue(&newValue, *getParamValue(i));
-
-					threadState->mStackElements[threadState->mTopIndex] = newValue;
-					threadState->mTopIndex++;
-				}
-
-				XScriptState* lastState = mCurXScriptState;
-
-				mCurXScriptState = threadState;
-
-				std::string errorDesc;
-				int status = ProtectCallFunction(threadState->mStartFunction, mNumHostFuncParam - 1, errorDesc);
-
-				if (status == 0)
-				{
-					if (threadState->mStatus == CS_Normal)
+					for (int i = MAX_FUNC_REG - 1; i > 0; i--)
 					{
-						for (int i = MAX_FUNC_REG - 1; i > 0; i--)
-						{
-							mRegValue[i] = mRegValue[i - 1];
-						}
-
-						threadState->mStatus = CS_Dead;
+						mRegValue[i] = mRegValue[i - 1];
 					}
 
-					setReturnAsInt(1, 0);
-				}
-				else
-				{
-					mCurXScriptState->mStatus = CS_Dead;
-					resetReturnValue();
-					setReturnAsInt(0, 0);
-					setReturnAsStr(errorDesc.c_str(), 1);
+					threadState->mStatus = CS_Dead;
 				}
 
-				mCurXScriptState = lastState;
+				setReturnAsInt(1, 0);
 			}
-			else if (threadState->mStatus == CS_Suspend)
+			else
 			{
-				for (int i = 1; i < mNumHostFuncParam; i++)
-				{
-					mRegValue[i - 1] = *getParamValue(i);
-				}
+				mCurXScriptState->mStatus = CS_Dead;
+				resetReturnValue();
+				setReturnAsInt(0, 0);
+				setReturnAsStr(errorDesc.c_str(), 1);
+			}
 
-				XScriptState* lastState = mCurXScriptState;
-				mCurXScriptState = threadState;
-				mCurXScriptState->mStatus = CS_Normal;
+			mCurXScriptState = lastState;
+		}
+		else if (threadState->mStatus == CS_Suspend)
+		{
+			for (int i = offset; i < mNumHostFuncParam; i++)
+			{
+				mRegValue[i - offset] = getParamValue(i);
+			}
 
-				std::string errorDesc;
-				int status = ProtectResume(errorDesc);
-				if (status == 0)
+			XScriptState* lastState = mCurXScriptState;
+			mCurXScriptState = threadState;
+			mCurXScriptState->mStatus = CS_Normal;
+
+			std::string errorDesc;
+			int status = ProtectResume(errorDesc);
+			if (status == 0)
+			{
+				if (threadState->mStatus == CS_Normal)
 				{
-					if (threadState->mStatus == CS_Normal)
+					for (int i = MAX_FUNC_REG - 1; i > 0; i--)
 					{
-						for (int i = MAX_FUNC_REG - 1; i > 0; i--)
-						{
-							mRegValue[i] = mRegValue[i - 1];
-						}
-
-						threadState->mStatus = CS_Dead;
+						mRegValue[i] = mRegValue[i - 1];
 					}
 
-					setReturnAsInt(1, 0);
-				}
-				else
-				{
-					mCurXScriptState->mStatus = CS_Dead;
-					resetReturnValue();
-
-					setReturnAsInt(0, 0);
-					setReturnAsStr(errorDesc.c_str(), 1);
+					threadState->mStatus = CS_Dead;
 				}
 
-				mCurXScriptState = lastState;
+				setReturnAsInt(1, 0);
 			}
-		}
+			else
+			{
+				mCurXScriptState->mStatus = CS_Dead;
+				resetReturnValue();
 
+				setReturnAsInt(0, 0);
+				setReturnAsStr(errorDesc.c_str(), 1);
+			}
+
+			mCurXScriptState = lastState;
+		}
 	}
+
 }
 
 void	XScriptVM::YieldCoroutie()
 {
-	if (mCurXScriptState->mCCallIndex > 1)
+	if (mCurXScriptState->mCCallIndex > 1 || mCurXScriptState == &mMainXScriptState)
 	{
 		ExecError("can't yield coroutine across C calls");
 	}
 
 	for (int i = 0; i < mNumHostFuncParam; i++)
 	{
-		mRegValue[i + 1] = *getParamValue(i);
+		mRegValue[i + 1] = getParamValue(i);
 	}
 
 	mCurXScriptState->mStatus = CS_Suspend;
@@ -2422,6 +2459,38 @@ CoroutineStatus	XScriptVM::GetCoroutieStatus(XScriptState* xsState)
 	}
 	else
 		return (CoroutineStatus)xsState->mStatus;
+}
+
+
+void	XScriptVM::GrowStack(XScriptState* xsState, int growSize)
+{
+	int newSize = xsState->mStackSize * 2;
+
+	if (growSize > xsState->mStackSize)
+	{
+		newSize = xsState->mStackSize + growSize;
+	}
+
+	Value* newStackElem = new Value[newSize];
+
+	memcpy(newStackElem, xsState->mStackElements, sizeof(Value) * xsState->mStackSize);
+
+	for (int i = xsState->mStackSize; i < newSize; i++)
+	{
+		newStackElem[i].type = OP_TYPE_NIL;
+		newStackElem[i].iIntValue = 0;
+	}
+
+	UpValue* nextUpVals = xsState->mNextRefUpVals;
+	while (nextUpVals != NULL)
+	{
+		nextUpVals->pValue = newStackElem - xsState->mStackElements + nextUpVals->pValue;
+		nextUpVals = nextUpVals->nextValue;
+	}
+	delete xsState->mStackElements;
+
+	xsState->mStackSize = newSize;
+	xsState->mStackElements = newStackElem;
 }
 
 

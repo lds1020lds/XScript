@@ -31,29 +31,73 @@ void init_base_lib()
 	coVec.push_back(HostFunction("resume", -1, host_coResume));
 	coVec.push_back(HostFunction("yield", -1, host_coYield));
 	coVec.push_back(HostFunction("status", -1, host_coStatus));
+	coVec.push_back(HostFunction("wrap", -1, host_coWrapCreate));
+
 	gScriptVM.RegisterHostLib("coroutine", coVec);
+}
+
+void host_coWrapResume(XScriptVM* vm)
+{
+	Function* func = vm->GetCurCFunction();
+	XScriptState* threadData = func->funcUnion.cFunc.mUpVal[0].threadData;
+	vm->ResumeCoroutie(threadData, 0);
+}
+
+void host_coWrapCreate(XScriptVM* vm)
+{
+	Value value = vm->getParamValue(0);
+	if (IsValueLuaFunction(&value))
+	{
+		XScriptState* threadData = vm->CreateCoroutie(value.func);
+		Function* func = vm->CreateCFunction(1);
+		func->funcUnion.cFunc.mUpVal[0] = vm->ConstructValue(threadData);
+		func->funcUnion.cFunc.pfnAddr = host_coWrapResume;
+		Value funcValue;
+		funcValue.func = func;
+		funcValue.type = OP_TYPE_FUNC;
+		vm->setReturnAsValue(funcValue, 0);
+	}
+	else
+	{
+		vm->setReturnAsNil(0);
+	}
 }
 
 void host_coStatus(XScriptVM* vm)
 {
-	Value* stackValue = vm->getParamValue(0);
+	Value stackValue = vm->getParamValue(0);
 	//ExecArgsCheck(IsValueThread(stackValue), 0, "coroutine expect");
 
-	if (IsValueThread(stackValue))
+	if (IsValueThread(&stackValue))
 	{
-		const char* status = vm->GetCoroutieStatusName(stackValue->threadData);
+		const char* status = vm->GetCoroutieStatusName(stackValue.threadData);
 		vm->setReturnAsStr(status);
 	}
 }
 
 void host_coCreate(XScriptVM* vm)
 {
-	vm->CreateCoroutie();
+	Value value = vm->getParamValue(0);
+	if (IsValueLuaFunction(&value))
+	{
+		XScriptState* xsState = vm->CreateCoroutie(value.func);
+		vm->setReturnAsValue(vm->ConstructValue(xsState));
+	}
+	else
+	{
+		vm->setReturnAsNil(0);
+	}
+	
 }
 
 void host_coResume(XScriptVM* vm)
 {
-	vm->ResumeCoroutie();
+	Value value = vm->getParamValue(0);
+	if (IsValueThread(&value))
+	{
+		vm->ResumeCoroutie(value.threadData, 1);
+	}
+	
 }
 
 void host_coYield(XScriptVM* vm)
@@ -63,12 +107,12 @@ void host_coYield(XScriptVM* vm)
 
 void host_setEnvTable(XScriptVM* vm)
 {
-	Value* stackValue = vm->getParamValue(0);
-	if ( IsValueTable(stackValue) )
+	Value stackValue = vm->getParamValue(0);
+	if ( IsValueTable(&stackValue) )
 	{
-		vm->SetEnvTable(stackValue->tableData);
+		vm->SetEnvTable(stackValue.tableData);
 	}
-	else if (IsValueNil(stackValue))
+	else if (IsValueNil(&stackValue))
 	{
 		vm->SetEnvTable(NULL);
 	}
@@ -102,72 +146,72 @@ void host_loadstring(XScriptVM* vm)
 	}
 }
 
-std::string  getValueDescString(XScriptVM* vm, Value* value)
+std::string  getValueDescString(XScriptVM* vm, const Value& value)
 {
 	std::string desc;
 	char text[256] = { 0 };
-	if (value->type == OP_TYPE_INT)
+	if (value.type == OP_TYPE_INT)
 	{
-		snprintf(text, 256, "%d", value->iIntValue);
+		snprintf(text, 256, "%d", value.iIntValue);
 		desc = text;
 	}
-	else if (value->type == OP_TYPE_FLOAT)
+	else if (value.type == OP_TYPE_FLOAT)
 	{
-		snprintf(text, 256, "%f", value->fFloatValue);
+		snprintf(text, 256, "%f", value.fFloatValue);
 		desc = text;
 	}
-	else if (value->type == OP_TYPE_STRING)
+	else if (value.type == OP_TYPE_STRING)
 	{
-		snprintf(text, 256, "\"%s\"", stringRawValue(value));
+		snprintf(text, 256, "\"%s\"", stringRawValue(&value));
 		desc = text;
 	}
-	else if (IsValueFunction(value))
+	else if (IsValueFunction(&value))
 	{
-		if (value->func->isCFunc)
+		if (value.func->isCFunc)
 		{
-			snprintf(text, 256, "C function: %s", vm->GetHostFunction(value->func->hostFuncIndex).funcName.c_str());
+			snprintf(text, 256, "C function: 0x%x", value.func->funcUnion.cFunc.pfnAddr);
 		}
 		else
 		{
-			snprintf(text, 256, "lua function: %s", value->func->luaFunc.proto->funcName.c_str());
+			snprintf(text, 256, "lua function: %s", value.func->funcUnion.luaFunc.proto->funcName.c_str());
 		}
 		desc = text;
 	}
-	else if (IsUserType(value->type))
+	else if (IsUserType(value.type))
 	{
-		std::string localType = vm->GetString(USERDATA_TYPE(value->type));
-		snprintf(text, 256, "User Type: %s, 0x%x", localType.c_str(), value->userData);
+		std::string localType = vm->GetString(UserDataType(value.type));
+		snprintf(text, 256, "User Type: %s, 0x%x", localType.c_str(), value.userData);
 		desc = text;
 	}
-	else if (value->type == OP_TYPE_TABLE)
+	else if (value.type == OP_TYPE_TABLE)
 	{
 		desc += "{";
 		
-		for (int i = 0; i < value->tableData->mArraySize; i++)
+		for (int i = 0; i < value.tableData->mArraySize; i++)
 		{
 			desc += ConvertToString(i);
 			desc += "=";
 
-			desc += getValueDescString(vm, &value->tableData->mArrayData[i]);
-			if (i < value->tableData->mArraySize - 1 || value->tableData->mNodeCapacity > 0)
+			desc += getValueDescString(vm, value.tableData->mArrayData[i]);
+			if (i < value.tableData->mArraySize - 1 || value.tableData->mNodeCapacity > 0)
 			{
 				desc += ",";
 			}
 		}
 
-		for (int i = 0; i < value->tableData->mNodeCapacity; i++)
+		for (int i = 0; i < value.tableData->mNodeCapacity; i++)
 		{
-			desc += getValueDescString(vm, &value->tableData->mNodeData[i].key.keyVal);
+			desc += getValueDescString(vm, value.tableData->mNodeData[i].key.keyVal);
 			desc += "=";
-			desc += getValueDescString(vm, &value->tableData->mNodeData[i].value);
+			desc += getValueDescString(vm, value.tableData->mNodeData[i].value);
 
-			if (i < value->tableData->mNodeCapacity - 1)
+			if (i < value.tableData->mNodeCapacity - 1)
 				desc += ",";
 		}
 
 		desc += "}";
 	}
-	else if (value->type == OP_TYPE_NIL)
+	else if (value.type == OP_TYPE_NIL)
 	{
 		desc = "nil";
 	}
@@ -180,17 +224,15 @@ std::string  getValueDescString(XScriptVM* vm, Value* value)
 void host_pcall(XScriptVM* vm)
 {
 	int numParam = vm->getNumParam();
-	Value* fValue = vm->getParamValue(0);
-	if (numParam > 0 && fValue != NULL && fValue->type == OP_TYPE_FUNC)
+	Value fValue = vm->getParamValue(0);
+	if (numParam > 0 &&  IsValueFunction(&fValue))
 	{
 		for (int i = 1; i < numParam; i++)
 		{
-			Value newValue;
-			CopyValue(&newValue, *vm->getParamValue(i));
-			vm->push(newValue);
+			vm->push(vm->getParamValue(i));
 		}
 		std::string errorDesc;
-		int ret = vm->ProtectCallFunction(fValue->func, numParam - 1, errorDesc);
+		int ret = vm->ProtectCallFunction(fValue.func, numParam - 1, errorDesc);
 		vm->setReturnAsInt(ret, 0);
 		vm->setReturnAsStr(errorDesc.c_str(), 1);
 	}
@@ -198,15 +240,14 @@ void host_pcall(XScriptVM* vm)
 
 void host_xpcall(XScriptVM* vm)
 {
-	Value* fValue1 = vm->getParamValue(0);
-	Value* fValue2 = vm->getParamValue(1);
+	Value fValue1 = vm->getParamValue(0);
+	Value fValue2 = vm->getParamValue(1);
 
-	if (fValue1 != NULL && fValue2 != NULL
-		&& fValue1->type == OP_TYPE_FUNC && fValue2->type == OP_TYPE_FUNC)
+	if ( IsValueFunction(&fValue1) && IsValueFunction(&fValue2))
 	{
 		std::string errorDesc;
-		int errorFuncIndex = vm->getStackIndex(fValue2);
-		int ret = vm->ProtectCallFunction(fValue1->func, 0, errorDesc, errorFuncIndex);
+		int errorFuncIndex = vm->getParamStackIndex(1);
+		int ret = vm->ProtectCallFunction(fValue1.func, 0, errorDesc, errorFuncIndex);
 		vm->setReturnAsInt(ret, 0);
 		vm->setReturnAsStr(errorDesc.c_str(), 1);
 	}
@@ -354,14 +395,14 @@ void	host_array(XScriptVM* vm)
 
 void host_toNumber(XScriptVM* vm)
 {
-	Value* stackValue = vm->getParamValue(0);
-	if (IsValueNumber(stackValue))
+	Value stackValue = vm->getParamValue(0);
+	if (IsValueNumber(&stackValue))
 	{
-		vm->setReturnAsInt(PNumberValue(stackValue));
+		vm->setReturnAsInt(PNumberValue(&stackValue));
 	}
-	else if (IsValueString(stackValue))
+	else if (IsValueString(&stackValue))
 	{
-		vm->setReturnAsInt(atoi(stringRawValue(stackValue)));
+		vm->setReturnAsInt(atoi(stringRawValue(&stackValue)));
 	}
 	else
 		vm->setReturnAsNil(0);
@@ -370,13 +411,9 @@ void host_toNumber(XScriptVM* vm)
 
 void host_toString(XScriptVM* vm)
 {
-	Value* stackValue = vm->getParamValue(0);
-	if (stackValue != NULL)
-	{
-		std::string desc = getValueDescString(vm, stackValue);
-		vm->setReturnAsStr(desc.c_str());
-	}
-	
+	Value stackValue = vm->getParamValue(0);
+	std::string desc = getValueDescString(vm, stackValue);
+	vm->setReturnAsStr(desc.c_str());
 }
 
 void host_pause(XScriptVM* vm)

@@ -78,6 +78,22 @@ function  getVarValueByName(varName, startStackIndex)
 	return value;
 }
 
+function PrintHelp()
+{
+	prints("h		help infomations");
+	prints("c		continue execute");
+	prints("s		step without step over function");
+	prints("n		step with step over function");
+	prints("p var		print var value");
+	prints("b src:line	add a breakpoint with source file and line number");
+	prints("d id		delete breakpoint with the id");	
+	prints("bl 		list all of the breakpoints");
+	prints("be id		enbale breakpoint with the id");
+	prints("bd id		disbale breakpoint with the id");
+	prints("bt		print the stack backtrack info");
+	prints("? 		execute the input string");
+}
+
 function ldb( )
 {
 	step = 0;
@@ -97,19 +113,7 @@ function ldb( )
 		}
 		else if (cmd == "h")
 		{
-			prints("h		help infomations");
-			prints("c		continue execute");
-			prints("s		step without step over function");
-			prints("n		step with step over function");
-			prints("p var		print var value");
-			prints("b src:line	add a breakpoint with source file and line number");
-			prints("d id		delete breakpoint with the id");
-			
-			prints("bl 		list all of the breakpoints");
-			prints("be id		enbale breakpoint with the id");
-			prints("bd id		disbale breakpoint with the id");
-			prints("bt		print the stack backtrack info");
-			prints("? 		execute the input string");
+			PrintHelp();
 		}
 		else if (cmd == "s")
 		{
@@ -275,7 +279,7 @@ function DebugHook(event, l, file)
 	}
 }
 
-debug.sethook(nil);
+debug.sethook(nil, nil);
 ldb();
-debug.sethook(DebugHook);
+debug.sethook("l", DebugHook);
 
