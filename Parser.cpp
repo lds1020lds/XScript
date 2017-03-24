@@ -4,10 +4,8 @@
 #include "MidCode.h"
 #include "SymbolTable.h"
 #include <math.h>
-
 #include <setjmp.h>
 #include "XsriptVM.h"
-
 jmp_buf setjmp_buffer;
 
 
@@ -59,6 +57,7 @@ int    CParser::GetFreeReg()
 	{
 		Error("Cant't get free reg");
 	}
+
 	return lastIndex;
 }
 
@@ -257,7 +256,7 @@ bool  CParser::ParseStateMent()
 		}
 	case TOKEN_TYPE_RSRVD_VAR:
 		{
-			ParseVar(false);
+			ParseVar( );
 			break;
 		}
 	case TOKEN_TYPE_RSRVD_IF:
@@ -277,9 +276,6 @@ bool  CParser::ParseStateMent()
 	case TOKEN_TYPE_RSRVD_BREAK:
 		ParseBreak ();
 		break;
-
-		// continue
-
 	case TOKEN_TYPE_RSRVD_CONTINUE:
 		ParseContinue ();
 		break;
@@ -296,12 +292,6 @@ bool  CParser::ParseStateMent()
 		Error("error statement, should be ident, continue, return, break...");
 		break;
 	}
-
-	for (int i = 0; i < MAX_REG_NUM; i++)
-	{
-		mReg[i].bUsed = false;
-	}
-
 	return true;
 }
 
@@ -338,6 +328,9 @@ void CParser::ParserIdent()
 		}
 
 		MultiAssignment(retVec, varVec);
+
+		for (int i = 0; i < retVec.size(); i++)
+			FreeFactorReg(retVec[i]);
 
 		//mLexer->ExpectToken(TOKEN_TYPE_DELIM_SEMICOLON);
 	}
@@ -404,6 +397,9 @@ void CParser::MultiAssignment(std::vector<Factor> &retVec, std::vector<VarData> 
 			}
 		}
 	}
+
+	for (int i = 0; i < retVec.size(); i++)
+		FreeFactorReg(retVec[i]);
 }
 
 void  CParser::AddAssignCode(VarData& var, Factor& expr)
@@ -439,7 +435,7 @@ void  CParser::Error(const char *errInfo, ...)
 	buffer[len] = '\0';
 
 	mLexer->RewindToken();
-	ExitOnError(buffer, mLexer->GetLine(), mLexer->GetChar());
+	ExitOnError(buffer, mLexer->GetLine() + 1, mLexer->GetChar());
 }
 
 void  CParser::ErrorIdentRedefine(const char* ident)
@@ -594,56 +590,59 @@ bool  CParser::ParseFunction(Factor assignFactor, bool isLocal)
 	}
 	
 	mMidCode->AddIntOperand(iInstrIndex, funcIndex);
+	FreeReg(symbIndex);
 	return true;
 }
 
 
-bool  CParser::ParseVar(bool isGlobal)
+bool  CParser::ParseVar( )
 {
-	if (!isGlobal)
-		mLexer->ExpectToken(TOKEN_TYPE_RSRVD_VAR);
-
-	if (!isGlobal && mLexer->LookNextToken() == TOKEN_TYPE_RSRVD_FUNC)
+	mLexer->ExpectToken(TOKEN_TYPE_RSRVD_VAR);
+	if (mLexer->LookNextToken() == TOKEN_TYPE_RSRVD_FUNC)
 	{
 		ParseFunction(Factor(), true);
 	}
-
-	std::vector<VarData> varVec;
-
-	do
+	else
 	{
-		mLexer->ExpectToken(TOKEN_TYPE_IDENT);
-		int iVarIndex = mSymbolTable->AddVariant(mLexer->GetCurLexeme(), mCurFuncIndex, 0, IDENT_TYPE_VAR);
-		
-		Factor factor;
-		factor.type = FACTOR_VAR;
-		factor.varIndex = iVarIndex;
-		varVec.push_back(VarData(factor, Factor()));
+		std::vector<VarData> varVec;
 
-		if (mLexer->LookNextToken() != TOKEN_TYPE_DELIM_COMMA)
+		do
 		{
-			break;
-		}
-		mLexer->GetNextToken();
-	} while (true);
+			mLexer->ExpectToken(TOKEN_TYPE_IDENT);
+			int iVarIndex = mSymbolTable->AddVariant(mLexer->GetCurLexeme(), mCurFuncIndex, 0, IDENT_TYPE_VAR);
 
+			Factor factor;
+			factor.type = FACTOR_VAR;
+			factor.varIndex = iVarIndex;
+			varVec.push_back(VarData(factor, Factor()));
 
-	if (mLexer->LookNextToken() == TOKEN_TYPE_OP && mLexer->GetCurOprType() == OP_TYPE_ASSIGN)
-	{
-		mLexer->GetNextToken();
-		std::vector<Factor> retVec;
-		while (true)
-		{
-			Factor ret = ParseExpr(false);
-			retVec.push_back(ret);
 			if (mLexer->LookNextToken() != TOKEN_TYPE_DELIM_COMMA)
+			{
 				break;
+			}
 			mLexer->GetNextToken();
-		}
+		} while (true);
 
-		MultiAssignment(retVec, varVec);
+
+		if (mLexer->LookNextToken() == TOKEN_TYPE_OP && mLexer->GetCurOprType() == OP_TYPE_ASSIGN)
+		{
+			mLexer->GetNextToken();
+			std::vector<Factor> retVec;
+			while (true)
+			{
+				Factor ret = ParseExpr(false);
+				retVec.push_back(ret);
+				if (mLexer->LookNextToken() != TOKEN_TYPE_DELIM_COMMA)
+					break;
+				mLexer->GetNextToken();
+			}
+
+			MultiAssignment(retVec, varVec);
+
+		}
+		mLexer->TestToken(TOKEN_TYPE_DELIM_SEMICOLON);
 	}
-	mLexer->TestToken(TOKEN_TYPE_DELIM_SEMICOLON);
+
 	return true;
 }
 
@@ -862,13 +861,13 @@ bool  CParser::ParseFactor(Factor& factor)
 	case TOKEN_TYPE_INT:
 		{
 			factor.type = FACTOR_INT;
-			factor.intValue = atoi(mLexer->GetCurLexeme());
+			factor.intValue = StrToXInt(mLexer->GetCurLexeme());
 			break;
 		}
 	case TOKEN_TYPE_FLOAT:
 		{
 			factor.type = FACTOR_FLOAT;
-			factor.floatValue = atof(mLexer->GetCurLexeme());
+			factor.floatValue = StrToXFloat(mLexer->GetCurLexeme());
 			break;
 		}
 	case TOKEN_TYPE_RSRVD_TRUE:
@@ -1042,7 +1041,7 @@ bool  CParser::ParseAssign(bool bEnd)
 	firstRet.type = FACTOR_VAR;
 	firstRet.varIndex = symbIndex;
 	ParserAssignRight(firstRet, ret, bEnd);
-
+	FreeFactorReg(firstRet);
 	return true;
 }
 
@@ -1054,7 +1053,7 @@ void CParser::ParserAssignRight(Factor& firstRet, Factor& tableIndexRet, bool bE
 	bool bIsString = false;
 	Factor ret;
 
-	if (firstRet.type == FACTOR_NIL && oprType == OP_TYPE_ASSIGN)
+	if (firstRet.type == FACTOR_NIL)
 	{
 		//nil 常量不能用来赋值
 		Error("error use nil");
@@ -1203,9 +1202,8 @@ CParser::Factor  CParser::ParseExpr(bool push, bool noTable)
 			DoFactorOperation(retVec, opVec);
 		}
 
-		if (retVec.size() > 0 && retVec.back().type == OP_TYPE_FUNC)
+		if (retVec.size() > 0 && retVec.back().type == FACTOR_FUNC)
 		{
-
 			int iInstrIndex = mMidCode->AddInstr(INSTR_MOV);
 			int freeReg = GetFreeReg();
 			mMidCode->AddVarOperand(iInstrIndex, freeReg);
@@ -1262,16 +1260,6 @@ void CParser::DoFactorOperation(std::vector<Factor> &retVec, std::vector<int> &o
 	Factor f1 = retVec.back();
 	retVec.pop_back();
 
-// 	if (f1.type == f2.type == FACTOR_FUNC)
-// 	{
-// 		int freeReg = GetFreeReg();
-// 		int iInstrIndex = mMidCode->AddInstr(INSTR_MOV);
-// 		mMidCode->AddVarOperand(iInstrIndex, freeReg);
-// 		mMidCode->AddRegOperand(iInstrIndex);
-// 
-// 		f1.re
-// 	}
-
 	int lastOp = opVec.back();
 	opVec.pop_back();
 
@@ -1284,7 +1272,6 @@ void CParser::DoFactorOperation(std::vector<Factor> &retVec, std::vector<int> &o
 		AddOperandByFactor(iInstrIndex, f1);
 		AddOperandByFactor(iInstrIndex, f2);
 		FreeFactorReg(f2);
-
 	}
 	else
 	{
@@ -1355,6 +1342,9 @@ void  CParser::ParserVariableAndFunction(Factor& firstRet, Factor& secondRet)
 			mMidCode->AddIntOperand(instrIndex, iParamNum);
 			mLexer->ExpectToken(TOKEN_TYPE_DELIM_CLOSE_PAREN);
 
+			FreeFactorReg(firstRet);
+			FreeFactorReg(secondRet);
+
 			firstRet.type = FACTOR_FUNC;
 
 			secondRet.type = FACTOR_INVALID;
@@ -1404,38 +1394,42 @@ void  CParser::ParserVariableAndFunction(Factor& firstRet, Factor& secondRet)
 		}
 		else if (nextToken == TOKEN_TYPE_DELIM_COLON)
 		{
-			bool isStatic = false;
-			mLexer->ExpectToken(TOKEN_TYPE_DELIM_COLON);
-			if (mLexer->LookNextToken() == TOKEN_TYPE_DELIM_COLON)
-			{
-				if (!first)
-				{
-					Error("Invalid call static function");
-				}
-				mLexer->GetNextToken();
-				isStatic = true;
-			}
-			
-			if (!isStatic)
-			{
-				int iInstrIndex = mMidCode->AddInstr(INSTR_PUSH);
-				if (secondRet.type != FACTOR_INVALID)
-				{
-					AddTableFactor(secondRet, iInstrIndex, firstRet.varIndex);
-				}
-				else
-				{
-					AddOperandByFactor(iInstrIndex, firstRet);
-				}
-			}
-
-			
+			mLexer->GetNextToken();
 			mLexer->ExpectToken(TOKEN_TYPE_IDENT);
 			std::string classFuncName = mLexer->GetCurLexeme();
 
 			mLexer->ExpectToken(TOKEN_TYPE_DELIM_OPEN_PAREN);
 
-			int iParamNum = 0;
+			if (firstRet.type == FACTOR_FUNC)
+			{
+				int instrIndex = mMidCode->AddInstr(INSTR_MOV);
+				int freeReg = GetFreeReg();
+				mMidCode->AddVarOperand(instrIndex, freeReg);
+				mMidCode->AddRegOperand(instrIndex);
+				firstRet.type = FACTOR_VAR;
+				firstRet.varIndex = freeReg;
+			}
+
+			if (secondRet.type != FACTOR_INVALID)
+			{
+				int iInstrIndex = -1;
+				int req = GetFreeReg();
+				iInstrIndex = mMidCode->AddInstr(INSTR_MOV);
+				mMidCode->AddVarOperand(iInstrIndex, req);
+				AddTableFactor(secondRet, iInstrIndex, firstRet.varIndex);
+				FreeFactorReg(secondRet);
+				FreeFactorReg(firstRet);
+				firstRet.type = FACTOR_VAR;
+				firstRet.varIndex = req;
+			}
+
+			
+			int iInstrIndex = mMidCode->AddInstr(INSTR_PUSH);
+			AddOperandByFactor(iInstrIndex, firstRet);
+
+			
+
+			int iParamNum = 1;
 			int token = mLexer->LookNextToken();
 			while (token != TOKEN_TYPE_DELIM_CLOSE_PAREN)
 			{
@@ -1446,25 +1440,20 @@ void  CParser::ParserVariableAndFunction(Factor& firstRet, Factor& secondRet)
 					break;
 				mLexer->ExpectToken(TOKEN_TYPE_DELIM_COMMA);
 			}
-			int nameIndex = mVM->AddString(classFuncName);
-			if (isStatic)
-			{
-				int instrIndex = mMidCode->AddInstr(INSTR_CALL_STATIC_CLASS_FUNC);
-				mMidCode->AddFuncOperand(instrIndex, nameIndex, iParamNum);
-				int stringIndex = mSymbolTable->AddString(firstIdentName.c_str());
-				mMidCode->AddStringIndexOperand(instrIndex, stringIndex);
-			}
-			else
-			{
-				iParamNum++;
-				int instrIndex = mMidCode->AddInstr(INSTR_CALL_CLASS_FUNC);
-				mMidCode->AddFuncOperand(instrIndex, nameIndex, iParamNum);
-			}
-
 			mLexer->ExpectToken(TOKEN_TYPE_DELIM_CLOSE_PAREN);
+
+
+			int instrIndex = mMidCode->AddInstr(INSTR_CALL);
+			int strIndex = mSymbolTable->AddString(classFuncName.c_str());
+			mMidCode->AddTableStringOperand(instrIndex, firstRet.varIndex, strIndex);
+			mMidCode->AddIntOperand(instrIndex, iParamNum);
+		
+			FreeFactorReg(firstRet);
+			FreeFactorReg(secondRet);
 
 			firstRet.type = FACTOR_FUNC;
 			secondRet.type = FACTOR_INVALID;
+
 		}
 		else
 		{
@@ -1566,6 +1555,8 @@ bool  CParser::ParseIf()
 	AddOperandByFactor(iInstrIndex, ret);
 	mMidCode->AddIntOperand(iInstrIndex, 0);
 	mMidCode->AddJumpIndexOperand(iInstrIndex, iJumpIndex1);
+
+	FreeFactorReg(ret);
 	ParseStateMent();
 
 	bool hasReturnEarly = false;
@@ -1631,6 +1622,7 @@ bool  CParser::ParseReturn()
 			int iInstrIndex = mMidCode->AddInstr(INSTR_MOV);
 			mMidCode->AddRegOperand(iInstrIndex, i);
 			AddOperandByFactor(iInstrIndex, retVec[i]);
+			FreeFactorReg(retVec[i]);
 		}
 		
 		mMidCode->AddInstr(INSTR_RET);
@@ -1656,6 +1648,7 @@ bool  CParser::ParseWhile()
 	mMidCode->AddIntOperand(iInstrIndex, 0);
 	mMidCode->AddJumpIndexOperand(iInstrIndex, iJumpIndex2);
 	mLoopStack.push(LoopStruct(iJumpIndex1, iJumpIndex2));
+	FreeFactorReg(ret);
 	ParseStateMent();
 	mLoopStack.pop();
 
@@ -1820,7 +1813,7 @@ bool  CParser::ParseFor()
 	mMidCode->AddIntOperand(iInstrIndex, 0);
 	mMidCode->AddJumpIndexOperand(iInstrIndex, iJumpIndex2);
 	mLoopStack.push(LoopStruct(iJumpIndex1, iJumpIndex2));
-
+	FreeFactorReg(ret);
 
 	beginRecordTokens();
 	ParseAssign(false);
@@ -1948,7 +1941,7 @@ int  CParser::ParseTableInit(int initReg)
 void CParser::OutPutCode(CMidCode *midCode, CSymbolTable* symbolTable, char* outputName)
 {
 	FILE *fp = fopen(outputName, "w");
-    char  codeText[100];
+    char  codeText[256];
 	for (int iFuncIndex = 0; iFuncIndex < mSymbolTable->mFuncTable.size(); iFuncIndex++)
 	{
 		int curFuncIndex = mSymbolTable->mFuncTable[iFuncIndex].iIndex;
@@ -2110,9 +2103,6 @@ char*  CParser::GetCodeText(const ICode  &code, int funcIndex)
 	case INSTR_XOR:
 		strcpy(oprText, "XOR");
 		break;
-	case INSTR_NOT:
-		strcpy(oprText, "NOT");
-		break;
 	case INSTR_SHL_TO:
 	case INSTR_SHL:
 		strcpy(oprText, "SHL");
@@ -2153,12 +2143,6 @@ char*  CParser::GetCodeText(const ICode  &code, int funcIndex)
 		break;
 	case INSTR_RET:
 		strcpy(oprText, "RET");
-		break;
-	case INSTR_CALL_CLASS_FUNC:
-		strcpy(oprText, "CALLCLSFUNC");
-		break;
-	case INSTR_CALL_STATIC_CLASS_FUNC:
-		strcpy(oprText, "CALLSTATICCLSFUNC");
 		break;
 	case INSTR_TYPE:
 		strcpy(oprText, "TYPE");
@@ -2601,7 +2585,6 @@ bool  CParser::hasOperandBeenUsed(const Operand& op, int fromIndex, int endIndex
 		case INSTR_AND:
 		case INSTR_OR:
 		case INSTR_XOR:
-		case INSTR_NOT:
 		case INSTR_SHL:
 		case INSTR_SHR:
 		case INSTR_ADD_TO:

@@ -42,7 +42,7 @@ int   CMidCode::AddInstr(int OprCode)
 	mCodeList[mCurFuncIndex].push_back(code);
 	return (int)mCodeList[mCurFuncIndex].size() - 1;
 }
-void  CMidCode::AddIntOperand(int instrIndex, int opr)
+void  CMidCode::AddIntOperand(int instrIndex, XInt opr)
 {
 	if (mIsIngoreInstr)
 		return;
@@ -52,7 +52,7 @@ void  CMidCode::AddIntOperand(int instrIndex, int opr)
 	operand.iIntValue = opr;
 	mCodeList[mCurFuncIndex][instrIndex].code.oprList.push_back(operand);
 }
-void  CMidCode::AddFloatOperand(int instrIndex, float opr)
+void  CMidCode::AddFloatOperand(int instrIndex, XFloat opr)
 {
 	if (mIsIngoreInstr)
 		return;
@@ -129,7 +129,7 @@ void  CMidCode::AddTableRegOperand(int instrIndex, int iVarSymbolIndex, int inde
 	mCodeList[mCurFuncIndex][instrIndex].code.oprList.push_back(operand);
 }
 
-void  CMidCode::AddTableFloatOperand(int instrIndex, int iVarSymbolIndex, float fValue)
+void  CMidCode::AddTableFloatOperand(int instrIndex, int iVarSymbolIndex, XFloat fValue)
 {
 	if (mIsIngoreInstr)
 		return;
@@ -142,7 +142,7 @@ void  CMidCode::AddTableFloatOperand(int instrIndex, int iVarSymbolIndex, float 
 	mCodeList[mCurFuncIndex][instrIndex].code.oprList.push_back(operand);
 }
 
-void  CMidCode::AddTableIntOperand(int instrIndex, int iVarSymbolIndex, int value)
+void  CMidCode::AddTableIntOperand(int instrIndex, int iVarSymbolIndex, XInt value)
 {
 	if (mIsIngoreInstr)
 		return;

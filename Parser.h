@@ -45,17 +45,17 @@ private:
 		EFactorType type;
 		union
 		{
-			int   intValue;
-			float floatValue;
-			int   varIndex;
-			int   strIndex;
+			XInt		intValue;
+			XFloat		floatValue;
+			int			varIndex;
+			int			strIndex;
 		};
 		
 		int iOffset;
 		union
 		{
-			int   intTableValue;
-			float fTableValue;
+			XInt		intTableValue;
+			XFloat		fTableValue;
 		};
 
 		Factor()
@@ -126,7 +126,7 @@ public:
 	void MultiAssignment(std::vector<Factor> &retVec, std::vector<VarData> &varVec);
 
 	bool  ParseBlock();
-	bool  ParseVar(bool isGlobal);
+	bool  ParseVar( );
 	bool  ParseFunction(Factor assignFactor, bool isLocal = false);
 	Factor  ParseExpr(bool push = true, bool noTable = false);
 

@@ -20,16 +20,16 @@ public:
 	void  AddJumpTarget(int iJumpIndex);
 	int   AddInstr(int OprCode);
 	void  AddEmptyTableOperand(int instrIndex);
-	void  AddIntOperand(int instrIndex, int opr);
-	void  AddFloatOperand(int instrIndex, float opr);
+	void  AddIntOperand(int instrIndex, XInt opr);
+	void  AddFloatOperand(int instrIndex, XFloat opr);
 	void  AddStringIndexOperand(int instrIndex, int opr);
 	void  AddJumpIndexOperand(int instrIndex, int opr);
 	void  AddFuncOperand(int instrIndex, int funcNameIndex, int paramNum);
 	void  AddVarOperand(int instrIndex, int opr);
 	void  AddTableIndexOperand(int instrIndex, int iVarSymbolIndex, int index);
 
-	void  AddTableFloatOperand(int instrIndex, int iVarSymbolIndex, float fValue);
-	void  AddTableIntOperand(int instrIndex, int iVarSymbolIndex, int value);
+	void  AddTableFloatOperand(int instrIndex, int iVarSymbolIndex, XFloat fValue);
+	void  AddTableIntOperand(int instrIndex, int iVarSymbolIndex, XInt value);
 	void  AddTableStringOperand(int instrIndex, int iVarSymbolIndex, int stringIndex);
 
 	void  AddTableRegOperand(int instrIndex, int iVarSymbolIndex, int index);

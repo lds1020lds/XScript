@@ -180,7 +180,7 @@ int IsCharOpChar (char curChar, int preIndex, int iLevel)
 void ExitOnError(const char* info, int iLine, int iChar)
 {
 	extern jmp_buf setjmp_buffer;
-	printf("XScript Lex Error:%s at line(%d),char(%d)", info, iLine, iChar);
+	printf("Lex Error:%s at line(%d),char(%d)\n", info, iLine, iChar);
 	longjmp(setjmp_buffer, 1);
 }
 

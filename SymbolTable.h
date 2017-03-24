@@ -25,7 +25,7 @@ public:
 	int				AddFunction(const char* pFuncName, int iParamNum = 0, int parentFuncIndex = 0);
 	void			AddSubFunction(int funcIndex, int subFuncIndex);
 
-	int				AddVariant(const char* pVarName, int iScope = 0, int iSize = 1, int iType = 0, bool isTable = false);
+	int				AddVariant(const char* pVarName, int iScope = 0, int iSize = 1, int iType = 0);
 	int				AddString(const char* str);
 	char*			getString(int index);
 

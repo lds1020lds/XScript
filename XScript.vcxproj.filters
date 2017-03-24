@@ -30,9 +30,6 @@
     <ClCompile Include="XsriptVM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XScriptVM_Instrs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -55,6 +52,33 @@
       <Filter>libs</Filter>
     </ClCompile>
     <ClCompile Include="libs\xstringlib.cpp">
+      <Filter>libs</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\regex.cpp">
+      <Filter>libs</Filter>
+    </ClCompile>
+    <ClCompile Include="XScriptVM_Instrs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\tinystr.cpp">
+      <Filter>libs</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\tinyxml.cpp">
+      <Filter>libs</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\tinyxmlerror.cpp">
+      <Filter>libs</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\tinyxmlparser.cpp">
+      <Filter>libs</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\xxmllib.cpp">
+      <Filter>libs</Filter>
+    </ClCompile>
+    <ClCompile Include="Xutility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\xoslib.cpp">
       <Filter>libs</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,8 +122,31 @@
     <ClInclude Include="libs\xstringlib.h">
       <Filter>libs</Filter>
     </ClInclude>
+    <ClInclude Include="libs\regex.h">
+      <Filter>libs</Filter>
+    </ClInclude>
+    <ClInclude Include="VMDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\tinystr.h">
+      <Filter>libs</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\tinyxml.h">
+      <Filter>libs</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\xxmllib.h">
+      <Filter>libs</Filter>
+    </ClInclude>
+    <ClInclude Include="Xutility.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\xoslib.h">
+      <Filter>libs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <Text Include="ReadMe.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

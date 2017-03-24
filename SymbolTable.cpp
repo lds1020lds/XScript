@@ -16,7 +16,6 @@ CSymbolTable::~CSymbolTable(void)
 int   CSymbolTable::AddFunction(const char* pFuncName, int iParamNum, int parentFuncIndex)
 {
 	FunctionST func;
-	_ASSERT(strlen(pFuncName) + 1 < MAX_IDENT_SIZE);
 	strncpy_s(func.funcName,  pFuncName, MAX_IDENT_SIZE);
 	func.iParamSize = iParamNum;
 	func.localDataSize = 0;
@@ -48,7 +47,7 @@ void	CSymbolTable::GetFunctionVars(int scope, std::vector<std::string>& varVec)
 	}
 }
 
-int   CSymbolTable::AddVariant(const char* pVarName, int iScope, int iSize, int iType, bool isTable)
+int   CSymbolTable::AddVariant(const char* pVarName, int iScope, int iSize, int iType)
 {
 	if (strlen(pVarName) > 0)
 	{
@@ -67,7 +66,6 @@ int   CSymbolTable::AddVariant(const char* pVarName, int iScope, int iSize, int 
 	strncpy_s(var.varName,  pVarName, MAX_IDENT_SIZE);
 
 	var.iIndex = mVarIndex;
-	var.isTable = isTable;
 	mVarIndex++;
 
 	if (iType == IDENT_TYPE_VAR)
@@ -85,8 +83,6 @@ int   CSymbolTable::AddVariant(const char* pVarName, int iScope, int iSize, int 
 
 int   CSymbolTable::AddString(const char* str)
 {
-	_ASSERT(strlen(str) + 1 < MAX_STRING_SIZE);
-
 	for (int i = 0; i < (int)mStringTable.size(); i++)
 	{
 		if (strcmp(mStringTable[i].str, str) == 0)
@@ -159,7 +155,7 @@ int	CSymbolTable::SearchUpValue(const char* pVarName, int iScope, int& index)
 			else
 			{
 				int newIndex = -1;
-				for (int i = 0; i < func->upValueVec.size(); i++)
+				for (int i = 0; i < (int)func->upValueVec.size(); i++)
 				{
 					if (type == func->upValueVec[i].type
 						&& index == func->upValueVec[i].index)

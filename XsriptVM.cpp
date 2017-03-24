@@ -9,6 +9,8 @@
 #include "libs/xstringlib.h"
 #include "libs/xdebuglib.h"
 #include "libs/xiolib.h"
+#include "libs/xxmllib.h"
+#include "libs/xoslib.h"
 #include "SourceFile.h"
 #include <setjmp.h>
 
@@ -17,7 +19,7 @@ XScriptVM gScriptVM;
 
 XScriptVM::XScriptVM()
 {
-	
+
 }
 
 int		XScriptVM::GetUnusedVarIndex()
@@ -63,6 +65,8 @@ void  XScriptVM::loadHostLibs()
 	init_string_lib();
 	init_debug_lib();
 	init_io_lib();
+	init_xml_lib();
+	init_os_lib();
 }
 
 int		XScriptVM::RegisterGlobalValue(const std::string& name)
@@ -113,7 +117,11 @@ bool  XScriptVM::doFile(const std::string& fileName)
 	std::string	moudleName = fileName;
 
 	CSourceFile sourefile;
-	sourefile.LoadSourceFile(fileName.c_str());
+
+	if (!sourefile.LoadSourceFile(fileName.c_str()))
+	{
+		return false;
+	}
 
 	bool succ = parser.ParseFile(&sourefile, this, &midCode, &symbolTable);
 	if (!succ)
@@ -149,7 +157,7 @@ bool  XScriptVM::doFile(const std::string& fileName)
 		printf(errorDesc.c_str());
 		system("pause");
 	}
-	
+
 
 	map<int, FuncState*>::iterator it = FuncMap.begin();
 	for (; it != FuncMap.end(); it++)
@@ -171,7 +179,6 @@ std::string	XScriptVM::GetOperatorName(RuntimeOperator* op, Value* value)
 	}
 	else
 	{
-
 		desc = getTypeName(value->type);
 	}
 
@@ -180,17 +187,17 @@ std::string	XScriptVM::GetOperatorName(RuntimeOperator* op, Value* value)
 
 std::string	XScriptVM::GetOperatorName(int opIndex)
 {
-	Value* value = resolveOpPointer(opIndex);
+	Value value = resolveOpValue(opIndex);
 	std::string desc;
 	if (mCurInstr->mOpList[opIndex].varNameIndex >= 0)
 	{
 		desc = GetString(mCurInstr->mOpList[opIndex].varNameIndex);
-		desc += "(a " + std::string(getTypeName(value->type)) + " value)";
+		desc += "(a " + std::string(getTypeName(value.type)) + " value)";
 	}
 	else
 	{
-		
-		desc = getTypeName(value->type);
+
+		desc = getTypeName(value.type);
 	}
 
 	return desc;
@@ -247,7 +254,7 @@ void XScriptVM::ConvertMidCodeToInstr(CSymbolTable &symbolTable, CMidCode &midCo
 		if (mainFunc == NULL)
 			mainFunc = funcState;
 
-		for (int upValueIndex = 0; upValueIndex < funcST.upValueVec.size(); upValueIndex++)
+		for (int upValueIndex = 0; upValueIndex < (int)funcST.upValueVec.size(); upValueIndex++)
 		{
 			UpValueST up = funcST.upValueVec[upValueIndex];
 			if (up.type == VLOCAL)
@@ -260,7 +267,7 @@ void XScriptVM::ConvertMidCodeToInstr(CSymbolTable &symbolTable, CMidCode &midCo
 		}
 
 
-		for (int subFuncIndex = 0; subFuncIndex < funcST.subIndexVec.size(); subFuncIndex++)
+		for (int subFuncIndex = 0; subFuncIndex < (int)funcST.subIndexVec.size(); subFuncIndex++)
 		{
 			funcState->m_subFuncVec.push_back(funcMap[funcST.subIndexVec[subFuncIndex]]);
 		}
@@ -376,38 +383,38 @@ void XScriptVM::ConvertMidCodeToInstr(CSymbolTable &symbolTable, CMidCode &midCo
 							value->type = ROT_Table;
 						}
 
-						char temp[64] = {0};
+						char temp[64] = { 0 };
 						std::string subName;
 						value->tableIndexType = operand.tableIndexType;
 						switch (operand.tableIndexType)
 						{
 						case ROT_Float:
 							value->fFloatTableValue = operand.fFloatTableValue;
-							sprintf(temp, "[%f]", operand.fFloatTableValue);
+							snprintf(temp, 64, XFloatConFmt, operand.fFloatTableValue);
 							subName = temp;
 							break;
 						case ROT_Int:
 							value->iIntTableValue = operand.iIntTableValue;
-							sprintf(temp, "[%d]", operand.iIntTableValue);
+							snprintf(temp, 64, XIntConFmt, operand.iIntTableValue);
 							subName = temp;
 							break;
 						case ROT_String:
-							value->strTableValue = NewXString(symbolTable.mStringTable[operand.iIntTableValue].str);
+							value->strTableValue = NewXString(symbolTable.mStringTable[(int)operand.iIntTableValue].str);
 							GC_SetFixed(value->strTableValue);
 							break;
 						case ROT_Stack_Index:
 						{
 							if (operand.iIntTableValue & UPVALMASK)
 							{
-								int upvalIndex = operand.iIntTableValue - UPVALMASK;
+								int upvalIndex = (int)operand.iIntTableValue - UPVALMASK;
 								value->tableIndexType = ROT_UpVal_Index;
 								value->iIntTableValue = upvalIndex;
 
-								subName = "[" + std::string(CParser::FindVarNameBySymbolIndex(symbolTable, operand.iIntTableValue, functionIndex)) + "]";
+								subName = "[" + std::string(CParser::FindVarNameBySymbolIndex(symbolTable, (int)operand.iIntTableValue, functionIndex)) + "]";
 							}
 							else
 							{
-								VariantST* var = symbolTable.GetVarByIndex(operand.iIntTableValue);
+								VariantST* var = symbolTable.GetVarByIndex((int)operand.iIntTableValue);
 								value->iIntTableValue = GetGloabVarIndex(var);
 								subName = "[" + std::string(var->varName) + "]";
 							}
@@ -490,6 +497,8 @@ bool  XScriptVM::init()
 	mNilValue = GetGlobalValue("nil");
 	mNilValue->type = OP_TYPE_NIL;
 
+	//RegisterGlobalValue("metatable");
+	mMetaTable = CreateTable();
 	mModuleTable = CreateTable();
 	loadHostLibs();
 	return true;
@@ -524,15 +533,15 @@ void  XScriptVM::resetScriptState(XScriptState* state)
 void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 {
 	int lineIndex = -1;
-	while(true)
+	while (true)
 	{
 		int lastInstrIndex = mCurXScriptState->mInstrIndex;
 		mCurInstr = &mCurXScriptState->mCurFunctionState->mInstrStream.instrs[lastInstrIndex];
 		int lastCallIndex = mCurXScriptState->mCurCallIndex;
-// 		if (lineIndex == -1 && mAllowHook && (mHookMask & MASK_HOOKCALL))
-// 		{
-// 			CallHookFunction(HE_HookCall, lineIndex);
-// 		}
+		// 		if (lineIndex == -1 && mAllowHook && (mHookMask & MASK_HOOKCALL))
+		// 		{
+		// 			CallHookFunction(HE_HookCall, lineIndex);
+		// 		}
 
 		if (mCurInstr->lineIndex != lineIndex && mCurInstr->lineIndex >= 0)
 		{
@@ -548,95 +557,89 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 		{
 		case INSTR_TYPE:
 		{
-			Value* destValue = resolveOpPointer(0);
-			destValue->type = OP_TYPE_TABLE;
-			destValue->tableData = CreateTable();
+			SetOpValue(0, ConstructValue(CreateTable()));
 			break;
 		}
 		case INSTR_LOADNIL:
 		{
-			ResolveOpPointer(0, destValue);
-			destValue->type = OP_TYPE_NIL;
-			destValue->iIntValue = NULL;
+			SetOpValue(0, *mNilValue);
 		}
 		break;
 		case INSTR_MOV:
 		{
-			ResolveOpPointer(0, destValue);
 			ResolveOpPointer(1, srcValue);
-
-			*destValue = *srcValue;
+			SetOpValue(0, srcValue);
 			break;
 		}
 		case INSTR_ADD_TO:
 		{
-			//EXEC_INSTR_MATH_TO(+);
-			ExecInstr_AddTo();
+			EXEC_INSTR_MATH_TO(+, MMT_Add);
+			//ExecInstr_AddTo();
 		}
 		break;
 		case INSTR_ADD:
 		{
-			EXEC_INSTR_MATH(+);
+			EXEC_INSTR_MATH(+, MMT_Add);
 			//ExecInstr_Add();
 			break;
 		}
 		case INSTR_SUB_TO:
 		{
-			EXEC_INSTR_MATH_TO(-);
+			EXEC_INSTR_MATH_TO(-, MMT_Sub);
 			//ExecInstr_SubTo();
 		}
 		break;
 		case INSTR_SUB:
 		{
-			EXEC_INSTR_MATH(-);
+			EXEC_INSTR_MATH(-, MMT_Sub);
 			//ExecInstr_Sub();
 			break;
 		}
 		case INSTR_MUL_TO:
 		{
-			EXEC_INSTR_MATH_TO(*);
+			EXEC_INSTR_MATH_TO(*, MMT_Mul);
 			//ExecInstr_MULTO();
 		}
 		break;
 		case INSTR_MUL:
 		{
-			EXEC_INSTR_MATH(*);
+			EXEC_INSTR_MATH(*, MMT_Mul);
 			//ExecInstr_Mul();
 			break;
 		}
 		case INSTR_DIV_TO:
 		{
-			EXEC_INSTR_MATH_TO(/);
+			EXEC_INSTR_MATH_TO(/ , MMT_Div);
 			//ExecInstr_DIVTO();
 		}
 		break;
 		case INSTR_DIV:
 		{
-			EXEC_INSTR_MATH(/);
+			EXEC_INSTR_MATH(/ , MMT_Div);
 			//ExecInstr_Div();
 			break;
 		}
 		case INSTR_MOD_TO:
 		{
-			EXEC_INSTR_MATH_INTOP_TO(fmodf, %);
+			EXEC_INSTR_MATH_INTOP_TO(XFMod, %, MMT_Mod);
 			//ExecInstr_MODTO();
 		}
 		break;
 		case INSTR_MOD:
 		{
-			EXEC_INSTR_MATH_INTOP(fmodf, %);
+			EXEC_INSTR_MATH_INTOP(XFMod, %, MMT_Mod);
 			//ExecInstr_Mod();
 			break;
 		}
 		case INSTR_EXP_TO:
 		{
-			EXEC_INSTR_MATH_OP_TO(pow);
+			EXEC_INSTR_MATH_OP_TO(pow, MMT_Pow);
 			//ExecInstr_ExpTo();
 		}
 		break;
 		case INSTR_EXP:
 		{
-			EXEC_INSTR_MATH_OP(pow);
+			EXEC_INSTR_MATH_OP(pow, MMT_Pow);
 			//ExecInstr_Pow();
 			break;
 		}
@@ -671,13 +674,13 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 		}
 		case INSTR_OR_TO:
 		{
-			EXEC_INSTR_LOGIC_OP_TO(|);
+			EXEC_INSTR_LOGIC_OP_TO(| );
 			//ExecInstr_ORTO();
 		}
 		break;
 		case INSTR_OR:
 		{
-			EXEC_INSTR_LOGIC_OP(|);
+			EXEC_INSTR_LOGIC_OP(| );
 			//ExecInstr_Or();
 			break;
 		}
@@ -691,11 +694,6 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 		{
 			EXEC_INSTR_LOGIC_OP(^);
 			//ExecInstr_Xor();
-			break;
-		}
-		case INSTR_NOT:
-		{
-			ExecInstr_Not();
 			break;
 		}
 		case INSTR_SHL_TO:
@@ -725,7 +723,7 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 		case INSTR_JMP:
 		{
 			ResolveOpPointer(0, destValue);
-			mCurXScriptState->mInstrIndex = destValue->iInstrIndex;
+			mCurXScriptState->mInstrIndex = destValue.iInstrIndex;
 			break;
 		}
 		case INSTR_JE:
@@ -743,32 +741,31 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 		}
 		case INSTR_JG:
 		{
-			EXEC_INSTR_J(>);
+			EXEC_INSTR_J(>, NMT_Great);
 			//ExecInstr_JG();
 			break;
 		}
 		case INSTR_JGE:
 		{
-			EXEC_INSTR_J(>=);
+			EXEC_INSTR_J(>=, NMT_GreatEqual);
 			//ExecInstr_JGE();
 			break;
 		}
 		case INSTR_JL:
 		{
-			EXEC_INSTR_J(<);
+			EXEC_INSTR_J(<, NMT_Less);
 			break;
 		}
 		case INSTR_JLE:
 		{
-			EXEC_INSTR_J(<=);
+			EXEC_INSTR_J(<=, NMT_LessEqual);
 			//ExecInstr_JLE();
 			break;
 		}
 		case INSTR_PUSH:
 		{
 			//ResolveOpPointer(0, firstValue);
-			Value* firstValue = resolveOpPointer(0);
-			mCurXScriptState->mStackElements[mCurXScriptState->mTopIndex] = *firstValue;
+			mCurXScriptState->mStackElements[mCurXScriptState->mTopIndex] = resolveOpValue(0);
 			mCurXScriptState->mTopIndex++;
 			break;
 		}
@@ -784,24 +781,35 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 		}
 		case INSTR_POP:
 		{
-			ResolveOpPointer(0, firstValue);
+			//ResolveOpPointer(0, firstValue);
 			mCurXScriptState->mTopIndex--;
-			CopyValue(firstValue, mCurXScriptState->mStackElements[mCurXScriptState->mTopIndex]);
+			SetOpValue(0, mCurXScriptState->mStackElements[mCurXScriptState->mTopIndex]);
 			break;
 		}
 		case INSTR_CALL:
 		{
 			ResolveOpPointer(0, firstValue);
 			ResolveOpPointer(1, secondValue);
-			int numParam = secondValue->iIntValue;
+			int numParam = (int)secondValue.iIntValue;
 
-			if (firstValue->type != OP_TYPE_FUNC)
+			Function* func = NULL;
+			if (firstValue.type != OP_TYPE_FUNC)
 			{
-				ExecError("attempt to call function on %s", GetOperatorName(0).c_str());
+				Value callTagMethod = GetMetaMethod(&firstValue, MMT_Call);
+				if (IsValueFunction(&callTagMethod))
+					func = callTagMethod.func;
+				else
+					ExecError("attempt to call function on %s", GetOperatorName(0).c_str());
 			}
+			else
+			{
+				func = firstValue.func;
+				
+			}
+			
+			CallFunctionInLua(func, numParam);
 
-			CallFunctionInLua(firstValue->func, numParam);
-			if (!firstValue->func->isCFunc)
+			if (!func->isCFunc)
 			{
 				numLuaCallCount++;
 			}
@@ -811,8 +819,6 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 				mCurXScriptState->mInstrIndex++;
 				return;
 			}
-
-			//ExecInstr_CALL();
 		}
 		break;
 		case INSTR_RET:
@@ -829,19 +835,6 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 			}
 			break;
 		}
-		case INSTR_CALL_STATIC_CLASS_FUNC:
-		{
-			ExecInstr_CallStaticClassFunc();
-		}
-		break;
-		case INSTR_CALL_CLASS_FUNC:
-		{
-			bool isLua = ExecInstr_CallClassFunc();
-			if (isLua)
-				numLuaCallCount++;
-
-			break;
-		}
 		case INSTR_LOGIC_NOT:
 		{
 			ExecInstr_Logic_Not();
@@ -849,37 +842,36 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 		break;
 		case INSTR_TEST_E:
 		{
-			EXEC_INSTR_TEST_E(==);
+			EXEC_INSTR_TEST_E(== );
 			//ExecInstr_Test_E();
 		}
 		break;
 		case INSTR_TEST_NE:
 		{
-			EXEC_INSTR_TEST_E(!=);
+			EXEC_INSTR_TEST_E(!= );
 			//ExecInstr_Test_NE();
 		}
 		break;
 		case INSTR_TEST_G:
 		{
-			EXEC_INSTR_TEST(>);
+			EXEC_INSTR_TEST(>, NMT_Great);
 			//ExecInstr_Test_G();
 		}
 		break;
 		case INSTR_TEST_L:
 		{
-			EXEC_INSTR_TEST(<);
+			EXEC_INSTR_TEST(<, NMT_Less);
 			//ExecInstr_Test_L();
 		}
 		break;
 		case INSTR_TEST_GE:
 		{
-			EXEC_INSTR_TEST(>=);
-			//ExecInstr_Test_GE();
+			EXEC_INSTR_TEST(>=, NMT_GreatEqual);
 		}
 		break;
 		case INSTR_TEST_LE:
 		{
-			EXEC_INSTR_TEST(<=);
+			EXEC_INSTR_TEST(<=, NMT_LessEqual);
 		}
 		break;
 		case INSTR_FUNC:
@@ -889,49 +881,7 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 		break;
 		case INSTR_LOGIC_AND:
 		{
-			ResolveOpPointer(0, destValue);
-			ResolveOpPointer(1, firstValue);
-			ResolveOpPointer(2, secondValue);
-			destValue->type = OP_TYPE_INT;
-			int value = 0;
-			if (firstValue->type == OP_TYPE_INT)
-			{
-				value = ((firstValue->iIntValue != 0) ? 1 : 0);
-			}
-			else if (firstValue->type == OP_TYPE_FLOAT)
-			{
-				value = ((firstValue->fFloatValue != 0) ? 1 : 0);
-			}
-			else if (IsUserType(firstValue->type))
-			{
-				value = ((firstValue->userData != NULL) ? 1 : 0);
-			}
-			else
-			{
-				ExecError("attempt to perform && operator on", getTypeName(firstValue->type));
-			}
-
-			if (value == 1)
-			{
-				if (secondValue->type == OP_TYPE_INT)
-				{
-					value = ((secondValue->iIntValue != 0) ? 1 : 0);
-				}
-				else if (secondValue->type == OP_TYPE_FLOAT)
-				{
-					value = ((secondValue->fFloatValue != 0) ? 1 : 0);
-				}
-				else if (IsUserType(secondValue->type))
-				{
-					value = ((secondValue->userData != NULL) ? 1 : 0);
-				}
-				else
-				{
-					ExecError("attempt to perform && operator on", getTypeName(secondValue->type));
-				}
-			}
-
-			destValue->iIntValue = value;
+			ExecInstr_Logic_And();
 		}
 		break;
 		case INSTR_LOGIC_OR:
@@ -949,12 +899,12 @@ void  XScriptVM::ExecuteFunction(int numLuaCallCount)
 
 void XScriptVM::ExecInstr_Func()
 {
-	ResolveOpPointer(0, destValue);
+	//ResolveOpPointer(0, destValue);
 	ResolveOpPointer(1, firstValue);
 
-	if (firstValue->type == OP_TYPE_INT)
+	if (firstValue.type == OP_TYPE_INT)
 	{
-		FuncState* proto = mCurXScriptState->mCurFunctionState->m_subFuncVec[firstValue->iIntValue];
+		FuncState* proto = mCurXScriptState->mCurFunctionState->m_subFuncVec[(int)firstValue.iIntValue];
 		Function* func = CreateFunction();
 		func->isCFunc = false;
 		func->funcUnion.luaFunc.proto = proto;
@@ -963,7 +913,7 @@ void XScriptVM::ExecInstr_Func()
 		{
 			func->funcUnion.luaFunc.mUpVals = new UpValue*[func->funcUnion.luaFunc.mNumUpVals];
 
-			for (int i = 0; i < proto->m_upValueVec.size(); i++)
+			for (int i = 0; i < (int)proto->m_upValueVec.size(); i++)
 			{
 				if (proto->m_upValueVec[i].type == VUPVALUE)
 				{
@@ -997,11 +947,11 @@ void XScriptVM::ExecInstr_Func()
 				}
 			}
 		}
-		
 
-		destValue->type = OP_TYPE_FUNC;
-		destValue->func = func;
-
+		Value destValue;
+		destValue.type = OP_TYPE_FUNC;
+		destValue.func = func;
+		SetOpValue(0, destValue);
 
 	}
 	else
@@ -1012,49 +962,47 @@ void XScriptVM::ExecInstr_Func()
 
 void XScriptVM::ExecInstr_Concat_To()
 {
-	ResolveOpPointer(0, destValue);
+	Value destValue;
 	ResolveOpPointer(1, firstValue);
 	ResolveOpPointer(2, secondValue);
 
-	if (firstValue->type == OP_TYPE_STRING)
+	if (firstValue.type == OP_TYPE_STRING)
 	{
-		if (secondValue->type == OP_TYPE_STRING)
+		if (secondValue.type == OP_TYPE_STRING)
 		{
 
-			int strLength = stringRawLen(firstValue) + stringRawLen(secondValue) + 1;
-			
+			int strLength = stringRawLen(&firstValue) + stringRawLen(&secondValue);
+
 			CheckStrBuffer(strLength);
 
-			memcpy(mStrBuffer, stringRawValue(firstValue), stringRawLen(firstValue));
-			memcpy(mStrBuffer + stringRawLen(firstValue), stringRawValue(secondValue), stringRawLen(secondValue));
-			mStrBuffer[stringRawLen(firstValue) + stringRawLen(secondValue)] = '\0';
+			memcpy(mStrBuffer, stringRawValue(&firstValue), stringRawLen(&firstValue));
+			memcpy(mStrBuffer + stringRawLen(&firstValue), stringRawValue(&secondValue), stringRawLen(&secondValue));
 
-			destValue->type = OP_TYPE_STRING;
-			destValue->stringValue = NewXString(mStrBuffer);
+			destValue.type = OP_TYPE_STRING;
+			destValue.stringValue = NewXString(mStrBuffer, strLength);
 		}
 		else if (IsPNumberType(secondValue))
 		{
-			char numberBuffer[64] = {0};
+			char numberBuffer[64] = { 0 };
 
-			if (IsValueInt(secondValue))
+			if (IsValueInt(&secondValue))
 			{
-				snprintf(numberBuffer, MAX_NUMBER_STRING_SIZE, "%d", secondValue->iIntValue);
+				snprintf(numberBuffer, MAX_NUMBER_STRING_SIZE, XIntConFmt, secondValue.iIntValue);
 			}
-			else  
+			else
 			{
-				snprintf(numberBuffer, MAX_NUMBER_STRING_SIZE, "%f", secondValue->fFloatValue);
+				snprintf(numberBuffer, MAX_NUMBER_STRING_SIZE, XFloatConFmt, secondValue.fFloatValue);
 			}
 
-			int strLength = stringRawLen(firstValue) + strlen(numberBuffer) + 1;
+			int strLength = stringRawLen(&firstValue) + strlen(numberBuffer);
 			CheckStrBuffer(strLength);
 
-			memcpy(mStrBuffer, stringRawValue(firstValue), stringRawLen(firstValue));
-			memcpy(mStrBuffer + stringRawLen(firstValue), numberBuffer, strlen(numberBuffer));
-			mStrBuffer[stringRawLen(firstValue) + strlen(numberBuffer)] = '\0';
+			memcpy(mStrBuffer, stringRawValue(&firstValue), stringRawLen(&firstValue));
+			memcpy(mStrBuffer + stringRawLen(&firstValue), numberBuffer, strlen(numberBuffer));
 
-			destValue->type = OP_TYPE_STRING;
-			destValue->stringValue = NewXString(mStrBuffer);
-					
+			destValue.type = OP_TYPE_STRING;
+			destValue.stringValue = NewXString(mStrBuffer, strLength);
+
 		}
 		else
 		{
@@ -1065,6 +1013,8 @@ void XScriptVM::ExecInstr_Concat_To()
 	{
 		EXEC_OP_ERROR($, 1, 2);
 	}
+
+	SetOpValue(0, destValue);
 }
 
 void XScriptVM::CallFunction(Function* funcValue, int numParam)
@@ -1083,8 +1033,8 @@ void XScriptVM::CallFunction(Function* funcValue, int numParam)
 			else
 			{
 				TABLE t = newTable();
-				setTableValue(t, "n", numVarArgs);
-				for (int i = numVarArgs; i > 0; i--)
+				setTableValue(t, "n", (XInt)numVarArgs);
+				for (XInt i = numVarArgs; i > 0; i--)
 				{
 					Value value = pop();
 					setTableValue(t, ConstructValue(i - 1), value);
@@ -1108,16 +1058,7 @@ void XScriptVM::CallFunction(Function* funcValue, int numParam)
 	}
 	else
 	{
-//		HostFunction* hostFunc = &mHostFunctions[funcValue->funcUnion.cFunc.hostFuncIndex];
-
-// 		if (hostFunc->numParams >= 0 && hostFunc->numParams != numParam)
-// 		{
-// 			ExecError("call function %s with error params, expect %d params, but %d params", hostFunc->funcName.c_str(), hostFunc->numParams, numParam);
-// 		}
-// 		else
-		{
-			CallHostFunc(funcValue, funcValue->funcUnion.cFunc.pfnAddr, numParam);
-		}
+		CallHostFunc(funcValue, funcValue->funcUnion.cFunc.pfnAddr, numParam);
 	}
 }
 
@@ -1260,8 +1201,8 @@ void XScriptVM::CallFunctionInLua(Function* funcValue, int numParam)
 			else
 			{
 				TABLE t = newTable();
-				setTableValue(t, "n", numVarArgs);
-				for (int i = numVarArgs; i > 0; i--)
+				setTableValue(t, "n", (XInt)numVarArgs);
+				for (XInt i = numVarArgs; i > 0; i--)
 				{
 					Value value = pop();
 					setTableValue(t, ConstructValue(i - 1), value);
@@ -1285,16 +1226,7 @@ void XScriptVM::CallFunctionInLua(Function* funcValue, int numParam)
 	}
 	else
 	{
-// 		HostFunction* hostFunc = &mHostFunctions[funcValue->funcUnion.cFunc.hostFuncIndex];
-// 	
-// 		if (hostFunc->numParams >= 0 && hostFunc->numParams != numParam)
-// 		{
-// 			ExecError("call function %s with error params, expect %d params, but %d params", hostFunc->funcName.c_str(), hostFunc->numParams, numParam);
-// 		}
-// 		else
-// 		{
-			CallHostFunc(funcValue, funcValue->funcUnion.cFunc.pfnAddr, numParam);
-//		}
+		CallHostFunc(funcValue, funcValue->funcUnion.cFunc.pfnAddr, numParam);
 	}
 }
 
@@ -1306,9 +1238,9 @@ void  XScriptVM::ExecError(const char* errorStr, ...)
 	int len = vsnprintf(buffer, 512, errorStr, args);
 	va_end(args);
 	buffer[len] = '\0';
-	char buffer2[512 + 64] = {0};
-	sprintf(buffer2, "XScript Run Err: %s \n%s", buffer, stackBackTrace().c_str());
-	
+	char buffer2[512 + 64] = { 0 };
+	snprintf(buffer2, 576, "Run Error: %s \n%s", buffer, stackBackTrace().c_str());
+
 	if (mLongJmp != NULL)
 	{
 		mLongJmp->mErrorDesc = buffer2;
@@ -1319,7 +1251,7 @@ void  XScriptVM::ExecError(const char* errorStr, ...)
 			Value errValue = getStackValue(mLongJmp->errorFunc);
 			if (errValue.type == OP_TYPE_FUNC)
 			{
-				push(ConstructValue(mLongJmp->errorCode));
+				push(ConstructValue((XInt)mLongJmp->errorCode));
 				push(ConstructValue(buffer2));
 				std::string errprDesc;
 				ProtectCallFunction(errValue.func, 2, errprDesc);
@@ -1405,8 +1337,8 @@ int   XScriptVM::getParamType(int paramIndex)
 	Value value = getParamValue(paramIndex);
 
 	int type = value.type;
-	if (IsValueUserData(&value))
-		type = OP_USERTYPE;
+	if (IsValueLightUserData(&value))
+		type = OP_LIGHTUSERDATA;
 	return type;
 }
 
@@ -1424,23 +1356,23 @@ Value XScriptVM::getParamValue(int paramIndex)
 	}
 }
 
-bool  XScriptVM::getParamAsInt(int paramIndex, int& value)
+bool  XScriptVM::getParamAsInt(int paramIndex, XInt& value)
 {
 	Value stackValue = getParamValue(paramIndex);
 	if (IsValueNumber(&stackValue))
 	{
-		value = PNumberValue(&stackValue);
+		value = (XInt)PNumberValue(stackValue);
 		return true;
 	}
 	return false;
 }
 
-bool  XScriptVM::getParamAsFloat(int paramIndex, float& value)
+bool  XScriptVM::getParamAsFloat(int paramIndex, XFloat& value)
 {
 	Value stackValue = getParamValue(paramIndex);
 	if (IsValueNumber(&stackValue))
 	{
-		value = PNumberValue(&stackValue);
+		value = PNumberValue(stackValue);
 		return true;
 	}
 	return false;
@@ -1462,19 +1394,34 @@ bool  XScriptVM::getParamAsString(int paramIndex, char* &value)
 void*  XScriptVM::getParamAsObj(int paramIndex, char* userType)
 {
 	Value stackValue = getParamValue(paramIndex);
-	if (IsUserType(stackValue.type))
+	if (stackValue.type == OP_TYPE_USERDATA)
 	{
-		std::string localType = GetString(UserDataType(stackValue.type));
-		if (userType != NULL)
+		TABLE metaTable = NULL;
+		if (getTableValue(mMetaTable, userType, metaTable))
 		{
-			if (stricmp(localType.c_str(), userType) == 0)
+			bool isValid = false;
+			TABLE valueMeta = stackValue.userData->mMetaTable;
+			while (valueMeta != NULL)
 			{
-				return stackValue.userData;
+				if (valueMeta == metaTable)
+				{
+					isValid = true;
+					break;
+				}
+				else
+				{
+					valueMeta = valueMeta->mMetaTable;
+				}
 			}
-			else
-				return NULL;
+
+			if (isValid)
+			{
+				void* pThis = NULL;
+				memcpy(&pThis, stackValue.userData->value, sizeof(void*));
+				return pThis;
+			}
+			
 		}
-		return stackValue.userData;;
 	}
 
 	return NULL;
@@ -1510,7 +1457,7 @@ void  XScriptVM::setReturnAsTable(const TABLE& table, int regIndex)
 	CopyValue(&mRegValue[regIndex], ConstructValue(table));
 }
 
-void  XScriptVM::setReturnAsInt(int iResult, int regIndex)
+void  XScriptVM::setReturnAsInt(XInt iResult, int regIndex)
 {
 	Value value;
 	value.type = OP_TYPE_INT;
@@ -1524,19 +1471,30 @@ void  XScriptVM::resetReturnValue()
 	{
 		mRegValue[i].type = OP_TYPE_NIL;
 	}
-	
+
 }
 
-void  XScriptVM::setReturnAsUserData(const std::string& className, void* pThis, int regIndex)
+void  XScriptVM::setReturnAsUserData(const char* className, void* pThis, int regIndex)
 {
-	Value value;
-	int typeIndex = AddString(className);
-	value.type = MAKE_USERTYPE(typeIndex);
-	value.userData = pThis;
-	CopyValue(&mRegValue[regIndex], value);
+	if (pThis != NULL)
+	{
+		UserData* userData = CreateUserData(sizeof(void*));
+		TABLE metaTable;
+		if (getTableValue(mMetaTable, (char*)className, metaTable))
+		{
+			userData->mMetaTable = metaTable;
+		}
+
+		memcpy(userData->value, &pThis, sizeof(void*));
+		SetUserDataValue(&mRegValue[regIndex], userData);
+	}
+	else
+	{
+		setReturnAsNil(regIndex);
+	}
 }
 
-void  XScriptVM::setReturnAsfloat(float fResult, int regIndex)
+void  XScriptVM::setReturnAsfloat(XFloat fResult, int regIndex)
 {
 	Value value;
 	value.type = OP_TYPE_FLOAT;
@@ -1551,35 +1509,9 @@ void  XScriptVM::setReturnAsStr(const char* strResult, int regIndex)
 	CopyValue(&mRegValue[regIndex], value);
 }
 
-bool  XScriptVM::call(const char* funcName)
+
+void  XScriptVM::RegisterHostApi(const char* apiName, HOST_FUNC pfnAddr)
 {
-	/*
-	_ASSERT(mIsInCallScriptFunc);
-	if (!mIsInCallScriptFunc)
-		return false;
-
-	_ASSERT(funcName != NULL);
-	FuncState* func  = getFuncByName(funcName);
-	if (func == NULL)
-		return false;
-
-	if (mNumScriptFuncParams != func->localParamNum)
-	{
-		for (int i = 0; i < mNumScriptFuncParams; i++)
-			pop();
-
-		return false;
-	}
-	*/
-	//executeFunction(func);
-	return true;
-}
-
-void  XScriptVM::registerHostApi(const char* apiName, int numParams, HOST_FUNC pfnAddr)
-{
-	//HostFunction hostFunc(apiName, numParams, pfnAddr);
-	//mHostFunctions.push_back(hostFunc);
-
 	int index = RegisterGlobalValue(apiName);
 	mGlobalStackElements[index].type = OP_TYPE_FUNC;
 
@@ -1589,18 +1521,42 @@ void  XScriptVM::registerHostApi(const char* apiName, int numParams, HOST_FUNC p
 	mGlobalStackElements[index].func = f;
 }
 
-bool	XScriptVM::RegisterUserClass(const char* className, const std::string& bassClassName, const std::vector<HostFunction>& funcVec)
+void	XScriptVM::RegisterUserClass(const char* className, const char* bassClassName, const std::vector<HostFunction>& funcVec)
 {
-	if (mUserClassDataMap.find(className) != mUserClassDataMap.end())
-		return false;
-	
-	UserClassData data;
-	data.mClassName = className;
-	data.mBassClassName = bassClassName;
-	data.mHostFunctions = funcVec;
+	TableValue* metaTable;
+	if (!getTableValue(mMetaTable, (char*)className, metaTable))
+	{
+		metaTable = CreateTable();
+		setTableValue(mMetaTable, (char*)className, metaTable);
+		setTableValue(metaTable, (char*)MetaMetodString(MMT_Index), metaTable);
+	}
 
-	mUserClassDataMap[className] = data;
-	return true;
+	
+	CreateFunctionTable(funcVec, metaTable);
+	
+	if (bassClassName != NULL)
+	{
+		Value baseTable;
+		if (getTableValue(mMetaTable, ConstructValue(bassClassName), baseTable) 
+			&& IsValueTable(&baseTable))
+		{
+			metaTable->mMetaTable = baseTable.tableData;
+		}
+		else
+		{
+			TableValue*	baseMetaTable = CreateTable();
+			setTableValue(mMetaTable, (char*)bassClassName, baseMetaTable);
+			setTableValue(baseMetaTable, (char*)MetaMetodString(MMT_Index), baseMetaTable);
+			metaTable->mMetaTable = baseMetaTable;
+		}
+	}
+	
+	RegisterGlobalValue(className);
+	Value* pValue = GetGlobalValue(className);
+	UserData* userData = CreateUserData(1);
+	userData->mMetaTable = metaTable;
+	SetUserDataValue(pValue, userData);
+	
 }
 
 
@@ -1611,30 +1567,115 @@ bool    isValueEqual(const Value& value1, const Value& value2)
 		switch (value1.type)
 		{
 		case OP_TYPE_FLOAT:
-			{
-				return value1.fFloatValue == value2.fFloatValue;
-			}
+		{
+			return value1.fFloatValue == value2.fFloatValue;
+		}
 		case OP_TYPE_INT:
-			{
-				return  value1.iIntValue == value2.iIntValue;
-			}
+		{
+			return  value1.iIntValue == value2.iIntValue;
+		}
 		case OP_TYPE_STRING:
-			{
-				return  value1.stringValue == value2.stringValue;
-			}
+		{
+			return  value1.stringValue == value2.stringValue;
+		}
 		case OP_TYPE_TABLE:
-			{
-				return value1.tableData != NULL && value2.tableData == value1.tableData;
-			}
-		case OP_USERTYPE:
-			{
-				return value1.userData == value2.userData;
-			}
+		{
+			return value1.tableData != NULL && value2.tableData == value1.tableData;
+		}
+		case OP_LIGHTUSERDATA:
+		{
+			return value1.lightUserData == value2.lightUserData;
+		}
+		case OP_TYPE_USERDATA:
+		{
+			return value1.userData == value2.userData;
+		}
+		case OP_TYPE_FUNC:
+		{
+			return value1.func == value2.func;
+		}
 		}
 		return false;
 	}
 	else
 		return false;
+}
+
+Value			XScriptVM::GetMetaMethod(Value* value, MetaMethodType type)
+{
+	TableValue* metaTable = NULL;
+	if (IsValueUserData(value))
+	{
+		metaTable = value->userData->mMetaTable;
+	}
+	else if (IsValueTable(value))
+	{
+		metaTable = value->tableData->mMetaTable;
+	}
+
+	if (metaTable != NULL)
+	{
+		Value result;
+		getTableValue(metaTable, ConstructValue(MetaMetodString(type)), result);
+		return result;
+	}
+	else
+		return *mNilValue;
+}
+
+const char*		XScriptVM::MetaMetodString(MetaMethodType type)
+{
+	switch (type)
+	{
+	case MMT_Index:
+		return "__index";
+		break;
+	case MMT_NewIndex:
+		return "__newindex";
+		break;
+	case MMT_Equal:
+		return "__equal";
+		break;
+	case MMT_Add:
+		return "__add";
+		break;
+	case MMT_Sub:
+		return "__sub";
+		break;
+	case MMT_Mul:
+		return "__mul";
+		break;
+	case MMT_Div:
+		return "__div";
+		break;
+	case MMT_Mod:
+		return "__mod";
+		break;
+	case MMT_Pow:
+		return "__pow";
+		break;
+	case MMT_Neg:
+		return "__neg";
+		break;
+	case MMT_Len:
+		return "__len";
+		break;
+	case NMT_Less:
+		return "__less";
+		break;
+	case NMT_LessEqual:
+		return "__lessequal";
+		break;
+	case MMT_Concat:
+		return "__concat";
+		break;
+	case MMT_Call:
+		return "__call";
+		break;
+	default:
+		break;
+	}
+	return "";
 }
 
 const char* getTypeName(int type)
@@ -1656,9 +1697,9 @@ const char* getTypeName(int type)
 	{
 		str = "table";
 	}
-	else if (type == OP_USERTYPE)
+	else if (type == OP_LIGHTUSERDATA)
 	{
-		str = "userdata";
+		str = "lightuserdata";
 	}
 	else if (type == OP_TYPE_FUNC)
 	{
@@ -1668,10 +1709,118 @@ const char* getTypeName(int type)
 	{
 		str = "thread";
 	}
+	else if (type == OP_TYPE_USERDATA)
+	{
+		str = "userdata";
+	}
 	return str;
 }
 
-Value* XScriptVM::GetTableValue(TableValue* tableData, const Value &keyValue, bool create)
+bool	XScriptVM::GetNextKey(TableValue* tableData, const Value &keyValue, Value& nextKey, Value& nextValue)
+{
+	XInt index = FindKeyIndex(tableData, keyValue);
+	if (index < -1)
+		return false;
+	index++;
+
+	if (index < tableData->mArraySize)
+	{
+		XSetIntValue(&nextKey, index);
+		nextValue = tableData->mArrayData[index];
+		return true;
+	}
+	else
+	{
+		index -= tableData->mArraySize;
+		while (index < tableData->mNodeCapacity)
+		{
+			if (!IsValueNil(&tableData->mNodeData[index].key.keyVal))
+			{
+				nextKey = tableData->mNodeData[index].key.keyVal;
+				nextValue = tableData->mNodeData[index].value;
+				return true;
+			}
+			else
+			{
+				index++;
+			}
+		}
+
+		return false;
+	
+	}
+}
+
+XInt	XScriptVM::FindKeyIndex(TableValue* tableData, const Value &keyValue)
+{
+	if (IsValueNil(&keyValue))
+		return -1;
+
+	if (keyValue.type == OP_TYPE_INT && keyValue.iIntValue >= 0 && keyValue.iIntValue < tableData->mArraySize)
+	{
+		return keyValue.iIntValue;
+	}
+	else
+	{
+		bool found = false;
+		if (tableData->mNodeCapacity > 0)
+		{
+			int hashPos = 0;
+			GetHashPos(hashPos, tableData, &keyValue);
+			TableNode* tableNode = &tableData->mNodeData[hashPos];
+			while (tableNode != NULL)
+			{
+				if (isValueEqual(tableNode->key.keyVal, keyValue))
+				{
+					return tableNode - tableData->mNodeData + tableData->mArraySize;
+				}
+				tableNode = tableNode->key.next;
+			}
+
+		}
+	}
+
+	ExecError("invalid key for next");
+	return -2;
+
+}
+
+void	XScriptVM::SetTableValue(TableValue* tableData, const Value &keyValue, const Value& value)
+{
+	if (IsValueNil(&keyValue))
+		return;
+
+	if (keyValue.type == OP_TYPE_INT && keyValue.iIntValue >= 0 && keyValue.iIntValue < tableData->mArraySize)
+	{
+		tableData->mArrayData[keyValue.iIntValue] = value;
+	}
+	else
+	{
+		bool found = false;
+		if (tableData->mNodeCapacity > 0)
+		{
+			int hashPos = 0;
+			GetHashPos(hashPos, tableData, &keyValue);
+			TableNode* tableNode = &tableData->mNodeData[hashPos];
+			while (tableNode != NULL)
+			{
+				if (isValueEqual(tableNode->key.keyVal, keyValue))
+				{
+					tableNode->value = value;
+					found = true;
+					break;
+				}
+				tableNode = tableNode->key.next;
+			}
+
+		}
+
+		if (!found)
+			NewTableKey(tableData, &keyValue)->value = value;
+	}
+}
+
+Value*	XScriptVM::GetTableValueRef(TableValue* tableData, const Value &keyValue)
 {
 	if (keyValue.type == OP_TYPE_INT && keyValue.iIntValue >= 0 && keyValue.iIntValue < tableData->mArraySize)
 	{
@@ -1679,14 +1828,12 @@ Value* XScriptVM::GetTableValue(TableValue* tableData, const Value &keyValue, bo
 	}
 	else if (keyValue.type == OP_TYPE_NIL)
 	{
-		return mNilValue;
+		return NULL;
 	}
 	else
 	{
-		
 		if (tableData->mNodeCapacity > 0)
 		{
-			
 			int hashPos = 0;
 			GetHashPos(hashPos, tableData, &keyValue);
 			TableNode* tableNode = &tableData->mNodeData[hashPos];
@@ -1698,18 +1845,23 @@ Value* XScriptVM::GetTableValue(TableValue* tableData, const Value &keyValue, bo
 				}
 				tableNode = tableNode->key.next;
 			}
-			
+
 		}
-		
-		if (create)
-		{
-			return &NewTableKey(tableData, &keyValue)->value;
-		}
-		else
-		{
-			return NULL;
-		}
+
+		return NULL;
 	}
+}
+
+bool XScriptVM::getTableValue(TableValue* tableData, const Value &keyValue, Value& resultValue)
+{
+	Value* ref = GetTableValueRef(tableData, keyValue);
+	if (ref != NULL)
+	{
+		resultValue = *ref;
+		return true;
+	}
+
+	return false;
 }
 
 TableValue*		XScriptVM::CreateTable()
@@ -1735,6 +1887,22 @@ Function*		XScriptVM::CreateCFunction(int numUpvals)
 	table->funcUnion.cFunc.mNumUpVal = numUpvals;
 	table->funcUnion.cFunc.mUpVal = new Value[numUpvals];
 	return table;
+}
+
+
+UserData*		XScriptVM::CreateUserData(int size)
+{
+	if (size < 1)
+		size = 1;
+	int realSize = sizeof(UserData) + size - 1;
+	UserData* userData = (UserData*)malloc(realSize);
+	userData->mSize = size;
+	userData->mMetaTable = NULL;
+	GC(userData)->next = mRootCG;
+	mRootCG = GC(userData);
+	GC(userData)->type = OP_TYPE_USERDATA;
+	GC(userData)->marked = MS_White;
+	return userData;
 }
 
 Function*		XScriptVM::CreateFunction()
@@ -1772,7 +1940,15 @@ void	XScriptVM::RegisterHostLib(const char* libName, std::vector<HostFunction>& 
 {
 	int index = RegisterGlobalValue(libName);
 	TABLE table = newTable();
-	for (int i = 0; i < hostFuncVec.size(); i++)
+	CreateFunctionTable(hostFuncVec, table);
+
+
+	setGloablStackValue(index, ConstructValue(table));
+}
+
+void XScriptVM::CreateFunctionTable(const std::vector<HostFunction> &hostFuncVec, TABLE table)
+{
+	for (int i = 0; i < (int)hostFuncVec.size(); i++)
 	{
 		HostFunction hostFunc = hostFuncVec[i];
 		Function* f = CreateFunction();
@@ -1784,15 +1960,12 @@ void	XScriptVM::RegisterHostLib(const char* libName, std::vector<HostFunction>& 
 
 		setTableValue(table, ConstructValue(hostFunc.funcName.c_str()), fValue);
 	}
-	
-
-	setGloablStackValue(index, ConstructValue(table));
 }
 
 void	XScriptVM::MarkProto(FuncState* func)
 {
 	GC_SetBlack(func);
-	for (int i = 0; i < func->m_subFuncVec.size(); i++)
+	for (int i = 0; i < (int)func->m_subFuncVec.size(); i++)
 	{
 		MarkProto(func->m_subFuncVec[i]);
 	}
@@ -1803,43 +1976,43 @@ void	XScriptVM::MarkValue(Value* value)
 	switch (value->type)
 	{
 	case OP_TYPE_TABLE:
-		{
-			MarkTable(value->tableData);
-		}
-		break;
+	{
+		MarkTable(value->tableData);
+	}
+	break;
 	case OP_TYPE_FUNC:
+	{
+		GC_SetBlack(value->func);
+		if (!value->func->isCFunc)
 		{
-			GC_SetBlack(value->func);
-			if (!value->func->isCFunc)
-			{
-				MarkProto(value->func->funcUnion.luaFunc.proto);
+			MarkProto(value->func->funcUnion.luaFunc.proto);
 
-				for (int i = 0; i < value->func->funcUnion.luaFunc.mNumUpVals; i++)
-				{
-					GC_SetBlack(value->func->funcUnion.luaFunc.mUpVals[i]);
-				}
-			}
-			else
+			for (int i = 0; i < value->func->funcUnion.luaFunc.mNumUpVals; i++)
 			{
-				for (int i = 0; i < value->func->funcUnion.cFunc.mNumUpVal; i++)
-				{
-					MarkValue(&value->func->funcUnion.cFunc.mUpVal[i]);
-				}
+				GC_SetBlack(value->func->funcUnion.luaFunc.mUpVals[i]);
 			}
-			
-			break;
 		}
-	case OP_TYPE_THREAD:
+		else
 		{
-			GC_SetBlack(value->threadData);
-			for (int i = MAX_GLOBAL_DATASIZE; i < value->threadData->mTopIndex; i++)
+			for (int i = 0; i < value->func->funcUnion.cFunc.mNumUpVal; i++)
 			{
-				MarkValue(&value->threadData->mStackElements[i]);
+				MarkValue(&value->func->funcUnion.cFunc.mUpVal[i]);
 			}
-
-			GC_SetBlack(value->threadData->mStartFunction);
 		}
+
 		break;
+	}
+	case OP_TYPE_THREAD:
+	{
+		GC_SetBlack(value->threadData);
+		for (int i = MAX_GLOBAL_DATASIZE; i < value->threadData->mTopIndex; i++)
+		{
+			MarkValue(&value->threadData->mStackElements[i]);
+		}
+
+		GC_SetBlack(value->threadData->mStartFunction);
+	}
+	break;
 	}
 }
 
@@ -1891,7 +2064,7 @@ void	XScriptVM::FreeObject(CGObject* obj)
 		TableValue* table = (TableValue*)obj;;
 		if (table->mArrayData != NULL)
 			delete[] table->mArrayData;
-		
+
 		if (table->mNodeData != NULL)
 			delete[]table->mNodeData;
 	}
@@ -1928,8 +2101,8 @@ void	XScriptVM::FreeObject(CGObject* obj)
 	{
 		XScriptState* xscriptState = (XScriptState*)obj;
 
-		delete []xscriptState->mStackElements;
-		delete []xscriptState->mCallInfoBase;
+		delete[]xscriptState->mStackElements;
+		delete[]xscriptState->mCallInfoBase;
 
 	}
 	break;
@@ -1969,7 +2142,7 @@ void	XScriptVM::SweepObjects()
 			{
 				mRootCG = p;
 			}
-			
+
 			gcObj = p;
 		}
 	}
@@ -1981,12 +2154,12 @@ void	XScriptVM::GarbageCollect()
 	SweepObjects();
 }
 
-bool	XScriptVM::CastStrToFloat(const char *s, float *result) {
+bool	XScriptVM::CastStrToFloat(const char *s, XFloat *result) {
 	char *endptr;
-	*result = strtod(s, &endptr);
+	*result = (XFloat)strtod(s, &endptr);
 	if (endptr == s) return 0;  /* conversion failed */
 	if (*endptr == 'x' || *endptr == 'X')  /* maybe an hexadecimal constant? */
-		*result = (float)(strtoul(s, &endptr, 16));
+		*result = (XFloat)(strtoul(s, &endptr, 16));
 	if (*endptr == '\0')
 		return 1;  /* most common case */
 	while (isspace(*endptr))
@@ -2019,7 +2192,7 @@ Value*	XScriptVM::GetStackValueByName(int stackIndex, const std::string& name)
 		if (funcState != NULL)
 		{
 			int varIndex = -1;
-			for (int i = 0; i < funcState->m_localVarVec.size(); i++)
+			for (int i = 0; i < (int)funcState->m_localVarVec.size(); i++)
 			{
 				if (funcState->m_localVarVec[i] == name)
 				{
@@ -2042,14 +2215,13 @@ Value*	XScriptVM::GetStackValueByName(int stackIndex, const std::string& name)
 		{
 			return NULL;
 		}
-	
+
 	}
 	else
 	{
 		return NULL;
 	}
 }
-
 Value*	XScriptVM::GetStackValueByIndex(int stackIndex, int varIndex, std::string& name)
 {
 	int callIndex = mCurXScriptState->mCurCallIndex - stackIndex;
@@ -2064,21 +2236,21 @@ Value*	XScriptVM::GetStackValueByIndex(int stackIndex, int varIndex, std::string
 			Value value = getStackValue(varArgStackIndex);
 			if (value.type == OP_TYPE_TABLE)
 			{
-				int numVarArgs = -1;
+				XInt numVarArgs = -1;
 				if (getTableValue(value.tableData, "n", numVarArgs))
 				{
 					if (varIndex < funcState->localParamNum - 1 + numVarArgs)
 					{
 						hasFound = true;
-						int argsIndex = varIndex + 1 - funcState->localParamNum;
+						XInt argsIndex = varIndex + 1 - funcState->localParamNum;
 
 						name = funcState->m_localVarVec[funcState->localParamNum - 1];
-						
-						return GetTableValue(value.tableData, ConstructValue(argsIndex), false);
+
+						return GetTableValueRef(value.tableData, ConstructValue(argsIndex));
 					}
 					else
 					{
-						varIndex = varIndex - numVarArgs + 1;
+						varIndex = varIndex - (int)numVarArgs + 1;
 					}
 				}
 			}
@@ -2086,7 +2258,7 @@ Value*	XScriptVM::GetStackValueByIndex(int stackIndex, int varIndex, std::string
 
 		if (!hasFound)
 		{
-			if (varIndex>= 0 && varIndex < funcState->stackFrameSize)
+			if (varIndex >= 0 && varIndex < funcState->stackFrameSize)
 			{
 				int stackPos = mCurXScriptState->mCallInfoBase[callIndex].mFrameIndex + varIndex - funcState->stackFrameSize;
 				name = funcState->m_localVarVec[varIndex];
@@ -2094,15 +2266,15 @@ Value*	XScriptVM::GetStackValueByIndex(int stackIndex, int varIndex, std::string
 			}
 			else
 			{
-				return NULL;
+				return false;
 			}
 
 		}
 	}
-	else
-	{
-		return NULL;
-	}
+
+	
+	return NULL;
+	
 }
 
 void	XScriptVM::CallHookFunction(int event, int curLine)
@@ -2110,8 +2282,8 @@ void	XScriptVM::CallHookFunction(int event, int curLine)
 	Value* pValue = GetGlobalValue("_hook");
 	if (pValue != NULL && pValue->type == OP_TYPE_FUNC)
 	{
-		push(ConstructValue(event));
-		push(ConstructValue(curLine));
+		push(ConstructValue((XInt)event));
+		push(ConstructValue((XInt)curLine));
 		push(ConstructValue(mCurXScriptState->mCurFunctionState->sourceFileName.c_str()));
 
 		Instr* savedInstr = mCurInstr;
@@ -2141,8 +2313,8 @@ void	XScriptVM::RehashTable(TABLE table)
 			node->value = oldTableNode[i].value;
 		}
 	}
-	
-	delete []oldTableNode;
+
+	delete[]oldTableNode;
 }
 
 TableNode*	XScriptVM::NewTableKey(TABLE table, const Value* key)
@@ -2154,7 +2326,7 @@ TableNode*	XScriptVM::NewTableKey(TABLE table, const Value* key)
 
 		table->lastFreePos = table->mNodeCapacity - 1;
 	}
-	
+
 	int hashPos = 0;
 	GetHashPos(hashPos, table, key);
 	TableNode* mainPos = &table->mNodeData[hashPos];
@@ -2208,7 +2380,7 @@ TableNode*	XScriptVM::NewTableKey(TABLE table, const Value* key)
 				CopyValue(&freeNode->value, mainPos->value);
 				CopyValue(&freeNode->key.keyVal, mainPos->key.keyVal);
 				freeNode->key.next = mainPos->key.next;
-				
+
 				mainPos->key.next = NULL;
 				CopyValue(&mainPos->key.keyVal, *key);
 
@@ -2218,28 +2390,28 @@ TableNode*	XScriptVM::NewTableKey(TABLE table, const Value* key)
 
 		}
 	}
-	
-	
+
+
 }
 
-Value*	XScriptVM::GetEnvValue(int index)
+Value	XScriptVM::GetEnvValue(int index)
 {
 	int globalIndex = GloablVarStackIndex(index);
 	Value key = ConstructValue((char*)m_stringVec[GloablVarNameIndex(index)].c_str());
-	Value* pValue = GetTableValue(mEnvTable, key, false);
-	if (pValue != NULL)
+	Value pValue ;
+	if (getTableValue(mEnvTable, key, pValue))
 		return pValue;
 
-	return &mGlobalStackElements[globalIndex];
-	
+	return mGlobalStackElements[globalIndex];
+
 }
 
-unsigned int APHash(const char *str)
+unsigned int APHash(const char *str, int len)
 {
 	unsigned int hash = 0;
 	int i;
 
-	for (i = 0; *str != 0; i++)
+	for (i = 0; i < len && i < 32; i++)
 	{
 		if ((i & 1) == 0)
 		{
@@ -2254,10 +2426,9 @@ unsigned int APHash(const char *str)
 	return (hash & 0x7FFFFFFF);
 }
 
-XString*	XScriptVM::NewXString(const char* str)
+XString*		XScriptVM::NewXString(const char* str, int len)
 {
-	int len = strlen(str);
-	unsigned int hash = APHash(str);
+	unsigned int hash = APHash(str, len);
 
 	int hashIndex = hash % mStringHashSize;
 	XString* nextStr = mStringHashTable[hashIndex];
@@ -2270,8 +2441,8 @@ XString*	XScriptVM::NewXString(const char* str)
 
 		nextStr = (XString*)nextStr->next;
 	}
-	
-	int strSize = sizeof(XString) + len * sizeof(char);
+
+	int strSize = sizeof(XString) + (len + 1) * sizeof(char);
 	char* buffer = new char[strSize];
 	XString* newStr = (XString*)buffer;
 
@@ -2279,6 +2450,7 @@ XString*	XScriptVM::NewXString(const char* str)
 	newStr->len = len;
 	memcpy(&newStr->value, str, len);
 	((char*)(&newStr->value))[len] = 0;
+	((char*)(&newStr->value))[len + 1] = 0;
 	GC_SetWhite(newStr);
 	newStr->type = OP_TYPE_STRING;
 
@@ -2292,6 +2464,14 @@ XString*	XScriptVM::NewXString(const char* str)
 	}
 
 	return newStr;
+}
+
+
+
+XString*	XScriptVM::NewXString(const char* str)
+{
+	int len = strlen(str);
+	return NewXString(str, len);
 }
 
 void XScriptVM::ResizeHashTable()
@@ -2491,6 +2671,59 @@ void	XScriptVM::GrowStack(XScriptState* xsState, int growSize)
 
 	xsState->mStackSize = newSize;
 	xsState->mStackElements = newStackElem;
+}
+
+bool	XScriptVM::CalByTagMethod(Value* result, Value* value1, Value* value2, MetaMethodType mmtType)
+{
+	int numParam = 2;
+	Value tagMethod;
+	if (mmtType == MMT_Add || mmtType == MMT_Sub || mmtType == MMT_Mul || mmtType == MMT_Div 
+		|| mmtType == MMT_Mod || mmtType == MMT_Pow || mmtType == MMT_Concat)
+	{
+		tagMethod = GetMetaMethod(value1, mmtType);
+	}
+	else if (mmtType == NMT_Less || mmtType == NMT_LessEqual ||
+		mmtType == NMT_Great || mmtType == NMT_GreatEqual ||
+		mmtType == MMT_Equal)
+	{
+		if (mmtType == NMT_Great || mmtType == NMT_GreatEqual)
+		{
+			Value* tmp = value1;
+			value1 = value2;
+			value2 = tmp;
+			if (mmtType == NMT_Great)
+				mmtType = NMT_Less;
+			else
+				mmtType = NMT_LessEqual;
+		}
+
+		Value tagMethod1 = GetMetaMethod(value1, mmtType);
+		Value tagMethod2 = GetMetaMethod(value2, mmtType);
+
+		if (!IsValueNil(&tagMethod1) && !IsValueNil(&tagMethod2) && isValueEqual(tagMethod1, tagMethod2))
+		{
+			tagMethod = tagMethod1;
+		}
+	}
+	else if (mmtType == MMT_Neg || mmtType == MMT_Len)
+	{
+		tagMethod = GetMetaMethod(value1, mmtType);
+		numParam = 1;
+	}
+	
+
+	if (!IsValueFunction(&tagMethod))
+		return false;
+
+	push(*value1);
+	if (numParam > 1)
+		push(*value2);
+
+	Instr* savedInstr = mCurInstr;
+	CallFunction(tagMethod.func, numParam);
+	mCurInstr = savedInstr;
+	*result = mRegValue[0];
+	return true;
 }
 
 

@@ -2,7 +2,7 @@
 #define _HOST_SYSTEM_API_H
 #include <string>
 class XScriptVM;
-class Value;
+struct Value;
 std::string  getValueDescString(XScriptVM* vm, const Value& value);
 
 void init_base_lib();
@@ -17,6 +17,7 @@ void host_ipairs(XScriptVM* vm);
 void host_gc(XScriptVM* vm);
 void host_print(XScriptVM* vm);
 void host_prints(XScriptVM* vm);
+
 
 void host_GetCurrentTime(XScriptVM* vm);
 void host_require(XScriptVM* vm);
@@ -34,5 +35,13 @@ void host_coStatus(XScriptVM* vm);
 void host_coWrapCreate(XScriptVM* vm);
 
 void host_coWrapResume(XScriptVM* vm);
+void host_setmetadata(XScriptVM* vm);
+void host_getmetadata(XScriptVM* vm);
 
+void host_settable(XScriptVM* vm);
+void host_gettable(XScriptVM* vm);
+
+void xstruct_pack(XScriptVM* vm);
+void xstruct_unpack(XScriptVM* vm);
+void xstruct_calFormatSize(XScriptVM* vm);
 #endif

@@ -1,376 +1,5 @@
 #pragma once 
-#include "Commonfunc.h"
-#include <AccCtrl.h>
-#include <map>
-#include "MacroDefs.h"
-
-
-#define		MAX_GLOBAL_DATASIZE				1024
-#define		MAX_STACK_SIZE					0xffff
-#define		MIN_STACK_SIZE					256
-#define		MAX_LUA_CALL_STACK_DEPTH		1024
-
-enum 
-{
-	MS_White = 1 << 0,
-	MS_Black = 1 << 1,
-	MS_Gray = 1 << 2,
-	MS_Fixed = 1 << 3,
-};
-
-enum HookEvent
-{
-	HE_HookLine = 0,
-	HE_HookCall,
-	HE_HookRet,
-};
-
-#define	 MASK_HOOKLINE	(1 << 0)
-#define	 MASK_HOOKCALL	(1 << 1)
-#define	 MASK_HOOKRET	(1 << 2)
-
-
-
-#define  resoveStackIndex(index)		(index < 0 ? (mCurXScriptState->mFrameIndex + index) : index)
-
-#define	 GC(o)							((CGObject*)o)
-#define	 GC_SetBlack(o)					((CGObject*)o)->marked = MS_Black;
-#define	 GC_SetWhite(o)					((CGObject*)o)->marked = MS_White;
-#define	 GC_SetFixed(o)					((CGObject*)o)->marked = MS_Fixed;
-
-#define  GCCommonHeader					CGObject* next;unsigned char type;unsigned char marked;		
-
-
-#define	 IsValueCFunction(o)					((o)->type == OP_TYPE_FUNC && (o)->func->isCFunc)
-#define	 IsValueLuaFunction(o)					((o)->type == OP_TYPE_FUNC && !(o)->func->isCFunc)
-
-#define	 IsValueThread(o)					((o)->type == OP_TYPE_THREAD)
-#define	 IsValueFunction(o)					((o)->type == OP_TYPE_FUNC)
-#define	 IsValueString(o)					((o)->type == OP_TYPE_STRING)
-#define	 IsValueNumber(o)					((o)->type == OP_TYPE_INT || (o)->type == OP_TYPE_FLOAT)
-
-#define	 IsValueNil(o)						((o)->type == OP_TYPE_NIL)
-#define	 IsValueInt(o)						((o)->type == OP_TYPE_INT)
-#define	 IsValueFloat(o)					((o)->type == OP_TYPE_FLOAT)
-#define	 IsValueTable(o)					((o)->type == OP_TYPE_TABLE)
-
-#define	 IsValueUserData(o)					(((o)->type >> 16) == OP_USERTYPE)
-
-#define	 MakeGloablIndex(stackIndex, nameIndex)	((stackIndex << 16) + nameIndex )
-#define	 GloablVarStackIndex(o)						(o >> 16)
-#define	 GloablVarNameIndex(o)						(o & 0xffff)
-
-
-#define  EXEC_OP_ERROR(op, op1, op2)		ExecError("attempt to perform %s operator on %s and %s", #op, GetOperatorName(op1).c_str(), GetOperatorName(op2).c_str());
-
-#define  ExecArgsCheck(cond,op, expect)	\
-		if (!(cond))	\
-			ExecError("Bad argument #%d to \"%s\"(%s)", op, GetOperatorName(op).c_str(), (expect));
-
-#define  ResoveStackIndexWithEnv(index)		( index < 0 ? &mCurXScriptState->mStackElements[(mCurXScriptState->mFrameIndex + index)] : (( mEnvTable != NULL ) ? GetEnvValue(index) :  &mGlobalStackElements[GloablVarStackIndex(index)]))
-
-#define		stringRawValue(o)				((const char*)&((o)->stringValue->value)) //((const char*)(&((o)->stringValue)).value))
-#define		stringRawLen(o)					((o)->stringValue->len)
-
-#define		CheckStrBuffer(size)		\
-		if (mStrBufferSize < size)	\
-		{	\
-			delete []mStrBuffer;	\
-			mStrBufferSize = size;	\
-			mStrBuffer = new char[mStrBufferSize];	\
-		}	
-
-
-
-class FuncState;
-
-class CSymbolTable;
-class CMidCode;
-
-class Function;
-struct ValuePair;
-struct Value;
-class TableValue;
-struct TableNode;
-class XScriptState;
-enum CoroutineStatus
-{
-	CS_Normal,
-	CS_Running,
-	CS_Suspend,
-	CS_Dead,
-};
-
-class CGObject
-{
-public:
-	GCCommonHeader;
-};
-
-struct XString
-{
-	GCCommonHeader;
-
-	unsigned int	hash;
-	int				len;
-	char			value[1];
-};
-
-
-struct Value
-{
-	int type;
-	union
-	{
-		int				iIntValue;
-		float			fFloatValue;
-		int				iFunctionValue;
-		int				iInstrIndex;
-		int				iRegIndex;
-		XString*		stringValue;
-		Function*		func;
-		TableValue*		tableData;
-		void*			userData;
-		XScriptState*	threadData;
-	};
-
-	Value()
-	{
-		type = -1;
-		userData = NULL;
-		iIntValue = 0;
-	}
-};
-
-
-struct TableKey
-{
-	Value		keyVal;
-	TableNode*	next;
-
-	TableKey()
-		: next(NULL)
-	{
-
-	}
-};
-
-struct TableNode
-{
-	TableKey	key;
-	Value		value;
-};
-
-class TableValue
-{
-public:
-	GCCommonHeader;
-	int			mArraySize;
-	Value*		mArrayData;
-	//ValuePair*	nextPair;
-
-
-	int			mNodeCapacity;
-	TableNode*	mNodeData;
-	int			lastFreePos;
-	TableValue()
-		: mArraySize(0)
-		, mArrayData(NULL)
-	//	, nextPair(NULL)
-		, mNodeData(NULL)
-		, mNodeCapacity(0)
-		, lastFreePos(0)
-	{
-
-	}
-
-};
-
-
-
-class UpValue
-{
-public:
-	GCCommonHeader;
-
-	Value*		pValue;
-	UpValue*	nextValue;
-	Value		value;
-	UpValue()
-		: nextValue(NULL)
-		, pValue(NULL)
-	{
-		
-		
-	}
-	
-};
-
-
-class HostFunction
-{
-public:
-	std::string funcName;
-	int			numParams;
-	HOST_FUNC	pfnAddr;
-
-	HostFunction(const std::string&	 _funcName, int _numParam, HOST_FUNC _pfn)
-		: funcName(_funcName)
-		, pfnAddr(_pfn)
-		, numParams(_numParam)
-	{
-
-	}
-};
-
-class CFunction
-{
-public:
-	Value*				mUpVal;
-	int					mNumUpVal;
-	HOST_FUNC			pfnAddr;
-
-};
-
-class LuaFunction
-{
-public:
-	FuncState*					proto;
-	UpValue**					mUpVals;
-	int							mNumUpVals;
-};
-
-typedef union FuncUnion
-{
-	CFunction		cFunc;
-	LuaFunction		luaFunc;
-}FuncUnion;
-
-
-class Function
-{
-public:
-	GCCommonHeader;
-
-	bool				isCFunc;
-	FuncUnion			funcUnion;
-	Function()
-	{
-		isCFunc = false;
-	}
-};
-
-
-struct RuntimeOperator
-{
-	int type;
-	union
-	{
-		int			iIntValue;
-		float		fFloatValue;
-		int			iStackIndex;
-		int			iFunctionValue;
-		int			iInstrIndex;
-		XString*	stringValue;
-		int			iRegIndex;
-	};
-	int				tableIndexType;
-	union    
-	{
-		int			iIntTableValue;
-		float		fFloatTableValue;
-		XString*	strTableValue;
-	};
-
-	int		varNameIndex;
-
-	RuntimeOperator()
-	{
-		varNameIndex = -1;
-		type = -1;
-		tableIndexType = 0;
-		iIntTableValue = 0;
-	}
-};
-
-
-
-struct ValuePair
-{
-	Value key;
-	Value value;
-	ValuePair* nextPair;
-	ValuePair()
-	{
-		nextPair = NULL;
-	}
-};
-
-struct Instr
-{
-	int opType;
-	int numOpCount;
-	RuntimeOperator* mOpList;
-	int lineIndex;
-};
-
-class InstrStream
-{
-public:
-	int numInstr;
-	Instr* instrs;
-	bool mHasJump;
-};
-
-
-
-
-class FuncState
-{
-public:
-	GCCommonHeader;
-
-	int	iIndex;
-	InstrStream mInstrStream;
-	int localDataSize;
-	int localParamNum;
-	int stackFrameSize;
-	bool hasVarArgs;
-	std::string funcName;
-	std::string	sourceFileName;
-	std::vector<FuncState*>	m_subFuncVec;
-	FuncState*				m_parentFunc;
-	std::vector<UpValueST>	m_upValueVec;
-
-	std::vector<std::string>		m_localVarVec;
-	FuncState()
-	{
-		iIndex = -1;
-		localDataSize = 0;
-		localParamNum = 0;
-		stackFrameSize = 0;
-		hasVarArgs = false;
-		m_parentFunc = NULL;
-	}
-};
-
-class UserClassData
-{
-public:
-	std::string					mClassName;
-	std::string					mBassClassName;
-	std::vector<HostFunction>	mHostFunctions;
-};
-
-class CallInfo
-{
-public:
-	FuncState*		mCurFunctionState;
-	Function*		mCurFunction;
-	int				mInstrIndex;
-	int				mCurLine;
-	int				mFrameIndex;
-};
+#include "VMDefs.h"
 
 class XScriptState
 {
@@ -408,7 +37,7 @@ public:
 	void			ConvertMidCodeToInstr(CSymbolTable &symbolTable, CMidCode &midCode, const std::string& fileName, std::map<int, FuncState*>& funcMap);
 
 	void			RegisterGlobalValues(CSymbolTable &symbolTable);
-	Value*			GetEnvValue(int index);
+	Value			GetEnvValue(int index);
 	
 	FuncState*		CompileString(const std::string& code);
 	void			SetEnvTable(TableValue* envTable) { mEnvTable = envTable; }
@@ -423,38 +52,46 @@ public:
 	const Value&    getStackValue(int index);
 	Value*		    getStackValueRef(int index);
 
-	Value			ConstructValue(int value);
-	Value			ConstructValue(float value);
+	Value			ConstructValue(XInt value);
+	Value			ConstructValue(XFloat value);
+
 	Value			ConstructValue(const char* value);
 	Value			ConstructValue(XScriptState* state);
 	Value			ConstructValue(XString* str);
 	Value			ConstructValue(TABLE value);
 	Value			ConstructValue(FuncState* mainFunc);
 
-	TABLE			newTable();
-	bool			getTableValue(TABLE table, char* key, int& value);
-	bool			getTableValue(TABLE table, char* key, float& value);
-	bool			getTableValue(TABLE table, char* key, char* &value);
-	bool			getTableValue(TABLE table, char* key, TABLE& value);
-	bool			getTableValue(TABLE table, int key, int& value);
-	bool			getTableValue(TABLE table, int key, float& value);
-	bool			getTableValue(TABLE table, int key, char* &value);
-	bool			getTableValue(TABLE table, int key, TABLE& value);
-	bool			getTableValue(TABLE table, const Value& keyValue, Value& value);
-	void			setTableValue(TABLE table, char* key, int value);
-	void			setTableValue(TABLE table, char* key, float value);
-	void			setTableValue(TABLE table, char* key, char* str);
-	void			setTableValue(TABLE table, char* key, TABLE t);
-	void			setTableValue(TABLE table, int key, int value);
-	void			setTableValue(TABLE table, int key, float value);
-	void			setTableValue(TABLE table, int key, char* str);
-	void			setTableValue(TABLE table, int key, TABLE t);
+	TABLE			newTable(int arraySize = 0);
+	bool			getTableValue(TABLE table, const  char* key, XInt& value);
+	bool			getTableValue(TABLE table, const char* key, XFloat& value);
+	bool			getTableValue(TABLE table, const char* key, char* &value);
+	bool			getTableValue(TABLE table, const  char* key, TABLE& value);
+
+	bool			getTableValue(TABLE table, XInt key, XInt& value);
+	bool			getTableValue(TABLE table, XInt key, XFloat& value);
+	bool			getTableValue(TABLE table, XInt key, char* &value);
+	bool			getTableValue(TABLE table, XInt key, TABLE& value);
+
+	void			setTableValue(TABLE table, const char* key, XInt value);
+	void			setTableValue(TABLE table, const char* key, XFloat value);
+	void			setTableValue(TABLE table, const char* key, const char* str);
+	void			setTableValue(TABLE table, const char* key, TABLE t);
+
+	void			setTableValue(TABLE table, XInt key, XInt value);
+	void			setTableValue(TABLE table, XInt key, XFloat value);
+	void			setTableValue(TABLE table, XInt key, const char* str);
+	void			setTableValue(TABLE table, XInt key, TABLE t);
 	void			setTableValue(TABLE table, const Value& key, const Value& value);
 
+
+	bool			getTableValue(TableValue* table, const Value &keyValue, Value& resultValue);
+	Value*			GetTableValueRef(TableValue* tableDate, const Value &keyValue);
+
+
 	void			resetScriptState(XScriptState* state);
-	void			registerHostApi(const char* apiName, int numParams, HOST_FUNC pfnAddr);
+	void			RegisterHostApi(const char* apiName, HOST_FUNC pfnAddr);
 	
-	bool			RegisterUserClass(const char* className, const std::string& bassClassName, const std::vector<HostFunction>& funcVec);
+	void			RegisterUserClass(const char* className, const char* bassClassName, const std::vector<HostFunction>& funcVec);
 
 	int				getNumParam();
 	int				getParamType(int paramIndex);
@@ -464,8 +101,8 @@ public:
 
 	Value*			getReturnRegValue(int index);
 
-	bool			getParamAsInt(int paramIndex, int& value);
-	bool			getParamAsFloat(int paramIndex, float& value);
+	bool			getParamAsInt(int paramIndex, XInt& value);
+	bool			getParamAsFloat(int paramIndex, XFloat& value);
 	bool			getParamAsString(int paramIndex, char* &value);
 	void*			getParamAsObj(int paramIndex, char* userType);
 	bool			getParamAsTable(int paramIndex, TABLE& table);
@@ -476,27 +113,20 @@ public:
 	void			setReturnAsTable(const TABLE& table, int regIndex = 0);
 	void			setReturnAsValue(const Value& table, int regIndex = 0);
 
-	void			setReturnAsInt(int iResult, int regIndex = 0);
-	void			setReturnAsfloat(float fResult, int regIndex = 0);
+	void			setReturnAsInt(XInt iResult, int regIndex = 0);
+	void			setReturnAsfloat(XFloat fResult, int regIndex = 0);
 	void			setReturnAsStr(const char* strResult, int regIndex = 0);
 
-	void			setReturnAsUserData(const std::string& className, void* pThis, int regIndex = 0);
+	void			setReturnAsUserData(const char* className, void* pThis, int regIndex = 0);
 
 	void			SetHookMask(int mask) { mHookMask = mask; }
 
 	void			beginCall();
 	void			endCall();
 
-	bool			call(const char* funcName);
-
-	void			pushIntParam(int iValue);
-	void			pushFloatParam(float fValue);
+	void			pushIntParam(XInt iValue);
+	void			pushFloatParam(XFloat fValue);
 	void			pushStrParam(const char* strValue);
-
-	int				getReturnType(int regIndex = 0);
-	int				getReturnAsInt(int regIndex = 0);
-	float			getReturnAsFloat(int regIndex = 0);
-	char*			getReturnAsStr(int regIndex = 0);
 
 	const			std::string&	GetString(int index) { return index < (int)m_stringVec.size() ? m_stringVec[index] : mEmptyStr; }
 
@@ -505,6 +135,9 @@ public:
 	int				RegisterGlobalValue(const std::string& name);
 
 	void			RegisterHostLib(const char* libName, std::vector<HostFunction>& hostFuncs);
+
+	void			CreateFunctionTable(const std::vector<HostFunction> &hostFuncVec, TABLE table);
+
 	void			GarbageCollect();
 	void			RequireMoudle(const char* moudleName);
 	
@@ -534,12 +167,26 @@ public:
 	void			GrowStack(XScriptState* xsState, int growSize);
 	Function*		CreateCFunction(int numUpvals);
 	Function*		GetCurCFunction() { return mCurXScriptState->mCurrentCFunction; }
+
+
+	bool			CalByTagMethod(Value* result, Value* value1, Value* value2, MetaMethodType mmtType );
+
+	const char*		MetaMetodString(MetaMethodType type);
+
+	Value			GetMetaMethod(Value* value, MetaMethodType type);
+
+	bool			GetNextKey(TableValue* tableData, const Value &keyValue, Value& nextKey, Value& nextValue);
+
+	void			ExecError(const char* errorStr, ...);
+	XString*		NewXString(const char* str);
+	XString*		NewXString(const char* str, int len);
+
 private:
 	std::string		GetOperatorName(RuntimeOperator* op, Value* value);
 
 	std::string		GetOperatorName(int opIndex);
 
-	bool			CastStrToFloat(const char *s, float *result);
+	bool			CastStrToFloat(const char *s, XFloat *result);
 
 	HostFunction*	getClassFuncByName(const std::string & className, const std::string& funcName);
 
@@ -549,103 +196,22 @@ private:
 
 	void			ExecInstr_Concat_To();
 
-	void			ExecInstr_Test_G();
-
-	void			ExecInstr_Test_NE();
-
-	void			ExecInstr_Test_E();
-
 	void			ExecInstr_Logic_Not();
-
-	void			ExecInstr_Test_L();
-
-	void			ExecInstr_Test_GE();
-
-	void			ExecInstr_Test_LE();
 
 	void			ExecInstr_Logic_And();
 
 	void			ExecInstr_Logic_Or();
 
-	void			ExecInstr_SHRTO();
-
-	void			ExecInstr_SHLTO();
-
-	void			ExecInstr_ExpTo();
-
-	void			ExecInstr_MODTO();
-
-	void			ExecInstr_XORTO();
-
-	void			ExecInstr_ORTO();
-
-	void			ExecInstr_AndTO();
-
-	void			ExecInstr_DIVTO();
-
-	void			ExecInstr_MULTO();
-
-	void			ExecInstr_SubTo();
-
-	void			ExecInstr_AddTo();
-
 	void			ExecInstr_JMP();
 
 	void			ExecInstr_Concat();
-
-	bool			ExecInstr_CallClassFunc();
-
-	void			ExecInstr_CallStaticClassFunc();
 
 	void			ExecInstr_RET();
 
 	void			RemoveStackUpVals(int topIndex);
 
-	void			ExecInstr_CALL();
-
-	void			ExecInstr_JLE();
-
-	void			ExecInstr_JL();
-
-	void			ExecInstr_JGE();
-
-	void			ExecInstr_JG();
-
-	void			ExecInstr_JNE();
-
-	void			ExecInstr_JE();
-
-	void			ExecInstr_SHR();
-
-	void			ExecInstr_SHL();
-
-	void			ExecInstr_Not();
-
-	void			ExecInstr_Xor();
-
-	void			ExecInstr_Or();
-
-	void			ExecInstr_And();
-
-	void			ExecInstr_Dec();
-
-	void			ExecInstr_Inc();
-
 	void			ExecInstr_Neg();
-
-	void			ExecInstr_Pow();
-
-	void			ExecInstr_Mod();
-
-	void			ExecInstr_Div();
-
-	void			ExecInstr_Mul();
-
-	void			ExecInstr_Sub();
-
-	void			ExecInstr_Add();
-
-	void			ExecError(const char* errorStr, ...);
+	
 
 	void			CallLuaFunction(Function* func);
 	void			ExecLuaFunction(Function* func);
@@ -655,20 +221,22 @@ private:
 
 	void			CallHostFunc(Function* func, HOST_FUNC pfnAddr, int numParam);
 
-	const Value&	resolveOpValue(int index);
-	Value*			resolveOpPointer(int index);
+	Value			resolveOpValue(int index);
+
+	void			SetOpValue(int index, const Value& value);
 
 	int				resolveOpAsInstrIndex(int index);
-
-	int				castValueToInt(const Value& value);
-	float			castValueTofloat(const Value& value);
 
 	void			pushFrame(int frameSize);
 	void			popFrame(int frameSize);
 
-	Value*			resolveTableValue(RuntimeOperator* value, bool create);
+	Value			resolveTableValue(RuntimeOperator* value);
 
-	Value*			GetTableValue(TableValue* table, const Value &keyValue, bool create);
+	void			resolveSetTableValue(RuntimeOperator* value, const Value &tableVale);
+
+	void			SetTableValue(TableValue* table, const Value &keyValue, const Value& value);
+
+	XInt			FindKeyIndex(TableValue* tableData, const Value &keyValue);
 
 	TableValue*		CreateTable();
 	Function*		CreateFunction();
@@ -687,7 +255,8 @@ private:
 	TableNode*		NewTableKey(TABLE table, const Value* key);
 	void			RehashTable(TABLE table);
 
-	XString*		NewXString(const char* str);
+
+	UserData*		CreateUserData( int size );
 
 	void			ResizeHashTable();
 private:
@@ -719,6 +288,7 @@ private:
 	int										mStrBufferSize;
 	TABLE									mEnvTable;
 	TABLE									mModuleTable;
+	TABLE									mMetaTable;
 	int										mHookMask;
 	bool									mAllowHook;
 	int										mNumHostFuncParam;
@@ -751,39 +321,65 @@ inline int 	XScriptVM::AddString(const std::string& funcName)
 
 
 
-__forceinline const Value&   XScriptVM::resolveOpValue(int index)
-{
-	return *resolveOpPointer(index);
-}
-
-
-inline Value*   XScriptVM::resolveOpPointer(int index)
+__forceinline Value   XScriptVM::resolveOpValue(int index)
 {
 	//const Instr& instr = mCurFunction->mInstrStream.instrs[mCurFunction->mInstrStream.curInstr];
-	switch(mCurInstr->mOpList[index].type)
+	switch (mCurInstr->mOpList[index].type)
 	{
 	case ROT_Stack_Index:
-		{
-			int stackIndex = mCurInstr->mOpList[index].iStackIndex;
-			return ResoveStackIndexWithEnv(stackIndex);
-		}
+	{
+		int stackIndex = mCurInstr->mOpList[index].iStackIndex;
+		return ResoveStackIndexWithEnv(stackIndex);
+	}
 	case ROT_Table:
 	case ROT_UpValue_Table:
-		{
-			Value* tableValue = resolveTableValue(&mCurInstr->mOpList[index], true);
-			return tableValue;
-		}
+	{
+		return resolveTableValue(&mCurInstr->mOpList[index]);
+	}
 	case ROT_Reg:
-		{
-			return &mRegValue[mCurInstr->mOpList[index].iRegIndex];
-		}
+	{
+		return mRegValue[mCurInstr->mOpList[index].iRegIndex];
+	}
 	case ROT_UpVal_Index:
-		{
-			int stackIndex = mCurInstr->mOpList[index].iStackIndex;
-			return mCurXScriptState->mCurFunction->funcUnion.luaFunc.mUpVals[stackIndex]->pValue;
-		}
+	{
+		int stackIndex = mCurInstr->mOpList[index].iStackIndex;
+		return *mCurXScriptState->mCurFunction->funcUnion.luaFunc.mUpVals[stackIndex]->pValue;
+	}
 	default:
-		return (Value*)(&mCurInstr->mOpList[index]);
+		return *(Value*)(&mCurInstr->mOpList[index]);
+	}
+}
+
+inline void		XScriptVM::SetOpValue(int index, const Value& value)
+{
+	//const Instr& instr = mCurFunction->mInstrStream.instrs[mCurFunction->mInstrStream.curInstr];
+	switch (mCurInstr->mOpList[index].type)
+	{
+	case ROT_Stack_Index:
+	{
+		int stackIndex = mCurInstr->mOpList[index].iStackIndex;
+		Value* pValue = ResoveStackIndex(stackIndex);
+		*pValue = value;
+		break;
+	}
+	case ROT_Table:
+	case ROT_UpValue_Table:
+	{
+		resolveSetTableValue(&mCurInstr->mOpList[index], value);
+		break;
+	}
+	case ROT_Reg:
+	{
+		mRegValue[mCurInstr->mOpList[index].iRegIndex] = value;
+		break;
+	}
+	case ROT_UpVal_Index:
+	{
+		int stackIndex = mCurInstr->mOpList[index].iStackIndex;
+		Value* pValue = mCurXScriptState->mCurFunction->funcUnion.luaFunc.mUpVals[stackIndex]->pValue;
+		*pValue = value;
+		break;
+	}
 	}
 }
 
@@ -793,35 +389,6 @@ inline int     XScriptVM::resolveOpAsInstrIndex(int index)
 	const Value& value = resolveOpValue(index);
 	return value.iInstrIndex;
 
-}
-
-inline int   XScriptVM::castValueToInt(const Value& value)
-{
-	switch (value.type)
-	{
-	case OP_TYPE_INT:
-		return value.iIntValue;
-	case OP_TYPE_FLOAT:
-		return (int)value.fFloatValue;
-	case OP_TYPE_STRING:
-		return atoi(stringRawValue(&value));
-	}
-	return 0;
-}
-
-
-inline float   XScriptVM::castValueTofloat(const Value& value)
-{
-	switch (value.type)
-	{
-	case OP_TYPE_INT:
-		return (float)value.iIntValue;
-	case OP_TYPE_FLOAT:
-		return value.fFloatValue;
-	case OP_TYPE_STRING:
-		return (float)atof(stringRawValue(&value));
-	}
-	return 0;
 }
 
 
@@ -891,7 +458,7 @@ inline void  XScriptVM::endCall()
 	mIsInCallScriptFunc = false;
 }
 
-inline void  XScriptVM::pushIntParam(int iValue)
+inline void  XScriptVM::pushIntParam(XInt iValue)
 {
 	_ASSERT(mIsInCallScriptFunc);
 	if (!mIsInCallScriptFunc)
@@ -900,7 +467,7 @@ inline void  XScriptVM::pushIntParam(int iValue)
 	mNumScriptFuncParams++;
 }
 
-inline void  XScriptVM::pushFloatParam(float fValue)
+inline void  XScriptVM::pushFloatParam(XFloat fValue)
 {
 	_ASSERT(mIsInCallScriptFunc);
 	if (!mIsInCallScriptFunc)
@@ -921,37 +488,6 @@ inline void  XScriptVM::pushStrParam(const char* strValue)
 	mNumScriptFuncParams++;
 }
 
-inline int   XScriptVM::getReturnType(int regIndex)
-{
-	_ASSERT(mIsInCallScriptFunc);
-	return mRegValue[regIndex].type;
-	
-}
-
-inline int   XScriptVM::getReturnAsInt(int regIndex)
-{
-	_ASSERT(mIsInCallScriptFunc);
-	//_ASSERT(mRegValue.type == OP_TYPE_INT);
-	return castValueToInt(mRegValue[regIndex]);
-}
-
-
-inline float XScriptVM::getReturnAsFloat(int regIndex)
-{
-	_ASSERT(mIsInCallScriptFunc); 
-	return castValueTofloat(mRegValue[regIndex]);
-}
-
-
-inline char* XScriptVM::getReturnAsStr(int regIndex)
-{
-	_ASSERT(mIsInCallScriptFunc);
-	if (mRegValue[regIndex].type == OP_TYPE_STRING)
-	{
-		return (char*)stringRawValue(&mRegValue[regIndex]);
-	}
-	return NULL;
-}
 
 inline HostFunction*	XScriptVM::getClassFuncByName(const std::string & className, const std::string& funcName)
 {
@@ -975,9 +511,7 @@ inline HostFunction*	XScriptVM::getClassFuncByName(const std::string & className
 	return NULL;
 }
 
-
-
-inline Value*   XScriptVM::resolveTableValue(RuntimeOperator* value, bool create)
+inline void	XScriptVM::resolveSetTableValue(RuntimeOperator* value, const Value &tableValue)
 {
 	Value* table = NULL;
 	if (value->type == ROT_UpValue_Table)
@@ -986,9 +520,9 @@ inline Value*   XScriptVM::resolveTableValue(RuntimeOperator* value, bool create
 	}
 	else
 	{
-		table = ResoveStackIndexWithEnv(value->iStackIndex);
+		table = ResoveStackIndex(value->iStackIndex);
 	}
-	
+
 	Value keyValue;
 	switch (value->tableIndexType)
 	{
@@ -998,14 +532,14 @@ inline Value*   XScriptVM::resolveTableValue(RuntimeOperator* value, bool create
 		break;
 	case ROT_Float:
 		keyValue.type = OP_TYPE_FLOAT;
-		keyValue.iIntValue = value->fFloatTableValue;
+		keyValue.fFloatValue = value->fFloatTableValue;
 		break;
 	case ROT_String:
 		keyValue.type = OP_TYPE_STRING;
 		keyValue.stringValue = value->strTableValue;
 		break;
 	case ROT_Stack_Index:
-		keyValue = *ResoveStackIndexWithEnv(value->iIntTableValue);;
+		keyValue = ResoveStackIndexWithEnv((int)value->iIntTableValue);;
 		break;
 	case ROT_Reg:
 		keyValue = mRegValue[value->iIntTableValue];
@@ -1016,12 +550,147 @@ inline Value*   XScriptVM::resolveTableValue(RuntimeOperator* value, bool create
 		break;
 	}
 
-	if (table->type != OP_TYPE_TABLE)
+	Value curTable = *table;
+	for (int i = 0; i < MAX_TAGMETHOD_LOOP; i++)
 	{
-		ExecError("Do table operation on %s", GetOperatorName(value, table));
+		Value tagMethod;
+		if (curTable.type == OP_TYPE_TABLE)
+		{
+			Value* tvalRef = GetTableValueRef(curTable.tableData, keyValue);
+
+			if (tvalRef != NULL)
+			{
+				*tvalRef = tableValue;
+				return;
+			}
+			else
+			{
+				tagMethod = GetMetaMethod(&curTable, MMT_NewIndex);
+				if (IsValueNil(&tagMethod))
+				{
+					SetTableValue(curTable.tableData, keyValue, tableValue);
+					return;
+				}
+			}
+		}
+		else
+		{
+			tagMethod = GetMetaMethod(&curTable, MMT_NewIndex);
+			if (IsValueNil(&tagMethod))
+			{
+				ExecError("Do index operation on %s", GetOperatorName(value, table).c_str());
+			}
+		}
+
+		if (IsValueFunction(&tagMethod))
+		{
+			push(curTable);
+			push(keyValue);
+			push(tableValue);
+			Instr* savedInstr = mCurInstr;
+			CallFunction(tagMethod.func, 3);
+			mCurInstr = savedInstr;
+			return;
+		}
+		else
+		{
+			curTable = tagMethod;
+		}
 	}
 
-	return GetTableValue(table->tableData, keyValue, create);
+	ExecError("too many loops in __index on %s", GetOperatorName(value, table).c_str());
+}
+
+
+inline Value   XScriptVM::resolveTableValue(RuntimeOperator* value)
+{
+	Value* table = NULL;
+	if (value->type == ROT_UpValue_Table)
+	{
+		table = mCurXScriptState->mCurFunction->funcUnion.luaFunc.mUpVals[value->iStackIndex]->pValue;
+	}
+	else
+	{
+		table = ResoveStackIndex(value->iStackIndex);
+	}
+
+	Value keyValue;
+	switch (value->tableIndexType)
+	{
+	case ROT_Int:
+		keyValue.type = OP_TYPE_INT;
+		keyValue.iIntValue = value->iIntTableValue;
+		break;
+	case ROT_Float:
+		keyValue.type = OP_TYPE_FLOAT;
+		keyValue.fFloatValue = value->fFloatTableValue;
+		break;
+	case ROT_String:
+		keyValue.type = OP_TYPE_STRING;
+		keyValue.stringValue = value->strTableValue;
+		break;
+	case ROT_Stack_Index:
+		keyValue = ResoveStackIndexWithEnv((int)value->iIntTableValue);;
+		break;
+	case ROT_Reg:
+		keyValue = mRegValue[value->iIntTableValue];
+		break;
+	case ROT_UpVal_Index:
+		keyValue = *mCurXScriptState->mCurFunction->funcUnion.luaFunc.mUpVals[value->iIntTableValue]->pValue;
+	default:
+		break;
+	}
+
+
+
+	Value curTable = *table;
+	for (int i = 0; i < MAX_TAGMETHOD_LOOP; i++)
+	{
+		Value tagMethod;
+
+		if (curTable.type == OP_TYPE_TABLE)
+		{
+			Value tval;
+			
+			if (getTableValue(curTable.tableData, keyValue, tval))
+			{
+				return tval;
+			}
+			else
+			{
+				tagMethod = GetMetaMethod(&curTable, MMT_Index);
+				if (IsValueNil(&tagMethod))
+				{
+					return *mNilValue;
+				}
+			}
+		}
+		else
+		{
+			tagMethod = GetMetaMethod(&curTable, MMT_Index);
+			if (IsValueNil(&tagMethod))
+			{
+				ExecError("Do index operation on %s", GetOperatorName(value, table).c_str());
+			}
+		}
+
+		if (IsValueFunction(&tagMethod))
+		{
+			push(curTable);
+			push(keyValue);
+			Instr* savedInstr = mCurInstr;
+			CallFunction(tagMethod.func, 2);
+			mCurInstr = savedInstr;
+			return mRegValue[0];
+		}
+		else
+		{
+			curTable = tagMethod;
+		}
+	}
+
+	ExecError("too many loops in __index");
+	return *mNilValue;
 }
 
 inline int		XScriptVM::getParamStackIndex(int paramIndex)
@@ -1030,7 +699,7 @@ inline int		XScriptVM::getParamStackIndex(int paramIndex)
 }
 
 
-inline bool	XScriptVM::getTableValue(TABLE table, int key, int& value)
+inline bool	XScriptVM::getTableValue(TABLE table, XInt key, XInt& value)
 {
 	Value subValue;
 	if (getTableValue(table, ConstructValue(key), subValue))
@@ -1045,7 +714,7 @@ inline bool	XScriptVM::getTableValue(TABLE table, int key, int& value)
 	return false;
 }
 
-inline bool	XScriptVM::getTableValue(TABLE table, int key, float& value)
+inline bool	XScriptVM::getTableValue(TABLE table, XInt key, XFloat& value)
 {
 	Value subValue;
 	if (getTableValue(table, ConstructValue(key), subValue))
@@ -1060,7 +729,7 @@ inline bool	XScriptVM::getTableValue(TABLE table, int key, float& value)
 	return false;
 }
 
-inline bool	XScriptVM::getTableValue(TABLE table, int key, char* &value)
+inline bool	XScriptVM::getTableValue(TABLE table, XInt key, char* &value)
 {
 	Value subValue;
 	if (getTableValue(table, ConstructValue(key), subValue))
@@ -1091,7 +760,7 @@ inline Value	XScriptVM::ConstructValue(TABLE value)
 	return tableValue;
 }
 
-inline bool	XScriptVM::getTableValue(TABLE table, int key, TABLE& value)
+inline bool	XScriptVM::getTableValue(TABLE table, XInt key, TABLE& value)
 {
 	Value subValue;
 	if (getTableValue(table, ConstructValue(key), subValue))
@@ -1106,7 +775,7 @@ inline bool	XScriptVM::getTableValue(TABLE table, int key, TABLE& value)
 	return false;
 }
 
-inline bool	XScriptVM::getTableValue(TABLE table, char* key, int& value)
+inline bool	XScriptVM::getTableValue(TABLE table, const char* key, XInt& value)
 {
 	Value subValue;
 	if (getTableValue(table, ConstructValue(key), subValue))
@@ -1121,7 +790,7 @@ inline bool	XScriptVM::getTableValue(TABLE table, char* key, int& value)
 	return false;
 }
 
-inline bool	XScriptVM::getTableValue(TABLE table, char* key, float& value)
+inline bool	XScriptVM::getTableValue(TABLE table, const char* key, XFloat& value)
 {
 	Value subValue;
 	if (getTableValue(table, ConstructValue(key), subValue))
@@ -1136,7 +805,7 @@ inline bool	XScriptVM::getTableValue(TABLE table, char* key, float& value)
 	return false;
 }
 
-inline bool	XScriptVM::getTableValue(TABLE table, char* key, char* &value)
+inline bool	XScriptVM::getTableValue(TABLE table, const char* key, char* &value)
 {
 	Value subValue;
 	if (getTableValue(table, ConstructValue(key), subValue))
@@ -1151,7 +820,7 @@ inline bool	XScriptVM::getTableValue(TABLE table, char* key, char* &value)
 	return false;
 }
 
-inline bool	XScriptVM::getTableValue(TABLE table, char* key, TABLE& value)
+inline bool	XScriptVM::getTableValue(TABLE table, const char* key, TABLE& value)
 {
 	Value subValue;
 	if (getTableValue(table, ConstructValue(key), subValue))
@@ -1167,7 +836,7 @@ inline bool	XScriptVM::getTableValue(TABLE table, char* key, TABLE& value)
 }
 
 
-inline Value	XScriptVM::ConstructValue(int value)
+inline Value	XScriptVM::ConstructValue(XInt value)
 {
 	Value subValue;
 	subValue.type = OP_TYPE_INT;
@@ -1187,7 +856,7 @@ inline Value XScriptVM::ConstructValue(FuncState* mainFunc)
 	return fValue;
 }
 
-inline Value	XScriptVM::ConstructValue(float value)
+inline Value	XScriptVM::ConstructValue(XFloat value)
 {
 	Value subValue;
 	subValue.type = OP_TYPE_FLOAT;
@@ -1211,70 +880,60 @@ inline Value	XScriptVM::ConstructValue(XScriptState* state)
 	return subValue;
 }
 
-inline bool	XScriptVM::getTableValue(TABLE table, const Value& keyValue, Value& value)
-{
-	Value* pValue = GetTableValue(table, keyValue, false);
 
-	if (pValue != NULL)
+inline TABLE	XScriptVM::newTable(int arraySize)
+{
+	TABLE table = CreateTable();
+	if (arraySize > 0)
 	{
-		value = *pValue;
-		return true;
+		table->mArraySize = arraySize;
+		table->mArrayData = new Value[arraySize];
 	}
 
-	return false;
-}
-
-
-inline TABLE	XScriptVM::newTable()
-{
-	return CreateTable();
+	return table;
 }
 
 inline void	XScriptVM::setTableValue(TABLE table, const Value& key, const Value& value)
 {
-	Value* pValue = GetTableValue(table, key, true);
-	if (pValue != NULL)
-	{
-		CopyValue(pValue, value);
-	}
+	SetTableValue(table, key, value);
 }
 
-inline void	XScriptVM::setTableValue(TABLE table, int key, int value)
+inline void	XScriptVM::setTableValue(TABLE table, XInt key, XInt value)
 {
 	setTableValue(table, ConstructValue(key), ConstructValue(value));
 }
 
-inline void	XScriptVM::setTableValue(TABLE table, int key, float value)
+inline void	XScriptVM::setTableValue(TABLE table, XInt key, XFloat value)
 {
 	setTableValue(table, ConstructValue(key), ConstructValue(value));
 }
 
-inline void	XScriptVM::setTableValue(TABLE table, int key, char* str)
+inline void	XScriptVM::setTableValue(TABLE table, XInt key, const char* str)
 {
 	setTableValue(table, ConstructValue(key), ConstructValue(str));
 }
 
-inline void	XScriptVM::setTableValue(TABLE table, int key, TABLE t)
+inline void	XScriptVM::setTableValue(TABLE table, XInt key, TABLE t)
 {
 	setTableValue(table, ConstructValue(key), ConstructValue(t));
 }
 
-inline void	XScriptVM::setTableValue(TABLE table, char* key, int value)
+inline void	XScriptVM::setTableValue(TABLE table, const char* key, XInt value)
 {
 	setTableValue(table, ConstructValue(key), ConstructValue(value));
 }
 
-inline void	XScriptVM::setTableValue(TABLE table, char* key, float value)
+inline void	XScriptVM::setTableValue(TABLE table, const char* key, XFloat value)
 {
 	setTableValue(table, ConstructValue(key), ConstructValue(value));
 }
 
-inline void	XScriptVM::setTableValue(TABLE table, char* key, char* str)
+inline void	XScriptVM::setTableValue(TABLE table, const char* key, const char* str)
 {
 	setTableValue(table, ConstructValue(key), ConstructValue(str));
 }
 
-inline void	XScriptVM::setTableValue(TABLE table, char* key, TABLE t)
+inline void	XScriptVM::setTableValue(TABLE table, const char* key, TABLE t)
 {
 	setTableValue(table, ConstructValue(key), ConstructValue(t));
 }

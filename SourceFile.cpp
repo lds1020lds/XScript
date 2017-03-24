@@ -1,6 +1,7 @@
 #include "sourcefile.h"
 #include "Commonfunc.h"
 #include "lexer.h"
+
 #define       MAX_LINE_SIZE         (256)
 using namespace std;
 
@@ -25,7 +26,7 @@ void CSourceFile::Reset()
 bool   CSourceFile::LoadSourceFile(const char* pFileName)
 {
 	m_iMaxLine = 0;
-	bool bSucc = LinkSourceFile(mSourceFileDataList, pFileName);
+	bool bSucc = LinkSourceFile(pFileName);
 	return bSucc;
 }
 
@@ -50,12 +51,11 @@ std::vector<std::string> Split(const std::string& src, char key)
 	return result;
 }
 
-void  CSourceFile::LoadFromString(const char* str)
+void  CSourceFile::LoadFromString(const std::string& str)
 {
 	m_iMaxLine = 0;
-	std::string s = str;
-	std::vector<std::string> lineVec = Split(s, '\n');
-	for (int i = 0; i < lineVec.size(); i++)
+	std::vector<std::string> lineVec = Split(str, '\n');
+	for (int i = 0; i < (int)lineVec.size(); i++)
 	{
 		LineSourceCode lineCode;
 		int iLen = lineVec[i].length();
@@ -67,16 +67,24 @@ void  CSourceFile::LoadFromString(const char* str)
 	}
 }
 
-bool  CSourceFile::LinkSourceFile(std::vector<LineSourceCode> &vec, const char* pFileName)
+bool  CSourceFile::LinkSourceFile(const char* pFileName)
 {
 	FILE *fp = fopen(pFileName, "r");
 	if (fp == NULL)
 		return false;
+
+	bool isFirst = true;
 	while(!feof(fp))
 	{
 		char lineData[MAX_LINE_SIZE] = {0};
 		fgets(lineData, MAX_LINE_SIZE, fp);
 		char *pStart = lineData;
+		if (isFirst && (unsigned char)lineData[0] == 0xef 
+			&& (unsigned char)lineData[1] == 0xbb
+			&& (unsigned char)lineData[2] == 0xbf)
+		{
+			continue;
+		}
 
 		int iLineLength = (int)strlen(pStart);
 		char *pData = new char[iLineLength + 1];
@@ -90,6 +98,8 @@ bool  CSourceFile::LinkSourceFile(std::vector<LineSourceCode> &vec, const char* 
 			mSourceFileDataList.push_back(lineCode);
 			m_iMaxLine ++;
 		}
+
+		isFirst = false;
 	}
 	
 	fclose(fp);
@@ -100,20 +110,27 @@ bool  CSourceFile::LinkSourceFile(std::vector<LineSourceCode> &vec, const char* 
 
 char  CSourceFile::GetNextChar()
 {
-	LineSourceCode line = mSourceFileDataList[m_iCurLine];
-	if (m_iCurChar >= line.iLength)
+	if (m_iCurLine < mSourceFileDataList.size())
 	{
-		if(m_iCurLine == m_iMaxLine - 1)
+		LineSourceCode line = mSourceFileDataList[m_iCurLine];
+		if (m_iCurChar >= line.iLength)
 		{
-			return '\0';
+			if (m_iCurLine == m_iMaxLine - 1)
+			{
+				return '\0';
+			}
+			else
+			{
+				m_iCurChar = 0;
+				m_iCurLine++;
+			}
 		}
-		else
-		{
-			m_iCurChar = 0;
-			m_iCurLine ++;
-		}
+		return mSourceFileDataList[m_iCurLine].pSourceCode[m_iCurChar++];
 	}
-	return mSourceFileDataList[m_iCurLine].pSourceCode[m_iCurChar++];
+	else
+	{
+		return '\0';
+	}
 }
 
 char  CSourceFile::LookNextChar()

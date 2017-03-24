@@ -1,0 +1,3330 @@
+<SceneLayerList>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Ground" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="0" Name="Ground" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="22.8793" y="1" z="1" />
+            <WorldTrans x="-501" y="455" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="0" Name="Ground" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="11.9598" y="1" z="1" />
+            <WorldTrans x="3495" y="490" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="0" Name="Ground" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="13.8448" y="1" z="1" />
+            <WorldTrans x="5591" y="535" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Star" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6929" y="294" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6969" y="252" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7096" y="252" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7139" y="294" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7013" y="419" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6969" y="376" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7054" y="419" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7096" y="376" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6928" y="336" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7138" y="336" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6971" y="294" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7097" y="294" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6970" y="336" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7096" y="336" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="10" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7025" y="308" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7014" y="252" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7054" y="252" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7014" y="376" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7055" y="376" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7014" y="210" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7054" y="210" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7014" y="462" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7054" y="462" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6972" y="416" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6929" y="376" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6886" y="336" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6886" y="294" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6929" y="252" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6972" y="210" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7014" y="170" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7054" y="170" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7098" y="210" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7139" y="252" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7183" y="294" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7183" y="336" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7098" y="416" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7139" y="376" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Monster" Type="0" X="0" Y="0" />
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Aerolite" Type="0" X="0" Y="0" />
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Star" Type="0" X="0" Y="0" />
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Star" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="11" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6022" y="363" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5893" y="274" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6013" y="312" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5933" y="274" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5973" y="274" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5893" y="312" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5933" y="312" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5973" y="312" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5933" y="352" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5933" y="392" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5893" y="432" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5933" y="432" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5973" y="432" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5973" y="472" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5933" y="472" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5893" y="472" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6093" y="472" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6133" y="472" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6173" y="472" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6173" y="432" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6133" y="432" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6093" y="432" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6133" y="392" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6133" y="352" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6093" y="312" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6093" y="274" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6133" y="274" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6173" y="274" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6173" y="312" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6133" y="312" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6053" y="312" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6093" y="352" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6093" y="392" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6053" y="432" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6013" y="432" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5973" y="392" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="13" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5973" y="352" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Stratagem" Type="0" X="0" Y="0" />
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Glue" Type="0" X="0" Y="0" />
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Star" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1440" y="382" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1510" y="382" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1602" y="329" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1674" y="329" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1767" y="384" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1802" y="384" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1475" y="382" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1837" y="384" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1638" y="329" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="10" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1546" y="350" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="10" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1710" y="352" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2178" y="378" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2248" y="378" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2339" y="326" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2409" y="326" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2500" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2535" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2213" y="378" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2570" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2374" y="326" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="10" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2283" y="346" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="10" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2444" y="348" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2908" y="381" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2978" y="381" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3070" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3160" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3196" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="10" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3014" y="373" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="10" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3104" y="373" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2944" y="381" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3230" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3266" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1872" y="409" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1907" y="409" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1942" y="409" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2072" y="408" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2107" y="408" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2142" y="408" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="10" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1996" y="400" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2640" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2710" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="10" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2745" y="372" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2675" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2605" y="380" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2836" y="381" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2872" y="381" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2802" y="381" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Star" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3784" y="213" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3784" y="251" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3784" y="371" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3784" y="411" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3824" y="213" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3824" y="291" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3824" y="331" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3824" y="411" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3864" y="213" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3864" y="411" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3984" y="213" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3984" y="411" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4024" y="213" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4024" y="291" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4024" y="331" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4024" y="411" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4064" y="213" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4064" y="251" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4064" y="371" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4064" y="411" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="15" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3914" y="299" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3824" y="251" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3864" y="251" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3984" y="251" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4024" y="251" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3984" y="371" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4024" y="371" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3824" y="371" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="5" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3864" y="371" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="14" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3904" y="251" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="14" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3944" y="251" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="14" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3984" y="291" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="14" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3984" y="331" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="14" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3944" y="371" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="14" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3904" y="371" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="14" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3864" y="331" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="14" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3864" y="291" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Star" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7348" y="466" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7402" y="466" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7454" y="466" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7506" y="466" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7560" y="466" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7614" y="466" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7666" y="466" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="7718" y="466" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Star" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4238" y="410" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4288" y="410" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4344" y="410" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4398" y="410" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4448" y="410" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4504" y="410" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4554" y="410" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4608" y="410" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Star" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5139" y="413" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5189" y="413" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5244" y="413" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5299" y="413" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5349" y="413" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5404" y="413" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5454" y="413" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Star" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4733" y="239" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4733" y="281" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4776" y="321" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4819" y="155" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4819" y="361" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4861" y="115" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4861" y="407" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4901" y="115" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4901" y="407" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4945" y="155" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4945" y="361" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4986" y="197" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4986" y="321" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5030" y="239" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5030" y="281" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4776" y="239" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4776" y="197" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4818" y="197" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4943" y="197" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4986" y="239" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4860" y="364" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4816" y="321" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4901" y="364" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4943" y="321" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4775" y="281" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4985" y="281" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4818" y="239" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4944" y="239" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4817" y="281" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4943" y="281" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="17" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4873" y="251" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4861" y="197" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4901" y="197" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4861" y="321" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4902" y="321" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4861" y="155" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="4" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="4901" y="155" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Props" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="2" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="5518" y="408" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+            <SceneParamList>
+                <SceneParam Name="5" Text="1" />
+            </SceneParamList>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Star" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6344" y="469" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6397" y="469" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6450" y="469" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6503" y="469" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6556" y="469" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6609" y="469" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6662" y="469" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="3" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="6715" y="469" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="FloatMonster" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="6" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1597" y="325" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="6" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="1708" y="325" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="6" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2336" y="310" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+        <NP2DSFrameRef Col="65535" Frameid="6" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="2447" y="310" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+            <SceneParamList>
+                <SceneParam Name="super" Text="0.6" />
+            </SceneParamList>
+        </NP2DSFrameRef>
+    </SceneLayer>
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="Star" Type="0" X="0" Y="0" />
+    <SceneLayer CellC="1" CellH="640" CellR="1" CellW="8000" Name="SuperStar" Type="0" X="0" Y="0">
+        <NP2DSFrameRef Col="65535" Frameid="29" Name="Frame" Resfile="4237211022" Row="65535">
+            <WorldAngle>0</WorldAngle>
+            <WorldFlips>0</WorldFlips>
+            <WorldScale x="1" y="1" z="1" />
+            <WorldTrans x="3475" y="383" z="0" />
+            <BlendColor A="1" B="1" G="1" R="1" />
+            <Filter>0</Filter>
+            <TexEnv>0</TexEnv>
+            <OLInfo>
+                <Outline>False</Outline>
+                <OutlineWidth>1</OutlineWidth>
+                <OutlineColor A="1" B="0" G="0" R="0" />
+            </OLInfo>
+        </NP2DSFrameRef>
+    </SceneLayer>
+</SceneLayerList>

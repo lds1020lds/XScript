@@ -20,13 +20,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -89,32 +89,47 @@
   <ItemGroup>
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="Lexer.cpp" />
+    <ClCompile Include="libs\regex.cpp" />
+    <ClCompile Include="libs\tinystr.cpp" />
+    <ClCompile Include="libs\tinyxml.cpp" />
+    <ClCompile Include="libs\tinyxmlerror.cpp" />
+    <ClCompile Include="libs\tinyxmlparser.cpp" />
     <ClCompile Include="libs\xbaselib.cpp" />
     <ClCompile Include="libs\xdebuglib.cpp" />
     <ClCompile Include="libs\xiolib.cpp" />
     <ClCompile Include="libs\xmathlib.cpp" />
+    <ClCompile Include="libs\xoslib.cpp" />
     <ClCompile Include="libs\xstringlib.cpp" />
+    <ClCompile Include="libs\xxmllib.cpp" />
     <ClCompile Include="MidCode.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="SourceFile.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
     <ClCompile Include="XScriptVM_Instrs.cpp" />
     <ClCompile Include="XsriptVM.cpp" />
+    <ClCompile Include="Xutility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commonfunc.h" />
     <ClInclude Include="Lexer.h" />
+    <ClInclude Include="libs\regex.h" />
+    <ClInclude Include="libs\tinystr.h" />
+    <ClInclude Include="libs\tinyxml.h" />
     <ClInclude Include="libs\xbaselib.h" />
     <ClInclude Include="libs\xdebuglib.h" />
     <ClInclude Include="libs\xiolib.h" />
     <ClInclude Include="libs\xmathlib.h" />
+    <ClInclude Include="libs\xoslib.h" />
     <ClInclude Include="libs\xstringlib.h" />
+    <ClInclude Include="libs\xxmllib.h" />
     <ClInclude Include="MacroDefs.h" />
     <ClInclude Include="MidCode.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="SourceFile.h" />
     <ClInclude Include="SymbolTable.h" />
+    <ClInclude Include="VMDefs.h" />
     <ClInclude Include="XsriptVM.h" />
+    <ClInclude Include="Xutility.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

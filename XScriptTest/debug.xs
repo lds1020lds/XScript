@@ -9,11 +9,11 @@ function addBreakPoint(f, l, condition)
 	{
 		if (value == nil)
 		{
-			
 			breakPoints[key] = {f = f, l = l, active = 1, condition = condition};
 			return key;
 		}
 	}
+	
 	return -1;
 }
 
@@ -200,14 +200,26 @@ function ldb( )
 				{
 					ret, func = loadstring(cmd);
 					if (ret > 0)
-						func();
+					{
+						var iRet, errorDesc = pcall(func);
+						if (iRet != 0)
+						{
+							printf(errorDesc);
+						}
+					}
 				}
 			}
 			else
 			{
 				ret, func = loadstring(cmd);
 				if (ret > 0)
-					func();
+				{
+					var iRet, errorDesc = pcall(func);
+					if (iRet != 0)
+					{
+						printf(errorDesc);
+					}
+				}
 			}
 		}
 		

@@ -32,7 +32,6 @@ enum InstrCode
 	INSTR_AND,
 	INSTR_OR,
 	INSTR_XOR,
-	INSTR_NOT,
 	INSTR_SHL,
 	INSTR_SHR,
 	INSTR_CONCAT,
@@ -48,8 +47,6 @@ enum InstrCode
 	INSTR_CALL,
 	INSTR_RET,
 	INSTR_TYPE,
-	INSTR_CALL_CLASS_FUNC,
-	INSTR_CALL_STATIC_CLASS_FUNC,
 	INSTR_ADD_TO,
 	INSTR_SUB_TO,
 	INSTR_MUL_TO,
@@ -205,12 +202,37 @@ enum ValueType
 	OP_TYPE_FLOAT,
 	OP_TYPE_STRING,
 	OP_TYPE_TABLE,
-	OP_USERTYPE,
+	OP_LIGHTUSERDATA,
 	OP_TYPE_FUNC,
 	OP_TYPE_PROTO,
 	OP_TYPE_UPVAL,
 	OP_TYPE_THREAD,
+	OP_TYPE_USERDATA,
 };
+
+enum MetaMethodType
+{
+	MMT_Index,
+	MMT_NewIndex,
+	MMT_Equal,
+	MMT_Add,
+	MMT_Sub,
+	MMT_Mul,
+	MMT_Div,
+	MMT_Mod,
+	MMT_Pow,
+	MMT_Neg,
+	MMT_Len,
+	NMT_Less,
+	NMT_LessEqual,
+	MMT_Concat,
+	MMT_Call,
+	NMT_Great,
+	NMT_GreatEqual,
+	MTT_Count,
+};
+
+
 
 #define INSTR_TYPE_CODE             1
 #define INSTR_TYPE_JUMPTARGET       2
@@ -229,13 +251,41 @@ enum ValueType
 #define		IDENT_TYPE_INTERNAL_VAR   (3)
 #define		MAX_FUNC_NAME_SIZE	64
 
-#define		IsUserType(type)		((type >> 16) == OP_USERTYPE)
+#define		IsUserType(type)		((type >> 16) == OP_LIGHTUSERDATA)
 #define		UserDataType(type)		(type & 0xffff)
-#define		MAKE_USERTYPE(index)	((OP_USERTYPE << 16) + index)
+#define		MAKE_USERTYPE(index)	((OP_LIGHTUSERDATA << 16) + index)
 
 #define		ARGS					("args")
 #define		UPVALMASK				0x1000000
 #define		MAX_PARAM_NUM			128
+#define		MAX_TAGMETHOD_LOOP		10
+
+#define USE_HIGH_PRECIOUS_NUMBER
+#ifdef USE_HIGH_PRECIOUS_NUMBER
+
+typedef	signed long long		XInt;
+typedef	double					XFloat;
+
+#define		XIntConFmt			"%lld"
+#define		XFloatConFmt		"%lf"
+#define		XIntConFmt2			"[%lld]"
+#define		XFloatConFmt2		"[%lf]"
+#define		StrToXInt			atoll
+#define		StrToXFloat			atof
+#define		XFMod				fmod
+#else
+
+typedef		int				XInt;
+typedef		float					XFloat;
+#define		XIntConFmt			"%d"
+#define		XFloatConFmt		"%f"
+#define		XIntConFmt2			"[%d]"
+#define		XFloatConFmt2		"[%f]"
+#define		StrToXInt			atoi
+#define		StrToXFloat			(float)atof
+#define		XFMod				fmodf
+
+#endif
 
 
 enum
@@ -250,21 +300,21 @@ struct Operand
 	ParseOperandType operandType;
 	union
 	{
-		int	  iIntValue;
-		float fFloatValue;
-		int   iSymbolIndex;
-		int   iJumppIndex;
-		int   iStringIndex;
-		int   iRegIndex;
-		int	  iFunData;
+		XInt		iIntValue;
+		XFloat		fFloatValue;
+		int			iSymbolIndex;
+		int			iJumppIndex;
+		int			iStringIndex;
+		int			iRegIndex;
+		int			iFunData;
 	};
 
 	int tableIndexType;
 
 	union 
 	{
-		int	  iIntTableValue;
-		float fFloatTableValue;
+		XInt		iIntTableValue;
+		XFloat		fFloatTableValue;
 	};
 
 	Operand()
@@ -305,7 +355,6 @@ struct VariantST
 	int  iType;
 	int  stackIndex;
 	std::vector<Operand> initValues;
-	bool isTable;
 };
 
 class UpValueST
@@ -354,7 +403,7 @@ struct StringST
 inline std::string ConvertToString(const int n)
 {
 	char text[32] = { 0 };
-	sprintf(text, "%u", n);
+	snprintf(text, 32, "%d", n);
 	return text;
 }
 

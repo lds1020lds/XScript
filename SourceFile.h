@@ -17,9 +17,9 @@ private:
 
 public:
 	void  Reset();
-	void  LoadFromString(const char* str);
+	void  LoadFromString(const std::string& str);
 	bool  LoadSourceFile(const char* pFileName);
-	bool  LinkSourceFile(std::vector<LineSourceCode> &vec, const char* pFileName);
+	bool  LinkSourceFile( const char* pFileName);
 	const char* GetNextLine();
 	void  ReWindChar();
 	char  GetNextChar();

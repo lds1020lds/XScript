@@ -1,3 +1,4 @@
+require("debug.xs");
 function pa()
 {
 	var a, b = 1, 2;

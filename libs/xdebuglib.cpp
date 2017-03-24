@@ -5,38 +5,36 @@ void init_debug_lib()
 {
 	std::vector<HostFunction> debugFuncVec;
 
-	debugFuncVec.push_back(HostFunction("stackbacktrace", 0, host_stackbacktrace));
-	debugFuncVec.push_back(HostFunction("getlocalvar", 2, host_getLocalvar));
-	debugFuncVec.push_back(HostFunction("setlocalvar", 3, host_setLocalvar));
+	debugFuncVec.push_back(HostFunction("stackbacktrace", host_stackbacktrace));
+	debugFuncVec.push_back(HostFunction("getlocalvar", host_getLocalvar));
+	debugFuncVec.push_back(HostFunction("setlocalvar",  host_setLocalvar));
 
-	debugFuncVec.push_back(HostFunction("getlocalvarbyname", 2, host_getLocalvarByName));
-	debugFuncVec.push_back(HostFunction("setlocalvarbyname", 3, host_setLocalvarByName));
+	debugFuncVec.push_back(HostFunction("getlocalvarbyname",  host_getLocalvarByName));
+	debugFuncVec.push_back(HostFunction("setlocalvarbyname",  host_setLocalvarByName));
 
-	debugFuncVec.push_back(HostFunction("debug", 0, host_debug));
-	debugFuncVec.push_back(HostFunction("sethook", 2, host_hook));
-	debugFuncVec.push_back(HostFunction("getlocalvars", 1, host_getLocalvars));
-	debugFuncVec.push_back(HostFunction("getdebuginfo", 1, host_getDebugInfo));
-	debugFuncVec.push_back(HostFunction("getglobalvar", 1, host_getGlobalVar));
-	debugFuncVec.push_back(HostFunction("getstackdepth", 0, host_getStackDepth));
+	debugFuncVec.push_back(HostFunction("debug",  host_debug));
+	debugFuncVec.push_back(HostFunction("sethook",  host_hook));
+	debugFuncVec.push_back(HostFunction("getlocalvars", host_getLocalvars));
+	debugFuncVec.push_back(HostFunction("getdebuginfo",  host_getDebugInfo));
+	debugFuncVec.push_back(HostFunction("getglobalvar", host_getGlobalVar));
+	debugFuncVec.push_back(HostFunction("getstackdepth", host_getStackDepth));
 	gScriptVM.RegisterHostLib("debug", debugFuncVec);
 }
 
 void host_getLocalvar(XScriptVM* vm)
 {
-	int stackIndex = 0;
-	int varIndex = 0;
+	XInt stackIndex = 0;
+	XInt varIndex = 0;
 	vm->getParamAsInt(0, stackIndex);
 	vm->getParamAsInt(1, varIndex);
-
 	std::string name;
-	Value* value = vm->GetStackValueByIndex(stackIndex, varIndex, name);
-	if (value != NULL)
+	Value* retValue = vm->GetStackValueByIndex((int)stackIndex, (int)varIndex, name);
+	
+	if (retValue != NULL)
 	{
 		vm->setReturnAsInt(1, 0);
 		vm->setReturnAsStr(name.c_str(), 1);
-		Value retValue;
-		CopyValue(&retValue, *value);
-		vm->setReturnAsValue(retValue, 2);
+		vm->setReturnAsValue(*retValue, 2);
 	}
 	else
 	{
@@ -57,10 +55,10 @@ void host_getStackDepth(XScriptVM* vm)
 
 void host_getLocalvars(XScriptVM* vm)
 {
-	int stackIndex = 0;
+	XInt stackIndex = 0;
 	if (vm->getParamAsInt(0, stackIndex))
 	{
-		int callIndex = vm->GetStackDepth() - stackIndex;
+		int callIndex = vm->GetStackDepth() - (int)stackIndex;
 		if (callIndex >= 0 && callIndex <= vm->GetStackDepth())
 		{
 			bool hasFound = false;
@@ -68,7 +66,7 @@ void host_getLocalvars(XScriptVM* vm)
 
 			TableValue* table = vm->newTable();
 
-			for (int i = 0; i < funcState->m_localVarVec.size(); i++)
+			for (int i = 0; i < (int)funcState->m_localVarVec.size(); i++)
 			{
 				if (i >= 0 && i < funcState->stackFrameSize)
 				{
@@ -102,7 +100,7 @@ void host_getDebugInfo(XScriptVM* vm)
 
 	if (pValue.type == OP_TYPE_INT)
 	{
-		int callIndex = vm->GetStackDepth() - pValue.iIntValue;
+		int callIndex = vm->GetStackDepth() - (int)pValue.iIntValue;
 		if (callIndex >= 0 && callIndex <= vm->GetStackDepth())
 		{
 			FuncState* funcState = vm->GetCallInfo(callIndex)->mCurFunctionState;
@@ -110,7 +108,7 @@ void host_getDebugInfo(XScriptVM* vm)
 			vm->setTableValue(table, (char*)"source", (char*)funcState->sourceFileName.c_str());
 			vm->setTableValue(table, (char*)"what", (char*)"lua");
 			vm->setTableValue(table, (char*)"name", (char*)funcState->funcName.c_str());
-			vm->setTableValue(table, (char*)"nups", (int)funcState->m_upValueVec.size());
+			vm->setTableValue(table, (char*)"nups", (XInt)funcState->m_upValueVec.size());
 			vm->setReturnAsInt(1, 0);
 			vm->setReturnAsValue(vm->ConstructValue(table), 1);
 		}
@@ -125,7 +123,7 @@ void host_getDebugInfo(XScriptVM* vm)
 		if (pValue.func->isCFunc)
 		{
 			vm->setTableValue(table, (char*)"what", (char*)"C");
-			vm->setTableValue(table, (char*)"nups", pValue.func->funcUnion.cFunc.mNumUpVal);
+			vm->setTableValue(table, (char*)"nups", (XInt)pValue.func->funcUnion.cFunc.mNumUpVal);
 		}
 		else
 		{
@@ -133,7 +131,7 @@ void host_getDebugInfo(XScriptVM* vm)
 			vm->setTableValue(table, (char*)"source", (char*)funcState->sourceFileName.c_str());
 			vm->setTableValue(table, (char*)"what", (char*)"lua");
 			vm->setTableValue(table, (char*)"name", (char*)funcState->funcName.c_str());
-			vm->setTableValue(table, (char*)"nups", (int)funcState->m_upValueVec.size());
+			vm->setTableValue(table, (char*)"nups", (XInt)funcState->m_upValueVec.size());
 		}
 
 		vm->setReturnAsInt(1, 0);
@@ -232,11 +230,11 @@ void host_debug(XScriptVM* vm)
 
 void host_getLocalvarByName(XScriptVM* vm)
 {
-	int stackIndex = 0;
+	XInt stackIndex = 0;
 	char* varName = 0;
 	if (vm->getParamAsInt(0, stackIndex) && vm->getParamAsString(1, varName))
 	{
-		Value* pValue = vm->GetStackValueByName(stackIndex, varName);
+		Value* pValue = vm->GetStackValueByName((int)stackIndex, varName);
 		if (pValue != NULL)
 		{
 			vm->setReturnAsInt(1, 0);
@@ -258,12 +256,12 @@ void host_getLocalvarByName(XScriptVM* vm)
 
 void host_setLocalvarByName(XScriptVM* vm)
 {
-	int stackIndex = 0;
+	XInt stackIndex = 0;
 	char* varName = 0;
 	if (vm->getParamAsInt(0, stackIndex) && vm->getParamAsString(1, varName))
 	{
 		Value setValue = vm->getParamValue(2);
-		Value* pValue = vm->GetStackValueByName(stackIndex, varName);
+		Value* pValue = vm->GetStackValueByName((int)stackIndex, varName);
 		if (pValue != NULL)
 		{
 			vm->setReturnAsInt(1, 0);
@@ -282,17 +280,18 @@ void host_setLocalvarByName(XScriptVM* vm)
 
 void host_setLocalvar(XScriptVM* vm)
 {
-	int stackIndex = 0;
-	int varIndex = 0;
+	XInt stackIndex = 0;
+	XInt varIndex = 0;
 	vm->getParamAsInt(0, stackIndex);
 	vm->getParamAsInt(1, varIndex);
 	Value setValue = vm->getParamValue(2);
 
 	std::string name;
-	Value* value = vm->GetStackValueByIndex(stackIndex, varIndex, name);
+	
+	Value* value = vm->GetStackValueByIndex((int)stackIndex, (int)varIndex, name);
 	if (value != NULL)
 	{
-		*value = setValue; ;
+		*value = setValue; 
 		vm->setReturnAsInt(1, 0);
 		vm->setReturnAsStr(name.c_str(), 1);
 	}
@@ -300,5 +299,6 @@ void host_setLocalvar(XScriptVM* vm)
 	{
 		vm->setReturnAsInt(0);
 	}
+	
 }
 
